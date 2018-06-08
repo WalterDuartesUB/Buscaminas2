@@ -11,42 +11,45 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ThreadLocalRandom;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
+import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.casilla.FabricaCasilla;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
-public class Tablero {
+public class Tablero implements ITablero {
 	private Map<Coordenada,Casilla> casillas;
 	private List<CasillaBomba> bombas;
 	private List<CasillaBlanco> blancos;
 	private List<CasillaBloqueada> bloqueadas;
+	private List<CasillaNumero> numeros;
+	
 	private TableroListener listener;
 	private CasillasPrinter printer;
 	
 	public Tablero() {
-		this.setCasillas( new HashMap<Coordenada,Casilla>());	
-		this.setBombas(new LinkedList<CasillaBomba>());
-		this.setBlancos(new LinkedList<CasillaBlanco>());
-		this.setBloqueadas(new LinkedList<CasillaBloqueada>());
+		this.clean();
 	}
 
-	public Map<Coordenada,Casilla> getCasillas() {
+	private Map<Coordenada,Casilla> getCasillas() {
 		return casillas;
 	}
 
-	public void setCasillas(Map<Coordenada,Casilla> casillas) {
+	private void setCasillas(Map<Coordenada,Casilla> casillas) {
 		this.casillas = casillas;
 	}
 
-	public TableroListener getListener() {
+	private TableroListener getListener() {
 		return listener;
 	}
 
+	@Override
 	public void setListener(TableroListener listener) {
 		this.listener = listener;
 	}
@@ -55,7 +58,7 @@ public class Tablero {
 		mostrarBlancosAlrededor(casilla, new TreeSet<Casilla>());
 	}
 
-	public void mostrarBlancosAlrededor(Casilla casilla, Set<Casilla> casillasProbadas) {			
+	private void mostrarBlancosAlrededor(Casilla casilla, Set<Casilla> casillasProbadas) {			
 		if( !casillasProbadas.add( casilla ) )
 			return;
 		
@@ -68,6 +71,7 @@ public class Tablero {
 			this.mostrarBlancosAlrededor( casillaBlanco, casillasProbadas );
 	}
 
+	@Override
 	public void elegirCasilla(Coordenada coordenada) {
 		Casilla casilla = this.getCasilla( coordenada );
 		
@@ -83,7 +87,7 @@ public class Tablero {
 		return this.getCasillas().get(coordenada);
 	}
 
-	public void addCasilla(Casilla casilla) {
+	private void addCasilla(Casilla casilla) {
 		this.getCasillas().put( casilla.getCoordenada(), casilla);		
 	}
 	
@@ -99,14 +103,17 @@ public class Tablero {
 	public void add( CasillaNumero casilla ) {
 		this.addCasilla(casilla);
 	}	
-	public CasillasPrinter getPrinter() {
+	
+	private CasillasPrinter getPrinter() {
 		return printer;
 	}
 
+	@Override
 	public void setPrinter(CasillasPrinter printer) {
 		this.printer = printer;
 	}
 
+	@Override
 	public void imprimir() {
 		Collection<Collection<Casilla>> casillas = new LinkedList<Collection<Casilla>>();		
 		int filaAnterior = -1;
@@ -133,27 +140,28 @@ public class Tablero {
 	}
 
 	public int getCantidadBlancosYNumerosBocaAbajo() {
-		return this.getBlancos().size();
+		return this.getBlancos().size() + this.getNumeros().size();
 	}
 
-	public List<CasillaBomba> getBombas() {
+	private List<CasillaBomba> getBombas() {
 		return bombas;
 	}
 
-	public void setBombas(LinkedList<CasillaBomba> linkedList) {
+	private void setBombas(LinkedList<CasillaBomba> linkedList) {
 		this.bombas = linkedList;
 	}
 
-	public List<CasillaBlanco> getBlancos() {
+	private List<CasillaBlanco> getBlancos() {
 		return blancos;
 	}
 
-	public void setBlancos(List<CasillaBlanco> blancos) {
+	private void setBlancos(List<CasillaBlanco> blancos) {
 		this.blancos = blancos;
 	}
 
 	public void loadFromFile(String pathMapa, int porcentajeBombas ) {
-
+		this.clean();
+		
 		try {
 			List<String> lineas = Files.readAllLines( Paths.get( pathMapa ) );
 			Map<String, FabricaCasilla> handlers = new HashMap<String, FabricaCasilla>();
@@ -171,8 +179,7 @@ public class Tablero {
 			///////////////////////////////////////////////////////////////////
 			//Pongo las bombas en el mapa
 			
-			this.ponerBombas(porcentajeBombas);
-			
+			this.ponerBombas(porcentajeBombas);			
 			this.ponerNumeros();
 			
 		} catch (IOException e) {
@@ -180,14 +187,34 @@ public class Tablero {
 		}
 		
 	}
+	
+	private void clean() {
+		this.setCasillas( new HashMap<Coordenada,Casilla>());	
+		this.setBombas(new LinkedList<CasillaBomba>());
+		this.setBlancos(new LinkedList<CasillaBlanco>());
+		this.setBloqueadas(new LinkedList<CasillaBloqueada>());
+		this.setNumeros(new LinkedList<CasillaNumero>());				
+	}
+
+	protected void load( int cantidadFilas, int cantidadColumnas, int porcentajeBombas ) {
+		this.clean();
+		
+		//Agrego blancos en una matriz cuadrada
+		for( int fila = 0; fila < cantidadFilas; fila++)
+			for( int columna = 0; columna < cantidadColumnas; columna++)
+				FabricaCasilla.CASILLA_BLANCA.addIn( this, fila, columna);
+				
+		this.ponerBombas(porcentajeBombas);			
+		this.ponerNumeros();		
+	}
 
 	private void ponerBombas(int porcentajeBombas) {
 		int cantidadBombas = this.getCasillas().size() * porcentajeBombas / 100;
-		Random rand = new Random();
+//		Random rand = new Random();
 		
 		while( this.getCantidadBombasBocaAbajo() < cantidadBombas )
 		{
-			int index = rand.nextInt( this.getBlancos().size() );
+			int index = ThreadLocalRandom.current().nextInt( this.getBlancos().size() );
 			this.add( new CasillaBomba( this.getBlancos().get(index) ) );
 			this.getBlancos().remove(index);				
 			
@@ -218,7 +245,14 @@ public class Tablero {
 		return casillasAlrededor.size();
 	}
 
-	private List<Casilla> getCasillasAlrededor(Casilla casillaCentral) {
+	protected List<Casilla> getCasillasBlancasONumerosAlrededor(Casilla casilla ) {
+		List<Casilla> casillasAlrededor = this.getCasillasAlrededor( casilla );
+		casillasAlrededor.removeAll(this.getBombas());
+		casillasAlrededor.removeAll(this.getBloqueadas());
+		return casillasAlrededor;
+	}
+	
+	protected List<Casilla> getCasillasAlrededor(Casilla casillaCentral) {
 		List<Casilla> casillas = new LinkedList<Casilla>();
 		
 		for( int fila = -1; fila < 2; fila ++)
@@ -236,12 +270,24 @@ public class Tablero {
 		this.addCasilla(casilla);		
 	}
 
-	public List<CasillaBloqueada> getBloqueadas() {
+	private List<CasillaBloqueada> getBloqueadas() {
 		return bloqueadas;
 	}
 
-	public void setBloqueadas(List<CasillaBloqueada> bloqueadas) {		
+	private void setBloqueadas(List<CasillaBloqueada> bloqueadas) {		
 		this.bloqueadas = bloqueadas;
+	}
+
+	private List<CasillaNumero> getNumeros() {
+		return numeros;
+	}
+
+	private void setNumeros(List<CasillaNumero> numeros) {
+		this.numeros = numeros;
+	}
+
+	protected Casilla getCasilla(int fila, int columna) {
+		return this.getCasilla( new Coordenada( fila, columna ));
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import ar.edu.ub.buscaminas.ITablero;
 import ar.edu.ub.buscaminas.Jugador;
 import ar.edu.ub.buscaminas.Tablero;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
@@ -14,7 +15,7 @@ public class JuegoConquista extends Juego {
 
 	private Map<Jugador, Integer> contadorBombas;
 	
-	public JuegoConquista(Tablero tablero, Jugador jugador, Jugador jugador2, Collection<Jugador> jugadores) {
+	public JuegoConquista(ITablero tablero, Jugador jugador, Jugador jugador2, Collection<Jugador> jugadores) {
 		super(tablero);
 		this.setContadorBombas(new HashMap<Jugador,Integer>());
 		

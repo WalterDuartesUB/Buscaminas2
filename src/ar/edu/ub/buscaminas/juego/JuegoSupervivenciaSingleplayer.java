@@ -1,5 +1,6 @@
 package ar.edu.ub.buscaminas.juego;
 
+import ar.edu.ub.buscaminas.ITablero;
 import ar.edu.ub.buscaminas.Jugador;
 import ar.edu.ub.buscaminas.Tablero;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
@@ -7,7 +8,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 
 public class JuegoSupervivenciaSingleplayer extends Juego {
-	public JuegoSupervivenciaSingleplayer(Tablero tablero, Jugador jugador) {
+	public JuegoSupervivenciaSingleplayer(ITablero tablero, Jugador jugador) {
 		super( tablero );
 		this.getJugadores().add(jugador);
 	}

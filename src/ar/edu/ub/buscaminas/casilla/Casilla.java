@@ -12,7 +12,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 	public Casilla(Coordenada coordenada, String dibujo) {
 		this.setCoordenada(coordenada);
 		this.setDibujo(dibujo);
-		this.setEstado( EstadoCasilla.BOCA_ABAJO );
+		this.setEstado( EstadoCasilla.BOCA_ARRIBA );
 	}
 
 	@Override
@@ -64,4 +64,10 @@ public abstract class Casilla implements Comparable<Casilla> {
 	public int compareTo(Casilla o) {
 		return this.getCoordenada().compareTo( o.getCoordenada());
 	}
+
+	@Override
+	public String toString() {
+		return "Casilla [coordenada=" + coordenada + ", dibujo=" + dibujo + "]";
+	}
+
 }

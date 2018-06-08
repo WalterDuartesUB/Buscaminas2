@@ -1,8 +1,6 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.casilla;
 
-import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
-import ar.edu.ub.buscaminas.casilla.CasillaBomba;
-import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.Tablero;
 
 public enum FabricaCasilla {
 	CASILLA_BLOQUEADA {

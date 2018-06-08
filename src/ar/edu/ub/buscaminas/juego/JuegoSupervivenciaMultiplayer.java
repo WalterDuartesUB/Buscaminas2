@@ -2,6 +2,7 @@ package ar.edu.ub.buscaminas.juego;
 
 import java.util.List;
 
+import ar.edu.ub.buscaminas.ITablero;
 import ar.edu.ub.buscaminas.Jugador;
 import ar.edu.ub.buscaminas.Tablero;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
@@ -10,7 +11,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 
 public class JuegoSupervivenciaMultiplayer extends Juego{
 
-	public JuegoSupervivenciaMultiplayer(Tablero tablero, Jugador jugador, Jugador jugador2, List<Jugador> jugadores) {
+	public JuegoSupervivenciaMultiplayer(ITablero tablero, Jugador jugador, Jugador jugador2, List<Jugador> jugadores) {
 		super( tablero );
 		this.getJugadores().add(jugador);
 		this.getJugadores().add(jugador2);

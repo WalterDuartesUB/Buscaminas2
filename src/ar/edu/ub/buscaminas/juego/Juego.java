@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ar.edu.ub.buscaminas.Aplicacion;
+import ar.edu.ub.buscaminas.ITablero;
 import ar.edu.ub.buscaminas.Jugador;
 import ar.edu.ub.buscaminas.JugadoresPrinter;
 import ar.edu.ub.buscaminas.Tablero;
@@ -15,12 +16,12 @@ import ar.edu.ub.buscaminas.listener.TableroListener;
 
 public abstract class Juego implements TableroListener, IJuego {
 
-	private Tablero tablero;
+	private ITablero tablero;
 	private JuegoListener listener;
 	private JugadoresPrinter	jugadoresPrinter;
 	private Queue<Jugador> jugadores;
 	
-	public Juego(Tablero tablero) {
+	public Juego(ITablero tablero) {
 		this.setTablero(tablero);
 		this.setJugadores( new ConcurrentLinkedQueue<Jugador>());
 		this.getTablero().setListener( this );		
@@ -30,11 +31,11 @@ public abstract class Juego implements TableroListener, IJuego {
 		this.getJugadores().addAll(jugadores);	
 	}
 
-	public Tablero getTablero() {
+	public ITablero getTablero() {
 		return tablero;
 	}
 
-	public void setTablero(Tablero tablero) {
+	public void setTablero(ITablero tablero) {
 		this.tablero = tablero;
 	}
 

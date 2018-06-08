@@ -1,8 +1,5 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.casilla;
 
-import ar.edu.ub.buscaminas.casilla.Casilla;
-import ar.edu.ub.buscaminas.casilla.CasillaBomba;
-import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
 public class CasillaBloqueada extends Casilla {
