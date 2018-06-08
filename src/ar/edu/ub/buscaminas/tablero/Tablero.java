@@ -65,11 +65,21 @@ public class Tablero implements ITablero {
 		
 		casilla.voltearBocaArriba(jugador);
 		
-		List<Casilla> casillas = this.getCasillasAlrededor(casilla);		
-		casillas.retainAll( this.getBlancos() );
+		if( this.getNumeros().contains( casilla ) )		
+			return;	
 		
-		for( Casilla casillaBlanco : casillas )			
+		List<Casilla> casillasAlrededor = this.getCasillasAlrededor(casilla);
+		
+		List<Casilla> casillasBlancosYNumeros = new LinkedList<Casilla>();
+		casillasBlancosYNumeros.addAll( this.getBlancos());
+		casillasBlancosYNumeros.addAll( this.getNumeros());
+		
+		casillasAlrededor.retainAll( casillasBlancosYNumeros );
+		
+		for( Casilla casillaBlanco : casillasAlrededor ){			
 			this.mostrarBlancosAlrededor( jugador, casillaBlanco, casillasProbadas );
+		}
+
 	}
 
 	@Override
@@ -78,10 +88,10 @@ public class Tablero implements ITablero {
 		
 		casilla.voltearBocaArriba(jugador );
 		
+		casilla.elegiCasilla( this.getListener() );
+				
 		this.getBombas().remove( casilla );
 		this.getBlancos().remove( casilla );
-		
-		casilla.elegiCasilla( this.getListener() );
 	}
 
 	private Casilla getCasilla(Coordenada coordenada) {
@@ -102,6 +112,7 @@ public class Tablero implements ITablero {
 		this.addCasilla(casilla);
 	}
 	public void add( CasillaNumero casilla ) {
+		this.getNumeros().add(casilla);
 		this.addCasilla(casilla);
 	}	
 	

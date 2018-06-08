@@ -17,6 +17,10 @@ public abstract class Casilla implements Comparable<Casilla> {
 	}
 
 	@Override
+	public int hashCode() {		
+		return this.getCoordenada().hashCode();
+	}
+	@Override
 	public boolean equals(Object obj) {
 		if( this == obj )
 			return true;

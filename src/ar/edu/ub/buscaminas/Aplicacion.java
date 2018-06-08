@@ -69,7 +69,7 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		Tablero tablero = new Tablero();				
 		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, this.getJugador1() );			
 		
-		tablero.loadFromFile("./mapas/de_aztec.mapa", 20);
+		tablero.loadFromFile("./mapas/de_aztec.mapa", 15);
 		
 		juego.setListener( app );
 		juego.setJugadoresPrinter( app );
