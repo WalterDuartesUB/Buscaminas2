@@ -1,8 +1,6 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.casilla;
 
 import java.util.Comparator;
-
-import ar.edu.ub.buscaminas.casilla.Casilla;
 
 public class CasillaComparadorHorizontal implements Comparator<Casilla> {
 	@Override

@@ -1,4 +1,4 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.tablero;
 
 import java.io.IOException;
 import java.nio.file.Files;

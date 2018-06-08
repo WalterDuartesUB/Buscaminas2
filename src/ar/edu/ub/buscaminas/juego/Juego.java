@@ -5,14 +5,14 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import ar.edu.ub.buscaminas.Aplicacion;
-import ar.edu.ub.buscaminas.ITablero;
-import ar.edu.ub.buscaminas.Jugador;
-import ar.edu.ub.buscaminas.JugadoresPrinter;
-import ar.edu.ub.buscaminas.Tablero;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
 import ar.edu.ub.buscaminas.listener.TableroListener;
+import ar.edu.ub.buscaminas.tablero.ITablero;
+import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public abstract class Juego implements TableroListener, IJuego {
 

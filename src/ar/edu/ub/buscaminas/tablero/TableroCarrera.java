@@ -1,4 +1,4 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.tablero;
 
 import java.util.Comparator;
 import java.util.List;
@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
+import ar.edu.ub.buscaminas.casilla.CasillaComparadorHorizontal;
+import ar.edu.ub.buscaminas.casilla.CasillaComparadorVertical;
 
 public class TableroCarrera{
 	public static ITablero crearTableroPartidaCorta() {

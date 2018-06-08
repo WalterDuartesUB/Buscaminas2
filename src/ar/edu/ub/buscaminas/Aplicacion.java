@@ -12,7 +12,12 @@ import ar.edu.ub.buscaminas.juego.JuegoCarrera;
 import ar.edu.ub.buscaminas.juego.JuegoConquista;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
+import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
+import ar.edu.ub.buscaminas.tablero.ITablero;
+import ar.edu.ub.buscaminas.tablero.Tablero;
+import ar.edu.ub.buscaminas.tablero.TableroCarrera;
 
 public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrinter {
 	private IConsola  consola;

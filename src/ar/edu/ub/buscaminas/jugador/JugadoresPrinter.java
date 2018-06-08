@@ -1,4 +1,4 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.jugador;
 
 import java.util.Collection;
 

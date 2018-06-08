@@ -1,4 +1,4 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.tablero;
 
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;

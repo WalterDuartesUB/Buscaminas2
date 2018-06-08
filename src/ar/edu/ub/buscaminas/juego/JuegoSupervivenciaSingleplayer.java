@@ -1,11 +1,11 @@
 package ar.edu.ub.buscaminas.juego;
 
-import ar.edu.ub.buscaminas.ITablero;
-import ar.edu.ub.buscaminas.Jugador;
-import ar.edu.ub.buscaminas.Tablero;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
+import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.tablero.ITablero;
+import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class JuegoSupervivenciaSingleplayer extends Juego {
 	public JuegoSupervivenciaSingleplayer(ITablero tablero, Jugador jugador) {
