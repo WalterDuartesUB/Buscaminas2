@@ -6,7 +6,7 @@ public class CasillaBloqueada extends Casilla {
 
 	public CasillaBloqueada(Coordenada coordenada) {
 		super(coordenada, "X");
-		this.voltearBocaArriba();
+		this.voltearBocaArriba(null);
 	}
 
 	@Override

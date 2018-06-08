@@ -1,18 +1,19 @@
 package ar.edu.ub.buscaminas.casilla;
 
+import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
 public abstract class Casilla implements Comparable<Casilla> {
 	
 	private Coordenada coordenada;
-	private String dibujo;
-	
+	private String dibujo;	
 	private EstadoCasilla estado;
+	private Jugador jugador;
 	
 	public Casilla(Coordenada coordenada, String dibujo) {
 		this.setCoordenada(coordenada);
 		this.setDibujo(dibujo);
-		this.setEstado( EstadoCasilla.BOCA_ARRIBA );
+		this.setEstado( EstadoCasilla.BOCA_ABAJO );
 	}
 
 	@Override
@@ -56,7 +57,8 @@ public abstract class Casilla implements Comparable<Casilla> {
 		this.estado = estado;
 	}
 
-	public void voltearBocaArriba() {
+	public void voltearBocaArriba(Jugador jugador) {
+		this.setJugador(jugador);
 		this.setEstado( EstadoCasilla.BOCA_ARRIBA );		
 	}
 	
@@ -68,6 +70,14 @@ public abstract class Casilla implements Comparable<Casilla> {
 	@Override
 	public String toString() {
 		return "Casilla [coordenada=" + coordenada + ", dibujo=" + dibujo + "]";
+	}
+
+	public Jugador getJugador() {
+		return jugador;
+	}
+
+	private void setJugador(Jugador jugador) {
+		this.jugador = jugador;
 	}
 
 }

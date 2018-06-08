@@ -21,6 +21,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.FabricaCasilla;
+import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
 public class Tablero implements ITablero {
@@ -55,27 +56,27 @@ public class Tablero implements ITablero {
 	}
 
 	public void mostrarBlancosAlrededor(CasillaBlanco casilla) {
-		mostrarBlancosAlrededor(casilla, new TreeSet<Casilla>());
+		mostrarBlancosAlrededor(casilla.getJugador(),casilla, new TreeSet<Casilla>());
 	}
 
-	private void mostrarBlancosAlrededor(Casilla casilla, Set<Casilla> casillasProbadas) {			
+	private void mostrarBlancosAlrededor(Jugador jugador,Casilla casilla, Set<Casilla> casillasProbadas) {			
 		if( !casillasProbadas.add( casilla ) )
 			return;
 		
-		casilla.voltearBocaArriba();
+		casilla.voltearBocaArriba(jugador);
 		
 		List<Casilla> casillas = this.getCasillasAlrededor(casilla);		
 		casillas.retainAll( this.getBlancos() );
 		
 		for( Casilla casillaBlanco : casillas )			
-			this.mostrarBlancosAlrededor( casillaBlanco, casillasProbadas );
+			this.mostrarBlancosAlrededor( jugador, casillaBlanco, casillasProbadas );
 	}
 
 	@Override
-	public void elegirCasilla(Coordenada coordenada) {
+	public void elegirCasilla(Jugador jugador, Coordenada coordenada) {
 		Casilla casilla = this.getCasilla( coordenada );
 		
-		casilla.voltearBocaArriba();
+		casilla.voltearBocaArriba(jugador );
 		
 		this.getBombas().remove( casilla );
 		this.getBlancos().remove( casilla );
@@ -289,5 +290,4 @@ public class Tablero implements ITablero {
 	protected Casilla getCasilla(int fila, int columna) {
 		return this.getCasilla( new Coordenada( fila, columna ));
 	}
-
 }

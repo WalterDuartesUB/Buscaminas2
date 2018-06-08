@@ -57,7 +57,7 @@ public abstract class Juego implements TableroListener, IJuego {
 
 	@Override
 	public void elegirCasilla(Coordenada coordenada) {
-		this.getTablero().elegirCasilla( coordenada );
+		this.getTablero().elegirCasilla( this.getJugadorDeTurno(), coordenada );
 	}
 
 	public void matarJugadorDeTurno() {

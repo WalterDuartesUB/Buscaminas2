@@ -61,8 +61,6 @@ public class TableroCarrera{
 		if( !casillasProbadas.add( casilla ) )
 			return;
 		
-		casilla.voltearBocaArriba();
-		
 		List<Casilla> casillas = tablero.getCasillasBlancasONumerosAlrededor(casilla);
 		
 		for( Casilla casillaBlanco : casillas )			
