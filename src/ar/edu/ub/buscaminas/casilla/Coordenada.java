@@ -13,13 +13,13 @@ public class Coordenada implements Comparable<Coordenada>{
 	public int getColumna() {
 		return columna;
 	}
-	public void setColumna(int columna) {
+	private void setColumna(int columna) {
 		this.columna = columna;
 	}
 	public int getFila() {
 		return fila;
 	}
-	public void setFila(int fila) {
+	private void setFila(int fila) {
 		this.fila = fila;
 	}
 	

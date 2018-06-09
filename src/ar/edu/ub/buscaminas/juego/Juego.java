@@ -35,11 +35,11 @@ public abstract class Juego implements TableroListener, IJuego {
 		return tablero;
 	}
 
-	public void setTablero(ITablero tablero) {
+	private void setTablero(ITablero tablero) {
 		this.tablero = tablero;
 	}
 
-	public JuegoListener getListener() {
+	private JuegoListener getListener() {
 		return listener;
 	}
 
@@ -51,7 +51,7 @@ public abstract class Juego implements TableroListener, IJuego {
 		return jugadores;
 	}
 
-	public void setJugadores(Queue<Jugador> jugadores) {
+	private void setJugadores(Queue<Jugador> jugadores) {
 		this.jugadores = jugadores;
 	}
 
@@ -60,11 +60,11 @@ public abstract class Juego implements TableroListener, IJuego {
 		this.getTablero().elegirCasilla( this.getJugadorDeTurno(), coordenada );
 	}
 
-	public void matarJugadorDeTurno() {
+	protected void matarJugadorDeTurno() {
 		this.getJugadores().poll();
 	}
 
-	public void cambiarJugadorDeTurno() {
+	protected void cambiarJugadorDeTurno() {
 		this.getJugadores().add( this.getJugadores().poll() );		
 	}
 
@@ -78,7 +78,7 @@ public abstract class Juego implements TableroListener, IJuego {
 		this.getJugadoresPrinter().mostrarJugadores(this.getJugadorDeTurno(), this.getJugadores() );
 	}
 
-	public void mostrarPerdedor() {
+	protected void mostrarPerdedor() {
 		this.getListener().mostrarPerdedor();		
 	}
 
@@ -86,11 +86,11 @@ public abstract class Juego implements TableroListener, IJuego {
 		return this.getJugadores().peek();
 	}
 
-	public void mostrarGanador(Jugador jugador) {
+	protected void mostrarGanador(Jugador jugador) {
 		this.getListener().mostrarGanador(jugador);		
 	}
 
-	public void mostrarEmpate(Collection<Jugador> jugadores) {
+	protected void mostrarEmpate(Collection<Jugador> jugadores) {
 		this.getListener().mostrarEmpate(jugadores);		
 	}
 

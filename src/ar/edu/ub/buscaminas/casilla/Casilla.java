@@ -35,7 +35,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 		return coordenada;
 	}
 
-	public void setCoordenada(Coordenada coordenada) {
+	private void setCoordenada(Coordenada coordenada) {
 		this.coordenada = coordenada;
 	}
 
@@ -49,15 +49,15 @@ public abstract class Casilla implements Comparable<Casilla> {
 		return this.getEstado().getDibujo( this.getDibujo() );
 	}
 
-	public void setDibujo(String dibujo) {
+	private void setDibujo(String dibujo) {
 		this.dibujo = dibujo;
 	}
 
-	public EstadoCasilla getEstado() {
+	private EstadoCasilla getEstado() {
 		return estado;
 	}
 
-	public void setEstado(EstadoCasilla estado) {
+	private void setEstado(EstadoCasilla estado) {
 		this.estado = estado;
 	}
 
