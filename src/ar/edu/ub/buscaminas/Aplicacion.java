@@ -39,8 +39,11 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		
 		this.setJugadoresColores( new HashMap<Jugador,BColor>());
 		
-//		this.getJugadoresColores().put( null, BColor.RED );
-		this.getJugadoresColores().put( this.getJugador1(), BColor.GREEN );
+		this.getJugadoresColores().put( null, BColor.BLACK );
+		this.getJugadoresColores().put( this.getJugador1(), BColor.CYAN );
+		this.getJugadoresColores().put( this.getJugador2(), BColor.GREEN );
+		this.getJugadoresColores().put( this.getJugador3(), BColor.BLUE );
+		this.getJugadoresColores().put( this.getJugador4(), BColor.MAGENTA );
 	}
 	
 	public void modoConquista() {
@@ -67,7 +70,10 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 	public void modoSupervivencia() {
 		Aplicacion app = new Aplicacion();
 		Tablero tablero = new Tablero();				
-		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, this.getJugador1() );			
+//		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, this.getJugador1() );			
+		List<Jugador> jugadores = new LinkedList<Jugador>();
+		jugadores.add( this.getJugador3() );
+		Juego juego = new JuegoSupervivenciaMultiplayer( tablero, this.getJugador1(), this.getJugador2(), jugadores );
 		
 		tablero.loadFromFile("./mapas/de_aztec.mapa", 15);
 		
@@ -149,11 +155,10 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 			
 			//Quiebre de columna
 			this.getConsola().println();
-/*			
+			
 			for( int posicion = 0; posicion < filas.size()*2+1; posicion++ )
 				this.getConsola().print( "-" );
-			this.getConsola().println();
-*/			
+			this.getConsola().println();			
 			
 		}
 	}

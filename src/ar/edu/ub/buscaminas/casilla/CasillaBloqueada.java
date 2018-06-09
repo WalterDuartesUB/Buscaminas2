@@ -6,6 +6,7 @@ public class CasillaBloqueada extends Casilla {
 
 	public CasillaBloqueada(Coordenada coordenada) {
 		super(coordenada, "X");
+		//TODO cambiar esto
 		this.voltearBocaArriba(null);
 	}
 
