@@ -21,16 +21,23 @@ import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.FabricaCasilla;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasilla;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlanco;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancosYNumerosBocaAbajo;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBloqueadas;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBomba;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBombasBocaAbajo;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaNumero;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
 public class Tablero implements ITablero {
-	private Map<Coordenada,Casilla> casillas;
-	private List<CasillaBomba> bombas;
-	private List<CasillaBlanco> blancos;
-	private List<CasillaBloqueada> bloqueadas;
-	private List<CasillaNumero> numeros;
 	
+	///////////////////////////////////////////////////////////////////////////
+	//
+	
+	
+	private Map<Coordenada,Casilla> casillas;
 	private TableroListener listener;
 	private CasillasPrinter printer;
 	
@@ -89,9 +96,6 @@ public class Tablero implements ITablero {
 		casilla.voltearBocaArriba(jugador );
 		
 		casilla.elegiCasilla( this.getListener() );
-				
-		this.getBombas().remove( casilla );
-		this.getBlancos().remove( casilla );
 	}
 
 	private Casilla getCasilla(Coordenada coordenada) {
@@ -103,16 +107,13 @@ public class Tablero implements ITablero {
 	}
 	
 	public void add( CasillaBomba casilla ) {
-		this.getBombas().add(casilla);
 		this.addCasilla(casilla);
 	}
 
 	public void add( CasillaBlanco casilla ) {
-		this.getBlancos().add(casilla);
 		this.addCasilla(casilla);
 	}
 	public void add( CasillaNumero casilla ) {
-		this.getNumeros().add(casilla);
 		this.addCasilla(casilla);
 	}	
 	
@@ -148,29 +149,28 @@ public class Tablero implements ITablero {
 	}
 
 	public int getCantidadBombasBocaAbajo() {
-		return this.getBombas().size();
+		return this.obtenerCasillas( new CheckCasillaBombasBocaAbajo() ).size();
 	}
 
 	public int getCantidadBlancosYNumerosBocaAbajo() {
-		return this.getBlancos().size() + this.getNumeros().size();
+		return this.obtenerCasillas( new CheckCasillaBlancosYNumerosBocaAbajo() ).size();
 	}
 
-	private List<CasillaBomba> getBombas() {
-		return bombas;
+	private List<Casilla> getBombas() {
+		return this.obtenerCasillas( new CheckCasillaBomba() );
 	}
 
-	private void setBombas(LinkedList<CasillaBomba> linkedList) {
-		this.bombas = linkedList;
+	private List<Casilla> getBlancos() {
+		return this.obtenerCasillas( new CheckCasillaBlanco() );
 	}
 
-	private List<CasillaBlanco> getBlancos() {
-		return blancos;
+	private List<Casilla> getBloqueadas() {
+		return this.obtenerCasillas( new CheckCasillaBloqueadas() );
 	}
-
-	private void setBlancos(List<CasillaBlanco> blancos) {
-		this.blancos = blancos;
+	private List<Casilla> getNumeros() {
+		return this.obtenerCasillas( new CheckCasillaNumero() );
 	}
-
+	
 	public void loadFromFile(String pathMapa, int porcentajeBombas ) {
 		this.clean();
 		
@@ -184,15 +184,14 @@ public class Tablero implements ITablero {
 			for( int fila = 0; fila < lineas.size(); fila++ ){
 				String linea = lineas.get(fila);
 				for( int columna = 0; columna < linea.length(); columna++ ){
-					handlers.get(String.format("%c", linea.charAt(columna) ) ).addIn( this, fila,columna );
+					this.addCasilla( handlers.get(String.format("%c", linea.charAt(columna) ) ).createInstance( fila,columna ) );
 				}
 			}
 			
 			///////////////////////////////////////////////////////////////////
 			//Pongo las bombas en el mapa
 			
-			this.ponerBombas(porcentajeBombas);			
-			this.ponerNumeros();
+			this.ponerBombas( this.getBlancos(), porcentajeBombas);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -201,11 +200,7 @@ public class Tablero implements ITablero {
 	}
 	
 	private void clean() {
-		this.setCasillas( new HashMap<Coordenada,Casilla>());	
-		this.setBombas(new LinkedList<CasillaBomba>());
-		this.setBlancos(new LinkedList<CasillaBlanco>());
-		this.setBloqueadas(new LinkedList<CasillaBloqueada>());
-		this.setNumeros(new LinkedList<CasillaNumero>());				
+		this.setCasillas( new HashMap<Coordenada,Casilla>());
 	}
 
 	protected void load( int cantidadFilas, int cantidadColumnas, int porcentajeBombas ) {
@@ -214,30 +209,29 @@ public class Tablero implements ITablero {
 		//Agrego blancos en una matriz cuadrada
 		for( int fila = 0; fila < cantidadFilas; fila++)
 			for( int columna = 0; columna < cantidadColumnas; columna++)
-				FabricaCasilla.CASILLA_BLANCA.addIn( this, fila, columna);
+				this.addCasilla( FabricaCasilla.CASILLA_BLANCA.createInstance( fila, columna) );
 				
-		this.ponerBombas(porcentajeBombas);			
-		this.ponerNumeros();		
+		this.ponerBombas( this.getBlancos(), porcentajeBombas);		
 	}
 
-	private void ponerBombas(int porcentajeBombas) {
+	private void ponerBombas( List<Casilla> blancos, int porcentajeBombas) {
 		int cantidadBombas = this.getCasillas().size() * porcentajeBombas / 100;
-//		Random rand = new Random();
 		
 		while( this.getCantidadBombasBocaAbajo() < cantidadBombas )
 		{
 			int index = ThreadLocalRandom.current().nextInt( this.getBlancos().size() );
-			this.add( new CasillaBomba( this.getBlancos().get(index) ) );
-			this.getBlancos().remove(index);				
-			
+			this.add( new CasillaBomba( this.getBlancos().get(index) ) );			
 		}
+		
+		//Pongo los blancos en el mapa
+		this.ponerNumeros( blancos );
 	}
 
-	private void ponerNumeros() {
+	private void ponerNumeros( List<Casilla> blancos) {
 		///////////////////////////////////////////////////////////////////
 		//Pongo los numeros alrededor de mis bombas
 		
-		for( CasillaBomba casilla : this.getBombas() ) {
+		for( Casilla casilla : this.getBombas() ) {
 			List<Casilla> casillasAlrededor = this.getCasillasAlrededor( casilla );
 			
 			casillasAlrededor.removeAll( this.getBloqueadas() );
@@ -245,8 +239,7 @@ public class Tablero implements ITablero {
 			casillasAlrededor.remove( null );
 			
 			for( Casilla c : casillasAlrededor ) {
-				this.add( new CasillaNumero( c, this.getCantidadBombasAlrededor(c) ) );
-				this.getBlancos().remove(c);						
+				this.add( new CasillaNumero( c, this.getCantidadBombasAlrededor(c) ) );						
 			}
 		}
 	}
@@ -278,27 +271,33 @@ public class Tablero implements ITablero {
 	}
 
 	public void add(CasillaBloqueada casilla) {
-		this.getBloqueadas().add( casilla );
 		this.addCasilla(casilla);		
-	}
-
-	private List<CasillaBloqueada> getBloqueadas() {
-		return bloqueadas;
-	}
-
-	private void setBloqueadas(List<CasillaBloqueada> bloqueadas) {		
-		this.bloqueadas = bloqueadas;
-	}
-
-	private List<CasillaNumero> getNumeros() {
-		return numeros;
-	}
-
-	private void setNumeros(List<CasillaNumero> numeros) {
-		this.numeros = numeros;
 	}
 
 	protected Casilla getCasilla(int fila, int columna) {
 		return this.getCasilla( new Coordenada( fila, columna ));
+	}
+
+	@Override
+	public void ocultarCasilla(Casilla casilla) {
+		this.getCasilla( casilla.getCoordenada() ).voltearBocaAbajo();		
+	}
+
+	@Override
+	public void voltearTodasLasCasillasDelJugador(Jugador jugador) {		
+		for( Casilla casilla : this.getCasillas().values() )
+			if( casilla.getJugador().equals( jugador )) {
+				casilla.voltearBocaAbajo();
+			}
+	}
+	
+	private List<Casilla> obtenerCasillas( CheckCasilla tester){
+		List<Casilla> casillasEncontradas = new LinkedList<Casilla>();
+		
+		for( Casilla casilla : this.getCasillas().values() )
+			if( tester.test(casilla))
+				casillasEncontradas.add(casilla);	
+		
+		return casillasEncontradas;
 	}
 }

@@ -32,6 +32,9 @@ public class JuegoConquista extends Juego {
 	public void elegiCasilla(CasillaBomba casilla) {
 		this.contarBomba( this.getJugadorDeTurno() );
 		
+		System.out.println("Bombas Restantes: " + this.getTablero().getCantidadBombasBocaAbajo());
+		
+		
 		if( this.getTablero().getCantidadBombasBocaAbajo() == 0 )
 			this.mostrarGanador( this.getJugadorDeTurno() );
 	}

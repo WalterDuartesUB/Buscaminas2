@@ -22,14 +22,14 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 	@Override
 	public void elegiCasilla(CasillaBlanco casilla) {
 		this.getTablero().mostrarBlancosAlrededor( casilla );
-		
+				
 		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
 			this.mostrarGanador(this.getJugadorDeTurno());			
 
 	}
 
 	@Override
-	public void elegiCasilla(CasillaNumero casilla) {
+	public void elegiCasilla(CasillaNumero casilla) {		
 		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
 			this.mostrarGanador(this.getJugadorDeTurno());	
 	}

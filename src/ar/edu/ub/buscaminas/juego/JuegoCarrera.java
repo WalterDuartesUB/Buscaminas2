@@ -1,5 +1,6 @@
 package ar.edu.ub.buscaminas.juego;
 
+import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
@@ -19,20 +20,25 @@ public class JuegoCarrera extends Juego {
 
 	@Override
 	public void elegiCasilla(CasillaBomba casilla) {
-		// TODO Auto-generated method stub
-
+		//Pido un enter para cambiar de turno y ocultar la bomba?
+		this.getTablero().ocultarCasilla( casilla );
+		
+		this.cambiarJugadorDeTurno();
 	}
 
 	@Override
 	public void elegiCasilla(CasillaBlanco casilla) {
-		// TODO Auto-generated method stub
-
+		this.elegiCasillaQueNoEsBomba( casilla );
 	}
 
 	@Override
 	public void elegiCasilla(CasillaNumero casilla) {
-		// TODO Auto-generated method stub
+		this.elegiCasillaQueNoEsBomba( casilla );
+	}
 
+	private void elegiCasillaQueNoEsBomba(Casilla casilla) {		
+		//Si es de otro jugador, pongo boca abajo todas sus casillas elegidas
+		this.getTablero().voltearTodasLasCasillasDelJugador( casilla.getJugador() );				
 	}
 
 	@Override

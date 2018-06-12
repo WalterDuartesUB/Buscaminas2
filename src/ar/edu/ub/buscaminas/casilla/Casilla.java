@@ -1,5 +1,6 @@
 package ar.edu.ub.buscaminas.casilla;
 
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaType;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
@@ -13,7 +14,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 	public Casilla(Coordenada coordenada, String dibujo) {
 		this.setCoordenada(coordenada);
 		this.setDibujo(dibujo);
-		this.setEstado( EstadoCasilla.BOCA_ABAJO );
+		this.voltearBocaAbajo();
 	}
 
 	@Override
@@ -82,6 +83,18 @@ public abstract class Casilla implements Comparable<Casilla> {
 
 	private void setJugador(Jugador jugador) {
 		this.jugador = jugador;
+	}
+
+	public void voltearBocaAbajo() {
+		//TODO cada tipo de casilla deberia elegir como comportarse al voltearse boca abajo
+		this.setEstado( EstadoCasilla.BOCA_ABAJO );
+		this.setJugador( null );
+	}
+
+	public abstract boolean testCasillaType( CheckCasillaType test );
+
+	public boolean estaBocaAbajo() {
+		return this.getEstado() == EstadoCasilla.BOCA_ABAJO;
 	}
 
 }

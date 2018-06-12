@@ -44,6 +44,7 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		this.getJugadoresColores().put( this.getJugador2(), BColor.GREEN );
 		this.getJugadoresColores().put( this.getJugador3(), BColor.BLUE );
 		this.getJugadoresColores().put( this.getJugador4(), BColor.MAGENTA );
+		
 	}
 	
 	public void modoConquista() {
@@ -51,7 +52,7 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		Tablero tablero = new Tablero();	
 		Juego juego = new JuegoConquista( tablero, this.getJugador1(), this.getJugador2(),  new LinkedList<Jugador>() );
 		
-		tablero.loadFromFile("./mapas/cs_assault.mapa", 80);
+		tablero.loadFromFile("./mapas/de_aztec.mapa", 10);
 				
 		juego.setListener( app );
 		juego.setJugadoresPrinter( app );
@@ -70,10 +71,10 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 	public void modoSupervivencia() {
 		Aplicacion app = new Aplicacion();
 		Tablero tablero = new Tablero();				
-//		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, this.getJugador1() );			
+		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, this.getJugador1() );			
 		List<Jugador> jugadores = new LinkedList<Jugador>();
 		jugadores.add( this.getJugador3() );
-		Juego juego = new JuegoSupervivenciaMultiplayer( tablero, this.getJugador1(), this.getJugador2(), jugadores );
+//		Juego juego = new JuegoSupervivenciaMultiplayer( tablero, this.getJugador1(), this.getJugador2(), jugadores );
 		
 		tablero.loadFromFile("./mapas/de_aztec.mapa", 15);
 		
@@ -99,20 +100,20 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		juego.setListener( app );
 		juego.setJugadoresPrinter( app );
 		juego.setCasillaPrinter( app );
-		/*
+		
 		while( !juego.terminoJuego() )
 		{			
 			juego.imprimirEstadoJuego();
 			Coordenada coordenada = app.pedirCoordenada();			
 			juego.elegirCasilla( coordenada );
 		}
-		*/
+		
 		juego.imprimirEstadoJuego();
 	}
 	
 	public static void main(String[] args) {
 		Aplicacion app = new Aplicacion();
-		app.modoSupervivencia();
+		app.modoConquista();
 	}
 
 	private Coordenada pedirCoordenada() {
