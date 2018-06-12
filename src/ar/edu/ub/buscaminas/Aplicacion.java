@@ -113,7 +113,7 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 	
 	public static void main(String[] args) {
 		Aplicacion app = new Aplicacion();
-		app.modoConquista();
+		app.modoCarrera();
 	}
 
 	private Coordenada pedirCoordenada() {

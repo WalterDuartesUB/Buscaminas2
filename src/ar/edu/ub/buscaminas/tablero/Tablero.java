@@ -286,7 +286,7 @@ public class Tablero implements ITablero {
 	@Override
 	public void voltearTodasLasCasillasDelJugador(Jugador jugador) {		
 		for( Casilla casilla : this.getCasillas().values() )
-			if( casilla.getJugador().equals( jugador )) {
+			if( jugador.equals( casilla.getJugador() )) {
 				casilla.voltearBocaAbajo();
 			}
 	}

@@ -4,6 +4,7 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
+import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -16,6 +17,16 @@ public class JuegoCarrera extends Juego {
 		this.getJugadores().add(jugador2);
 		this.getJugadores().add(jugador3);
 		this.getJugadores().add(jugador4);
+		
+		//TODO el tablero deberia proveer un metodo para elegir "en la mitad" de cada borde basado en una lista de jugadores
+		this.getTablero().elegirCasilla(jugador, new Coordenada(0,7));
+		this.cambiarJugadorDeTurno();
+		this.getTablero().elegirCasilla(jugador2, new Coordenada(7,14));
+		this.cambiarJugadorDeTurno();
+		this.getTablero().elegirCasilla(jugador3, new Coordenada(14,7));
+		this.cambiarJugadorDeTurno();
+		this.getTablero().elegirCasilla(jugador4, new Coordenada(7,0));
+		
 	}
 
 	@Override
@@ -38,7 +49,8 @@ public class JuegoCarrera extends Juego {
 
 	private void elegiCasillaQueNoEsBomba(Casilla casilla) {		
 		//Si es de otro jugador, pongo boca abajo todas sus casillas elegidas
-		this.getTablero().voltearTodasLasCasillasDelJugador( casilla.getJugador() );				
+		if( !this.getJugadorDeTurno().equals( casilla.getJugador() ) && casilla.getJugador() != null )
+			this.getTablero().voltearTodasLasCasillasDelJugador( casilla.getJugador() );				
 	}
 
 	@Override
