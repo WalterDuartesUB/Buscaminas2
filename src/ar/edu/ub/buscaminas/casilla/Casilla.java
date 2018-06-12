@@ -62,8 +62,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 		this.estado = estado;
 	}
 
-	public void voltearBocaArriba(Jugador jugador) {
-		this.setJugador(jugador);
+	public void voltearBocaArriba() {
 		this.setEstado( EstadoCasilla.BOCA_ARRIBA );		
 	}
 	
@@ -81,7 +80,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 		return jugador;
 	}
 
-	private void setJugador(Jugador jugador) {
+	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
 	}
 
@@ -99,5 +98,10 @@ public abstract class Casilla implements Comparable<Casilla> {
 
 	public boolean estaBocaArriba() {
 		return this.getEstado() == EstadoCasilla.BOCA_ARRIBA;
+	}
+
+	public void voltearBocaArriba(Jugador jugador) {
+		this.voltearBocaArriba();
+		this.setJugador(jugador);		
 	}
 }

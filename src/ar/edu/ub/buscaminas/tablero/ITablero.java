@@ -20,6 +20,6 @@ public interface ITablero {
 	public void ocultarCasilla(Casilla casilla);
 	
 	public void mostrarBlancosAlrededor( CasillaBlanco casilla);
-	public void voltearTodasLasCasillasDelJugador(Jugador jugador);
+	public void voltearTodasLasCasillasDelJugador(Jugador jugador, Casilla casilla);
 	public Collection<Coordenada> obtenerCoordenadasDeCasillasContiguasDelJugador(Jugador jugador);
 }

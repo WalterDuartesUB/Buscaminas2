@@ -94,9 +94,11 @@ public class Tablero implements ITablero {
 	public void elegirCasilla(Jugador jugador, Coordenada coordenada) {
 		Casilla casilla = this.getCasilla( coordenada );
 		
-		casilla.voltearBocaArriba(jugador );
+		casilla.voltearBocaArriba();
 		
 		casilla.elegiCasilla( this.getListener() );
+				
+		casilla.setJugador( jugador );
 	}
 
 	private Casilla getCasilla(Coordenada coordenada) {
@@ -289,8 +291,12 @@ public class Tablero implements ITablero {
 	}
 
 	@Override
-	public void voltearTodasLasCasillasDelJugador(Jugador jugador) {		
-		for( Casilla casilla : this.getCasillas().values() )
+	public void voltearTodasLasCasillasDelJugador(Jugador jugador, Casilla casillaTomada ) {
+		List<Casilla> casillasDelJugador = new LinkedList<Casilla>( this.getCasillas().values() );
+		
+		casillasDelJugador.remove( casillaTomada );
+		
+		for( Casilla casilla : casillasDelJugador )
 			if( jugador.equals( casilla.getJugador() )) {
 				casilla.voltearBocaAbajo();
 			}

@@ -11,7 +11,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaComparadorVertical;
 
 public class TableroCarrera{
 	public static ITablero crearTableroPartidaCorta() {
-		return crearTablero(15,15, 20);
+		return crearTablero(5,5, 10);
 	}
 	
 	public static ITablero crearTableroPartidaLarga() {
