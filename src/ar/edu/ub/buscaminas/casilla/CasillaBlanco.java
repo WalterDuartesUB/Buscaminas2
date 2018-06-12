@@ -18,5 +18,4 @@ public class CasillaBlanco extends Casilla {
 	public boolean testCasillaType(CheckCasillaType test) {
 		return test.testCasillaType(this);
 	}
-
 }

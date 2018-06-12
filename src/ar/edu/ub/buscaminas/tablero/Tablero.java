@@ -22,6 +22,7 @@ import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.FabricaCasilla;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasilla;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancasONumerosBocaArribaDeJugador;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancosYNumerosBocaAbajo;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBloqueadas;
@@ -171,6 +172,10 @@ public class Tablero implements ITablero {
 		return this.obtenerCasillas( new CheckCasillaNumero() );
 	}
 	
+	private List<Casilla> getCasillasBlancasONumerosBocaArribaDeJugador(Jugador jugador) {
+		return this.obtenerCasillas( new CheckCasillaBlancasONumerosBocaArribaDeJugador( jugador ) );
+	}	
+	
 	public void loadFromFile(String pathMapa, int porcentajeBombas ) {
 		this.clean();
 		
@@ -299,5 +304,32 @@ public class Tablero implements ITablero {
 				casillasEncontradas.add(casilla);	
 		
 		return casillasEncontradas;
+	}
+
+	@Override
+	public Collection<Coordenada> obtenerCoordenadasDeCasillasContiguasDelJugador(Jugador jugador) {
+		Collection<Coordenada> coordenadas = new LinkedList<Coordenada>();
+		
+		Collection<Casilla> casillasElegidasPorElJugador = this.getCasillasBlancasONumerosBocaArribaDeJugador( jugador );
+		Collection<Casilla> casillasContiguasElegidasPorElJugador = this.getCasillasAlrededor( casillasElegidasPorElJugador );
+		
+		casillasContiguasElegidasPorElJugador.removeAll( casillasElegidasPorElJugador );
+				
+//		Set<Casilla> casillasElegibles = new TreeSet<Casilla>(  );
+//		casillasElegibles.addAll( this.getCasillasAlrededor( casillasElegibles ) );
+		
+		for( Casilla casilla : casillasContiguasElegidasPorElJugador )			
+			coordenadas.add( casilla.getCoordenada() );
+		
+		return coordenadas;
+	}
+
+	private Collection<Casilla> getCasillasAlrededor(Collection<Casilla> casillas) {
+		Collection<Casilla> casillasAlrededor = new TreeSet<Casilla>();
+		
+		for( Casilla casilla : casillas )
+			casillasAlrededor.addAll( this.getCasillasAlrededor(casilla) );
+		
+		return casillasAlrededor;
 	}
 }

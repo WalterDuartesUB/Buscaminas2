@@ -5,6 +5,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -26,7 +27,7 @@ public class JuegoCarrera extends Juego {
 		this.getTablero().elegirCasilla(jugador3, new Coordenada(14,7));
 		this.cambiarJugadorDeTurno();
 		this.getTablero().elegirCasilla(jugador4, new Coordenada(7,0));
-		
+		this.cambiarJugadorDeTurno();
 	}
 
 	@Override
@@ -59,4 +60,12 @@ public class JuegoCarrera extends Juego {
 		return false;
 	}
 
+	@Override
+	protected void validarCoordenadaCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
+		super.validarCoordenadaCasilla(coordenada);
+		
+		if( !this.getTablero().obtenerCoordenadasDeCasillasContiguasDelJugador( this.getJugadorDeTurno() ).contains( coordenada ) )
+			throw new CoordenadaInvalidaException("No se puede elegir la coordenada " + coordenada + ". Debe elegir alguna coordenada contiguar a las elegidas por el jugador de turno." );
+		
+	}
 }

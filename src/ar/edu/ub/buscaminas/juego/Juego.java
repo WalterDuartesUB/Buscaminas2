@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import ar.edu.ub.buscaminas.Aplicacion;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
@@ -56,8 +57,15 @@ public abstract class Juego implements TableroListener, IJuego {
 	}
 
 	@Override
-	public void elegirCasilla(Coordenada coordenada) {
+	public void elegirCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
+		
+		this.validarCoordenadaCasilla( coordenada );
+		
 		this.getTablero().elegirCasilla( this.getJugadorDeTurno(), coordenada );
+	}
+
+	protected void validarCoordenadaCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
+		
 	}
 
 	protected void matarJugadorDeTurno() {

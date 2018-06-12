@@ -1,5 +1,7 @@
 package ar.edu.ub.buscaminas.tablero;
 
+import java.util.Collection;
+
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
@@ -19,4 +21,5 @@ public interface ITablero {
 	
 	public void mostrarBlancosAlrededor( CasillaBlanco casilla);
 	public void voltearTodasLasCasillasDelJugador(Jugador jugador);
+	public Collection<Coordenada> obtenerCoordenadasDeCasillasContiguasDelJugador(Jugador jugador);
 }

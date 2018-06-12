@@ -97,4 +97,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 		return this.getEstado() == EstadoCasilla.BOCA_ABAJO;
 	}
 
+	public boolean estaBocaArriba() {
+		return this.getEstado() == EstadoCasilla.BOCA_ARRIBA;
+	}
 }

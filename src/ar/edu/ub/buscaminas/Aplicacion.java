@@ -13,6 +13,7 @@ import com.diogonunes.jcdp.color.api.Ansi.FColor;
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.juego.Juego;
 import ar.edu.ub.buscaminas.juego.JuegoCarrera;
 import ar.edu.ub.buscaminas.juego.JuegoConquista;
@@ -62,7 +63,12 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		{			
 			juego.imprimirEstadoJuego();
 			Coordenada coordenada = app.pedirCoordenada();			
-			juego.elegirCasilla( coordenada );
+			try {
+				juego.elegirCasilla( coordenada );
+			} catch (CoordenadaInvalidaException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		juego.imprimirEstadoJuego();
@@ -86,7 +92,12 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		{			
 			juego.imprimirEstadoJuego();
 			Coordenada coordenada = app.pedirCoordenada();			
-			juego.elegirCasilla( coordenada );
+			try {
+				juego.elegirCasilla( coordenada );
+			} catch (CoordenadaInvalidaException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		juego.imprimirEstadoJuego();
@@ -104,8 +115,13 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		while( !juego.terminoJuego() )
 		{			
 			juego.imprimirEstadoJuego();
-			Coordenada coordenada = app.pedirCoordenada();			
-			juego.elegirCasilla( coordenada );
+			Coordenada coordenada = app.pedirCoordenada();
+		
+			try {
+				juego.elegirCasilla( coordenada );
+			} catch (CoordenadaInvalidaException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		juego.imprimirEstadoJuego();
