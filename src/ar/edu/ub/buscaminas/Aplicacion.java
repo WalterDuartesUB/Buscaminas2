@@ -74,13 +74,13 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 		juego.imprimirEstadoJuego();
 	}
 	
-	public void modoSupervivencia() {
+	public void modoSupervivenciaMultiplayer() {
 		Aplicacion app = new Aplicacion();
 		Tablero tablero = new Tablero();				
-		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, this.getJugador1() );			
+				
 		List<Jugador> jugadores = new LinkedList<Jugador>();
 		jugadores.add( this.getJugador3() );
-//		Juego juego = new JuegoSupervivenciaMultiplayer( tablero, this.getJugador1(), this.getJugador2(), jugadores );
+		Juego juego = new JuegoSupervivenciaMultiplayer( tablero, this.getJugador1(), this.getJugador2(), jugadores );
 		
 		tablero.loadFromFile("./mapas/de_aztec.mapa", 15);
 		
@@ -95,7 +95,34 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 			try {
 				juego.elegirCasilla( coordenada );
 			} catch (CoordenadaInvalidaException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		juego.imprimirEstadoJuego();
+	}
+	
+	public void modoSupervivencia() {
+		Aplicacion app = new Aplicacion();
+		Tablero tablero = new Tablero();				
+			
+		List<Jugador> jugadores = new LinkedList<Jugador>();
+		jugadores.add( this.getJugador3() );
+		Juego juego = new JuegoSupervivenciaMultiplayer( tablero, this.getJugador1(), this.getJugador2(), jugadores );
+		
+		tablero.loadFromFile("./mapas/de_aztec.mapa", 15);
+		
+		juego.setListener( app );
+		juego.setJugadoresPrinter( app );
+		juego.setCasillaPrinter( app );
+		
+		while( !juego.terminoJuego() )
+		{			
+			juego.imprimirEstadoJuego();
+			Coordenada coordenada = app.pedirCoordenada();			
+			try {
+				juego.elegirCasilla( coordenada );
+			} catch (CoordenadaInvalidaException e) {
 				e.printStackTrace();
 			}
 		}
@@ -162,7 +189,7 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 				this.getConsola().print( "|" );
 				
 				if( this.getJugadoresColores().get( casilla.getJugador() ) != null )
-					this.getConsola().print( this.getJugadoresColores().get( casilla.getJugador() ), FColor.RED, casilla.getDibujoCasilla() );
+					this.getConsola().print( this.getJugadoresColores().get( casilla.getJugador() ), FColor.WHITE, casilla.getDibujoCasilla() );
 				else
 					this.getConsola().print( casilla.getDibujoCasilla() );
 				
