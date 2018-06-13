@@ -1,17 +1,29 @@
 package ar.edu.ub.buscaminas.tablero;
 
+import ar.edu.ub.buscaminas.excepciones.TableroException;
+
 public class TableroCarrera{
-	public static ITablero crearTableroPartidaCorta() {
-		return crearTablero(15,15, 10);
+	public static ITablero crearTableroPartidaCorta()  {
+		try {
+			return crearTablero(15,15, 10);
+		} catch (TableroException e) {		
+		}
+		
+		return null;
 	}
 	
 	public static ITablero crearTableroPartidaLarga() {
-		return crearTablero(21,21, 25);
+		try {
+			return crearTablero(21,21, 25);
+		} catch (TableroException e) {			
+		}
+		
+		return null;
 	}
 
-	private static ITablero crearTablero(int cantidadFilas, int cantidadColumnas, int porcentajeBombas) {
+	private static ITablero crearTablero(int cantidadFilas, int cantidadColumnas, int porcentajeBombas) throws TableroException {
 		Tablero tablero = new Tablero();
-				
+		
 		do 
 		{
 			tablero.load(cantidadFilas,cantidadColumnas, porcentajeBombas);

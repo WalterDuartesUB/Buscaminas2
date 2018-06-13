@@ -229,8 +229,17 @@ public class Tablero implements ITablero {
 		this.setCasillas( new HashMap<Coordenada,Casilla>());
 	}
 
-	protected void load( int cantidadFilas, int cantidadColumnas, int porcentajeBombas ) {
+	protected void load( int cantidadFilas, int cantidadColumnas, int porcentajeBombas ) throws TableroException {
 		this.clean();
+		
+		if( cantidadFilas < 0 )
+			throw new TableroException( "La cantidad de filas para crear el tablero debe ser mayor que 0");
+		
+		if( cantidadColumnas < 0 )
+			throw new TableroException( "La cantidad de columnas para crear el tablero debe ser mayor que 0");
+		
+		if( porcentajeBombas < 0  || porcentajeBombas > 100 )
+			throw new TableroException( "El porcentaje de bombas para crear el tablero debe ser mayor que 0 y menor que 100");		
 		
 		//Agrego blancos en una matriz cuadrada
 		for( int fila = 0; fila < cantidadFilas; fila++)
