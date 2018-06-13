@@ -40,6 +40,7 @@ import ar.edu.ub.buscaminas.listener.TableroListener;
 
 public class Tablero implements ITablero {
 	
+	private static final int CANTIDAD_MINIMA_CASILLAS = 64;
 	///////////////////////////////////////////////////////////////////////////
 	//
 	
@@ -214,6 +215,8 @@ public class Tablero implements ITablero {
 				}
 			}
 			
+			this.validarTablero();
+			
 			///////////////////////////////////////////////////////////////////
 			//Pongo las bombas en el mapa
 			
@@ -225,6 +228,28 @@ public class Tablero implements ITablero {
 		
 	}
 	
+	private void validarTablero()  throws TableroException {
+		List<List<Casilla>> casillas = this.getCasillasAsList();
+		
+		int cantidadColumnas = 0;		
+		int cantidadCasillas = 0;
+		int cantidadFilas = casillas.size();
+		
+		for( List<Casilla> filas : casillas ){
+			cantidadColumnas = Math.max( cantidadColumnas, filas.size() );
+			cantidadCasillas += filas.size();
+		}
+		
+		if( cantidadColumnas > cantidadFilas * 2 )
+			throw new TableroException("La cantidad de columnas no puede superar el 100% de la cantidad de filas");
+		
+		if(  cantidadFilas > cantidadColumnas* 2 )
+			throw new TableroException("La cantidad de filas no puede superar el 100% de la cantidad de columnas");
+		
+		if( cantidadCasillas < CANTIDAD_MINIMA_CASILLAS)
+			throw new TableroException("La cantidad de casillas no puede ser menor que " + CANTIDAD_MINIMA_CASILLAS );
+	}
+
 	private void clean() {
 		this.setCasillas( new HashMap<Coordenada,Casilla>());
 	}
@@ -246,6 +271,8 @@ public class Tablero implements ITablero {
 			for( int columna = 0; columna < cantidadColumnas; columna++)
 				this.addCasilla( FabricaCasilla.CASILLA_BLANCA.createInstance( fila, columna) );
 				
+		this.validarTablero();
+		
 		this.ponerBombas( this.getBlancos(), porcentajeBombas);		
 	}
 
