@@ -1,6 +1,8 @@
 package ar.edu.ub.buscaminas.juego;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
@@ -12,22 +14,30 @@ import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoCarrera extends Juego {
+	
+	private Map<Jugador, Coordenada> coordenadaInicialJugadores;
 
 	public JuegoCarrera(ITablero tablero, Collection<Jugador> jugadores) {
 		super( tablero );
 		
 		this.getJugadores().addAll( jugadores );
 		
+		this.setCoordenadaInicialJugadores( new HashMap<Jugador,Coordenada>());
+		
 		//TODO el tablero deberia proveer un metodo para elegir "en la mitad" de cada borde basado en una lista de jugadores
 		try {
-			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(0,2));
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(0,7) );					
 			this.cambiarJugadorDeTurno();
-			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(2,4));
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(7,14) );					
 			this.cambiarJugadorDeTurno();
-			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(4,2));
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(14,7) );					
 			this.cambiarJugadorDeTurno();
-			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(2,0));
-			this.cambiarJugadorDeTurno();			
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(7,0) );					
+			this.cambiarJugadorDeTurno();
+
+			for( Jugador jugador : this.getCoordenadaInicialJugadores().keySet() )
+				this.getTablero().elegirCasilla( jugador, this.getCoordenadaInicialJugadores().get(jugador) );
+			
 		} catch (CoordenadaInvalidaException e) {
 		}
 	}
@@ -64,7 +74,7 @@ public class JuegoCarrera extends Juego {
 	@Override
 	public boolean terminoJuego() {
 		// TODO Auto-generated method stub
-		return false;
+		return this.getTablero().existeCaminoParaElJugador( this.getCoordenadaInicialJugadores().get( this.getJugadorDeTurno() ) );
 	}
 
 	@Override
@@ -74,5 +84,13 @@ public class JuegoCarrera extends Juego {
 		if( !this.getTablero().obtenerCoordenadasDeCasillasContiguasDelJugador( this.getJugadorDeTurno() ).contains( coordenada ) )
 			throw new CoordenadaInvalidaException("No se puede elegir la coordenada " + coordenada + ". Debe elegir alguna coordenada contiguar a las elegidas por el jugador de turno." );
 		
+	}
+
+	private Map<Jugador, Coordenada> getCoordenadaInicialJugadores() {
+		return coordenadaInicialJugadores;
+	}
+
+	private void setCoordenadaInicialJugadores(Map<Jugador, Coordenada> coordenadaInicialJugadores) {
+		this.coordenadaInicialJugadores = coordenadaInicialJugadores;
 	}
 }

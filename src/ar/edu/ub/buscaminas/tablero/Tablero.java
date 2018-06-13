@@ -18,11 +18,11 @@ import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaComparador;
+import ar.edu.ub.buscaminas.casilla.CasillaComparador.CriterioOrdenamiento;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.FabricaCasilla;
-import ar.edu.ub.buscaminas.casilla.CasillaComparador.CriterioOrdenamiento;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasilla;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancasONumerosBocaArribaDeJugador;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlanco;
@@ -370,24 +370,6 @@ public class Tablero implements ITablero {
 		return  this.existeCaminoVerticalDescendente() && this.existeCaminoVerticalAscendente() && this.existeCaminoHorizontalDescendente() && this.existeCaminoHorizontalAscendente();
 	}
 	
-	public boolean existeCaminoParaJugador( Coordenada coordenada ) throws CoordenadaInvalidaException {
-		
-		//Pido la casilla de la coordenada
-		Casilla casilla = this.getCasilla(coordenada);
-		
-		//Pido todas las casillas del jugador de esa coordenada
-		Map<Coordenada, Casilla> casillasJugador = this.getCasillasDelJugador( casilla.getJugador() );
-				
-		//Segun la orientacion de la coordenada, salgo a buscar el camino		
-		if( coordenada.getFila() == 0 )
-			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
-		else if( coordenada.getColumna() == 0 )
-			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
-		else if( coordenada.getColumna() < coordenada.getFila() )
-			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
-		
-		return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
-	}
 	
 	private Map<Coordenada, Casilla> getCasillasDelJugador(Jugador jugador) {
 		return this.obtenerCasillasAsMap( new CheckCasillaTomadaPorJugador( jugador ) );
@@ -461,5 +443,29 @@ public class Tablero implements ITablero {
 			this.obtenerTodasLasCasillasContiguas( casillaBlanco, casillasDondeBuscarCamino, caminoDeCasillas );
 		}
 		
+	}
+
+	@Override
+	public boolean existeCaminoParaElJugador(Coordenada coordenada) {
+		//Pido la casilla de la coordenada		
+		try {
+			Casilla casilla = this.getCasilla(coordenada);
+				
+			//Pido todas las casillas del jugador de esa coordenada
+			Map<Coordenada, Casilla> casillasJugador = this.getCasillasDelJugador( casilla.getJugador() );
+					
+			//Segun la orientacion de la coordenada, salgo a buscar el camino		
+			if( coordenada.getFila() == 0 )
+				return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+			else if( coordenada.getColumna() == 0 )
+				return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+			else if( coordenada.getColumna() < coordenada.getFila() )
+				return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+			
+			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );		
+		} catch (CoordenadaInvalidaException e) {		
+		}
+		
+		return false;
 	}	
 }
