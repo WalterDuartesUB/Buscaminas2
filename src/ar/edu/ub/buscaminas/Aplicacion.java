@@ -1,32 +1,20 @@
 package ar.edu.ub.buscaminas;
 
-import java.awt.Color;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import com.diogonunes.jcdp.color.api.Ansi.BColor;
-import com.diogonunes.jcdp.color.api.Ansi.FColor;
-
-import ar.edu.ub.buscaminas.casilla.Casilla;
-import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
-import ar.edu.ub.buscaminas.casilla.Coordenada;
-import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
-import ar.edu.ub.buscaminas.juego.Juego;
-import ar.edu.ub.buscaminas.juego.JuegoCarrera;
-import ar.edu.ub.buscaminas.juego.JuegoConquista;
-import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaMultiplayer;
-import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
-import ar.edu.ub.buscaminas.jugador.Jugador;
-import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
-import ar.edu.ub.buscaminas.listener.JuegoListener;
-import ar.edu.ub.buscaminas.tablero.ITablero;
-import ar.edu.ub.buscaminas.tablero.Tablero;
-import ar.edu.ub.buscaminas.tablero.TableroCarrera;
-
-public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrinter {
+public class Aplicacion {
+	
+	public static void main(String[] args) {
+		Consola consola = new Consola();
+		
+		new MenuPrincipal( consola ).mostrar();
+		
+		
+		consola.close();
+		
+		
+	}
+	
+	
+/*implements JuegoListener, CasillasPrinter, JugadoresPrinter {	
 	private Consola  consola;
 	private Jugador jugador1 = new Jugador("Player 1");
 	private Jugador jugador2 = new Jugador("Player 2");
@@ -261,6 +249,6 @@ public class Aplicacion implements JuegoListener, CasillasPrinter, JugadoresPrin
 	public void setJugadoresColores(Map<Jugador, BColor> jugadoresColores) {
 		this.jugadoresColores = jugadoresColores;
 	}
-
+*/
 
 }

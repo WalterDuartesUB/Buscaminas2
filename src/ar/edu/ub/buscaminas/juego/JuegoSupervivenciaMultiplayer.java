@@ -11,10 +11,8 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class JuegoSupervivenciaMultiplayer extends Juego{
 
-	public JuegoSupervivenciaMultiplayer(ITablero tablero, Jugador jugador, Jugador jugador2, List<Jugador> jugadores) {
+	public JuegoSupervivenciaMultiplayer(ITablero tablero, List<Jugador> jugadores) {
 		super( tablero );
-		this.getJugadores().add(jugador);
-		this.getJugadores().add(jugador2);
 		this.getJugadores().addAll( jugadores );
 	}
 

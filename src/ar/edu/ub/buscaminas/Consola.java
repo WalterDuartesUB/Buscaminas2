@@ -14,7 +14,6 @@ public class Consola implements IConsola {
 	private ColoredPrinter cp;
 	public Consola() {
 		this.setIn( new Scanner(System.in) );
-//		this.setCp( new ColoredPrinter.Builder(1, false).foreground(FColor.WHITE).background(BColor.BLUE).build() );
 		this.setCp( new ColoredPrinter.Builder(1, false).build() );
 	}
 	@Override
@@ -24,7 +23,7 @@ public class Consola implements IConsola {
 
 	@Override
 	public void print(String s) {
-		this.getCp().print(s);		
+		this.getCp().print(s);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class Consola implements IConsola {
 
 	@Override
 	public void println(String s) {
-		this.getCp().println(s);		
+		this.getCp().println(s);
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class Consola implements IConsola {
 
 	@Override
 	public int nextInt() {
-		return this.getIn().nextInt();
+		return Integer.parseInt(this.nextLine());
 	}
 	public Scanner getIn() {
 		return in;
@@ -75,9 +74,12 @@ public class Consola implements IConsola {
 	
 	public void print(BColor bkColor,FColor fColor, String s) {
 		this.getCp().clear();
-//		this.setCp( new ColoredPrinter.Builder(1, false).foreground(FColor.WHITE).background( bkColor ).build() );
-//		this.print( s );
 		this.getCp().print(s, Attribute.NONE, fColor, bkColor);
+		this.getCp().clear();
+	}
+	public void println(BColor bkColor, FColor fColor, String s) {
+		this.getCp().clear();
+		this.getCp().println(s, Attribute.NONE, fColor, bkColor);
 		this.getCp().clear();
 	}
 
