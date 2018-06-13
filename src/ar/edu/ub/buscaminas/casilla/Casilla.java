@@ -1,6 +1,7 @@
 package ar.edu.ub.buscaminas.casilla;
 
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaType;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaIsNullException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 

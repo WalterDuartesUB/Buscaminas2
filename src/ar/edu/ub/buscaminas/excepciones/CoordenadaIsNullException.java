@@ -1,4 +1,4 @@
-package ar.edu.ub.buscaminas.casilla;
+package ar.edu.ub.buscaminas.excepciones;
 
 public class CoordenadaIsNullException extends RuntimeException {
 
