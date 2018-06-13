@@ -26,11 +26,13 @@ import ar.edu.ub.buscaminas.casilla.CasillaComparador.CriterioOrdenamiento;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasilla;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancasONumerosBocaArribaDeJugador;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlanco;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancosYNumeros;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancosYNumerosBocaAbajo;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBloqueadas;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBomba;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBombasBocaAbajo;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaNumero;
+import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaTomadaPorJugador;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
@@ -368,7 +370,29 @@ public class Tablero implements ITablero {
 		return  this.existeCaminoVerticalDescendente() && this.existeCaminoVerticalAscendente() && this.existeCaminoHorizontalDescendente() && this.existeCaminoHorizontalAscendente();
 	}
 	
+	public boolean existeCaminoParaJugador( Coordenada coordenada ) throws CoordenadaInvalidaException {
+		
+		//Pido la casilla de la coordenada
+		Casilla casilla = this.getCasilla(coordenada);
+		
+		//Pido todas las casillas del jugador de esa coordenada
+		Map<Coordenada, Casilla> casillasJugador = this.getCasillasDelJugador( casilla.getJugador() );
+				
+		//Segun la orientacion de la coordenada, salgo a buscar el camino		
+		if( coordenada.getFila() == 0 )
+			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+		else if( coordenada.getColumna() == 0 )
+			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+		else if( coordenada.getColumna() < coordenada.getFila() )
+			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+		
+		return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+	}
 	
+	private Map<Coordenada, Casilla> getCasillasDelJugador(Jugador jugador) {
+		return this.obtenerCasillasAsMap( new CheckCasillaTomadaPorJugador( jugador ) );
+	}
+
 	private boolean existeCaminoVerticalDescendente() {		
 		return this.existeCaminoDesde(new Coordenada( 0, this.getCasillasAsList().get(0).size() / 2), new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
 	}
@@ -388,16 +412,20 @@ public class Tablero implements ITablero {
 	}
 	
 	private boolean existeCaminoDesde( Coordenada coordenada, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
+		return this.existeCaminoDesde(coordenada, this.getBlancosYNumeros(), comparadorDeCasillas, comparadorCasillaLLegada);
+	}
+	
+	private boolean existeCaminoDesde( Coordenada coordenada, Map<Coordenada, Casilla> casillasDondeBuscarCamino, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
 		
 		try {
-			return this.existeCaminoDesde( this.getCasilla(coordenada), comparadorDeCasillas, comparadorCasillaLLegada );
+			return this.existeCaminoDesde( this.getCasilla(coordenada), casillasDondeBuscarCamino, comparadorDeCasillas, comparadorCasillaLLegada );
 		} catch (CoordenadaInvalidaException e) {		
 		}
 		
 		return false;
 	}
 	
-	private boolean existeCaminoDesde( Casilla casilla, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
+	private boolean existeCaminoDesde( Casilla casilla, Map<Coordenada, Casilla> casillasDondeBuscarCamino, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
 		
 		Map<Coordenada, Casilla> casillasBlancosONumeros = this.getBlancosYNumeros();
 		
@@ -405,7 +433,7 @@ public class Tablero implements ITablero {
 		if( !casillasBlancosONumeros.containsValue( casilla ) )
 			return false;
 				
-		TreeSet<Casilla> caminoDeCasillas = this.obtenerTodasLasCasillasBlancosONumerosContiguas( casilla, casillasBlancosONumeros, comparadorDeCasillas );
+		TreeSet<Casilla> caminoDeCasillas = this.obtenerTodasLasCasillasContiguas( casilla, casillasDondeBuscarCamino, comparadorDeCasillas );
 		TreeSet<Casilla> casillasTableroConCriterio = new TreeSet<Casilla>( comparadorDeCasillas );
 		
 		casillasTableroConCriterio.addAll( casillasBlancosONumeros.values() );
@@ -413,24 +441,24 @@ public class Tablero implements ITablero {
 		return comparadorCasillaLLegada.compare( caminoDeCasillas.first(), casillasTableroConCriterio.first() ) == 0;
 	}
 
-	private TreeSet<Casilla> obtenerTodasLasCasillasBlancosONumerosContiguas(Casilla casilla, Map<Coordenada, Casilla> casillasBlancosONumeros, Comparator<Casilla> comparadorDeCasillas) {
+	private TreeSet<Casilla> obtenerTodasLasCasillasContiguas(Casilla casilla, Map<Coordenada, Casilla> casillasDondeBuscarCamino, Comparator<Casilla> comparadorDeCasillas) {
 		TreeSet<Casilla> caminoDeCasillas = new TreeSet<Casilla>(comparadorDeCasillas);
 		
-		this.obtenerTodasLasCasillasBlancosONumerosContiguas(casilla, casillasBlancosONumeros, caminoDeCasillas);		
+		this.obtenerTodasLasCasillasContiguas(casilla, casillasDondeBuscarCamino, caminoDeCasillas);		
 		
 		return caminoDeCasillas;
 	}
 
-	private void obtenerTodasLasCasillasBlancosONumerosContiguas(Casilla casilla, Map<Coordenada, Casilla> casillasBlancosONumeros, TreeSet<Casilla> caminoDeCasillas) {
+	private void obtenerTodasLasCasillasContiguas(Casilla casilla, Map<Coordenada, Casilla> casillasDondeBuscarCamino, TreeSet<Casilla> caminoDeCasillas) {
 		if( !caminoDeCasillas.add( casilla ) )
 			return;
 		
 		caminoDeCasillas.add( casilla );
 		
-		List<Casilla> casillasAlrededor = this.getCasillasAlrededor(casilla, casillasBlancosONumeros );
+		List<Casilla> casillasAlrededor = this.getCasillasAlrededor(casilla, casillasDondeBuscarCamino );
 				
 		for( Casilla casillaBlanco : casillasAlrededor ){			
-			this.obtenerTodasLasCasillasBlancosONumerosContiguas( casillaBlanco, casillasBlancosONumeros, caminoDeCasillas );
+			this.obtenerTodasLasCasillasContiguas( casillaBlanco, casillasDondeBuscarCamino, caminoDeCasillas );
 		}
 		
 	}	
