@@ -122,7 +122,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 			try {
 				this.getJuego().elegirCasilla( this.pedirCoordenada() );
 			} catch (CoordenadaInvalidaException e) {
-				this.getConsola().print( BColor.RED, FColor.WHITE, e.getMessage());
+				this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
 				this.getConsola().nextLine();
 			}
 		}
