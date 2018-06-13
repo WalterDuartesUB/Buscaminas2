@@ -37,6 +37,8 @@ public abstract class Casilla implements Comparable<Casilla> {
 	}
 
 	private void setCoordenada(Coordenada coordenada) {
+		if( coordenada == null )
+			throw new CoordenadaIsNullException("No se puede setear como coordenada null");
 		this.coordenada = coordenada;
 	}
 
