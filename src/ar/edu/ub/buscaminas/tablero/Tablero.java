@@ -29,6 +29,7 @@ import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBloqueadas;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBomba;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBombasBocaAbajo;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaNumero;
+import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
@@ -178,7 +179,7 @@ public class Tablero implements ITablero {
 		return this.obtenerCasillas( new CheckCasillaBlancasONumerosBocaArribaDeJugador( jugador ) );
 	}	
 	
-	public void loadFromFile(String pathMapa, int porcentajeBombas ) {
+	public void loadFromFile(String pathMapa, int porcentajeBombas ) throws TableroException {
 		this.clean();
 		
 		try {
@@ -191,6 +192,10 @@ public class Tablero implements ITablero {
 			for( int fila = 0; fila < lineas.size(); fila++ ){
 				String linea = lineas.get(fila);
 				for( int columna = 0; columna < linea.length(); columna++ ){
+					
+					if( handlers.get(String.format("%c", linea.charAt(columna) ) ) == null )
+						throw new TableroException("El caracter " + linea.charAt(columna) + "no es valido para cargar un mapa.");
+					
 					this.addCasilla( handlers.get(String.format("%c", linea.charAt(columna) ) ).createInstance( fila,columna ) );
 				}
 			}
@@ -201,7 +206,7 @@ public class Tablero implements ITablero {
 			this.ponerBombas( this.getBlancos(), porcentajeBombas);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new TableroException( "Ocurrio un problema al tratar de cargar el mapa desde el archivo " + pathMapa );
 		}
 		
 	}
@@ -320,9 +325,6 @@ public class Tablero implements ITablero {
 		Collection<Casilla> casillasContiguasElegidasPorElJugador = this.getCasillasAlrededor( casillasElegidasPorElJugador );
 		
 		casillasContiguasElegidasPorElJugador.removeAll( casillasElegidasPorElJugador );
-				
-//		Set<Casilla> casillasElegibles = new TreeSet<Casilla>(  );
-//		casillasElegibles.addAll( this.getCasillasAlrededor( casillasElegibles ) );
 		
 		for( Casilla casilla : casillasContiguasElegidasPorElJugador )			
 			coordenadas.add( casilla.getCoordenada() );

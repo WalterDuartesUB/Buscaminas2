@@ -14,6 +14,7 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
+import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.juego.Juego;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
@@ -57,7 +58,11 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		Tablero tablero = new Tablero();		
 		setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));
 		
-		tablero.loadFromFile( pathMapa, porcentajeBombas);
+		try {
+			tablero.loadFromFile( pathMapa, porcentajeBombas);
+		} catch (TableroException e) {
+			e.printStackTrace();
+		}
 		
 		this.getJuego().setListener( this );
 		this.getJuego().setJugadoresPrinter( this);

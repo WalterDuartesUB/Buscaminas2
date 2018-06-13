@@ -10,6 +10,7 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
+import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.juego.Juego;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
@@ -31,7 +32,11 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		Tablero tablero = new Tablero();		
 		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, jugador );
 		
-		tablero.loadFromFile( pathMapa, porcentajeBombas);
+		try {
+			tablero.loadFromFile( pathMapa, porcentajeBombas);
+		} catch (TableroException e) {
+			e.printStackTrace();
+		}
 		
 		juego.setListener( this );
 		juego.setJugadoresPrinter( this);
