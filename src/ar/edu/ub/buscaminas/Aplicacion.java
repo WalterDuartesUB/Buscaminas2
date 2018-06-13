@@ -1,17 +1,45 @@
 package ar.edu.ub.buscaminas;
 
-import ar.edu.ub.buscaminas.menu.MenuPrincipal;
+import java.util.Collection;
+import java.util.List;
 
-public class Aplicacion {
+import ar.edu.ub.buscaminas.casilla.Casilla;
+import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
+import ar.edu.ub.buscaminas.tablero.ITablero;
+import ar.edu.ub.buscaminas.tablero.TableroCarrera;
+
+public class Aplicacion implements CasillasPrinter {
 	
 	public static void main(String[] args) {
 		Consola consola = new Consola();
 		
-		new MenuPrincipal( consola ).mostrar();
+		ITablero tablero = TableroCarrera.crearTableroPartidaCorta();
+		
+		tablero.setPrinter(new Aplicacion());
+		
+		tablero.imprimir();
+		
+		//new MenuPrincipal( consola ).mostrar();
 		
 		
 		consola.close();
 		
+		
+	}
+
+	@Override
+	public void print(List<List<Casilla>> casillas) {		
+		
+		for( Collection<Casilla> filas : casillas ) {
+				
+			for( Casilla casilla : filas ) {
+				System.out.print( "|" );			
+				System.out.print( casilla.getDibujo() );
+				
+			}
+			
+			System.out.println();						
+		}		
 		
 	}
 	

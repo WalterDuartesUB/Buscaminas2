@@ -1,6 +1,7 @@
 package ar.edu.ub.buscaminas.menu;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.diogonunes.jcdp.color.api.Ansi.BColor;
 import com.diogonunes.jcdp.color.api.Ansi.FColor;
@@ -87,7 +88,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	@Override
-	public void print(Collection<Collection<Casilla>> casillas) {
+	public void print(List<List<Casilla>> casillas) {
 		this.getConsola().limpiarPantalla();
 		
 		for( Collection<Casilla> filas : casillas ) {

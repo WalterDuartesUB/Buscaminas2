@@ -114,7 +114,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	@Override
-	public void print(Collection<Collection<Casilla>> casillas) {
+	public void print(List<List<Casilla>> casillas) {
 		this.getConsola().limpiarPantalla();
 		
 		for( Collection<Casilla> filas : casillas ) {

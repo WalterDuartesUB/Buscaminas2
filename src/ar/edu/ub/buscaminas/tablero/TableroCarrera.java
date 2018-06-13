@@ -1,18 +1,8 @@
 package ar.edu.ub.buscaminas.tablero;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import ar.edu.ub.buscaminas.casilla.Casilla;
-import ar.edu.ub.buscaminas.casilla.CasillaComparadorHorizontal;
-import ar.edu.ub.buscaminas.casilla.CasillaComparadorVertical;
-import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
-
 public class TableroCarrera{
 	public static ITablero crearTableroPartidaCorta() {
-		return crearTablero(5,5, 10);
+		return crearTablero(15,15, 20);
 	}
 	
 	public static ITablero crearTableroPartidaLarga() {
@@ -24,20 +14,24 @@ public class TableroCarrera{
 				
 		do 
 		{
-			tablero.load(cantidadFilas,cantidadColumnas, porcentajeBombas);			
+			tablero.load(cantidadFilas,cantidadColumnas, porcentajeBombas);
+			
+			System.out.println();
 		} 
-		while( !TableroCarrera.encontrarCaminos( tablero, cantidadFilas, cantidadColumnas ) );
+		while( !tablero.existenTodosLosCaminos() );
 						
 		return tablero;
 	}
-
-	private static boolean encontrarCaminos(Tablero tablero, int cantidadFilas, int cantidadColumnas) {
-		return TableroCarrera.encontrarCaminoVertical(tablero, cantidadColumnas / 2, cantidadFilas) && TableroCarrera.encontrarCaminoHorizontal(tablero, cantidadFilas / 2, cantidadColumnas);
+/*
+	private static boolean encontrarCaminos(Tablero tablero ) {
+		return tablero.existeCaminoHorizontalAscendente() && tablero.existeCaminoHorizontalDescendente() && tablero.existeCaminoVerticalAscendente() && tablero.existeCaminoVerticalDescendente();
+//		return TableroCarrera.encontrarCaminoVertical(tablero, cantidadColumnas / 2, cantidadFilas) && TableroCarrera.encontrarCaminoHorizontal(tablero, cantidadFilas / 2, cantidadColumnas);
 	}
-	
+*/	
+/*	
 	private static boolean encontrarCaminoHorizontal(Tablero tablero, int filaInicial, int cantidadColumnas) {
 		
-		TreeSet<Casilla> casillasContiguas = new TreeSet<Casilla>(new CasillaComparadorVertical());
+		TreeSet<Casilla> casillasContiguas = new TreeSet<Casilla>(new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC ) );
 		
 		try {
 			TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas(tablero, tablero.getCasilla( filaInicial, 0), casillasContiguas);
@@ -52,7 +46,7 @@ public class TableroCarrera{
 	}
 
 	private static boolean encontrarCaminoVertical(Tablero tablero, int columnaInicial, int cantidadFilas) {
-		TreeSet<Casilla> casillasContiguas = new TreeSet<Casilla>(new CasillaComparadorHorizontal());
+		TreeSet<Casilla> casillasContiguas = new TreeSet<Casilla>(new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ) );
 		
 		try {
 			TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas(tablero, tablero.getCasilla( 0, columnaInicial), casillasContiguas);
@@ -75,4 +69,5 @@ public class TableroCarrera{
 		for( Casilla casillaBlanco : casillas )			
 			TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas( tablero, casillaBlanco, casillasProbadas );
 	}
+*/
 }

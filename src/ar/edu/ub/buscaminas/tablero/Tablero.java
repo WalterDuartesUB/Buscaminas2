@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,10 +17,12 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
+import ar.edu.ub.buscaminas.casilla.CasillaComparador;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.FabricaCasilla;
+import ar.edu.ub.buscaminas.casilla.CasillaComparador.CriterioOrdenamiento;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasilla;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlancasONumerosBocaArribaDeJugador;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBlanco;
@@ -135,8 +137,12 @@ public class Tablero implements ITablero {
 	}
 
 	@Override
-	public void imprimir() {
-		Collection<Collection<Casilla>> casillas = new LinkedList<Collection<Casilla>>();		
+	public void imprimir() {				
+		this.getPrinter().print(this.getCasillasAsList());		
+	}
+
+	private List<List<Casilla>> getCasillasAsList() {
+		List<List<Casilla>> casillas = new LinkedList<List<Casilla>>();		
 		int filaAnterior = -1;
 		List<Casilla> fila = null;
 		TreeSet<Coordenada> coordenadas = new TreeSet<Coordenada>(this.getCasillas().keySet());
@@ -151,9 +157,7 @@ public class Tablero implements ITablero {
 			
 			fila.add( this.getCasillas().get( coordenada ) );
 		}
-				
-		this.getPrinter().print(casillas);
-		
+		return casillas;
 	}
 
 	public int getCantidadBombasBocaAbajo() {
@@ -164,6 +168,10 @@ public class Tablero implements ITablero {
 		return this.obtenerCasillas( new CheckCasillaBlancosYNumerosBocaAbajo() ).size();
 	}
 
+	private Map<Coordenada,Casilla> getBlancosYNumeros() {
+		return this.obtenerCasillasAsMap( new CheckCasillaBlancosYNumeros() );
+	}
+	
 	private List<Casilla> getBombas() {
 		return this.obtenerCasillas( new CheckCasillaBomba() );
 	}
@@ -274,15 +282,20 @@ public class Tablero implements ITablero {
 	}
 	
 	protected List<Casilla> getCasillasAlrededor(Casilla casillaCentral) {
+		return this.getCasillasAlrededor(casillaCentral, this.getCasillas() );	
+	}
+	
+	protected List<Casilla> getCasillasAlrededor(Casilla casillaCentral, Map<Coordenada,Casilla> todasLasCasillas) {
 		List<Casilla> casillas = new LinkedList<Casilla>();
 		
 		for( int fila = -1; fila < 2; fila ++)
 			for( int columna = -1; columna < 2; columna++) {
-				try {
-					casillas.add(  this.getCasilla( new Coordenada( casillaCentral.getCoordenada() ).sumar(fila, columna) ) );
-				} catch (CoordenadaInvalidaException e) {
-				} 
+				Coordenada coordenadaCasilla = new Coordenada( casillaCentral.getCoordenada() ).sumar(fila, columna);
+				
+				if( todasLasCasillas.containsKey( coordenadaCasilla ) )
+					casillas.add(  todasLasCasillas.get( coordenadaCasilla ) ); 
 			}
+		
 		casillas.remove( casillaCentral );
 		
 		return casillas;
@@ -314,11 +327,15 @@ public class Tablero implements ITablero {
 	}
 	
 	private List<Casilla> obtenerCasillas( CheckCasilla tester){
-		List<Casilla> casillasEncontradas = new LinkedList<Casilla>();
+		return new LinkedList<Casilla>( this.obtenerCasillasAsMap(tester).values() );
+	}
+	
+	private Map<Coordenada, Casilla> obtenerCasillasAsMap( CheckCasilla tester){
+		Map<Coordenada, Casilla> casillasEncontradas = new HashMap<Coordenada, Casilla>();
 		
 		for( Casilla casilla : this.getCasillas().values() )
 			if( tester.test(casilla))
-				casillasEncontradas.add(casilla);	
+				casillasEncontradas.put( casilla.getCoordenada(), casilla);	
 		
 		return casillasEncontradas;
 	}
@@ -346,4 +363,75 @@ public class Tablero implements ITablero {
 		
 		return casillasAlrededor;
 	}
+	
+	public boolean existenTodosLosCaminos() {
+		return  this.existeCaminoVerticalDescendente() && this.existeCaminoVerticalAscendente() && this.existeCaminoHorizontalDescendente() && this.existeCaminoHorizontalAscendente();
+	}
+	
+	
+	private boolean existeCaminoVerticalDescendente() {		
+		return this.existeCaminoDesde(new Coordenada( 0, this.getCasillasAsList().get(0).size() / 2), new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+	}
+
+	private boolean existeCaminoVerticalAscendente() {		
+		List<List<Casilla>> casillas = this.getCasillasAsList();
+		return this.existeCaminoDesde(new Coordenada( casillas.size() - 1, casillas.get(0).size() / 2), new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+	}
+	
+	private boolean existeCaminoHorizontalDescendente() {		
+		return this.existeCaminoDesde(new Coordenada( this.getCasillasAsList().size() / 2, 0), new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+	}
+	
+	private boolean existeCaminoHorizontalAscendente() {		
+		List<List<Casilla>> casillas = this.getCasillasAsList();
+		return this.existeCaminoDesde(new Coordenada( casillas.size() / 2, casillas.get(0).size() - 1), new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+	}
+	
+	private boolean existeCaminoDesde( Coordenada coordenada, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
+		
+		try {
+			return this.existeCaminoDesde( this.getCasilla(coordenada), comparadorDeCasillas, comparadorCasillaLLegada );
+		} catch (CoordenadaInvalidaException e) {		
+		}
+		
+		return false;
+	}
+	
+	private boolean existeCaminoDesde( Casilla casilla, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
+		
+		Map<Coordenada, Casilla> casillasBlancosONumeros = this.getBlancosYNumeros();
+		
+		//Si la coordenada inicial no es un blanco o un numero, no lo dejo continuar
+		if( !casillasBlancosONumeros.containsValue( casilla ) )
+			return false;
+				
+		TreeSet<Casilla> caminoDeCasillas = this.obtenerTodasLasCasillasBlancosONumerosContiguas( casilla, casillasBlancosONumeros, comparadorDeCasillas );
+		TreeSet<Casilla> casillasTableroConCriterio = new TreeSet<Casilla>( comparadorDeCasillas );
+		
+		casillasTableroConCriterio.addAll( casillasBlancosONumeros.values() );
+		
+		return comparadorCasillaLLegada.compare( caminoDeCasillas.first(), casillasTableroConCriterio.first() ) == 0;
+	}
+
+	private TreeSet<Casilla> obtenerTodasLasCasillasBlancosONumerosContiguas(Casilla casilla, Map<Coordenada, Casilla> casillasBlancosONumeros, Comparator<Casilla> comparadorDeCasillas) {
+		TreeSet<Casilla> caminoDeCasillas = new TreeSet<Casilla>(comparadorDeCasillas);
+		
+		this.obtenerTodasLasCasillasBlancosONumerosContiguas(casilla, casillasBlancosONumeros, caminoDeCasillas);		
+		
+		return caminoDeCasillas;
+	}
+
+	private void obtenerTodasLasCasillasBlancosONumerosContiguas(Casilla casilla, Map<Coordenada, Casilla> casillasBlancosONumeros, TreeSet<Casilla> caminoDeCasillas) {
+		if( !caminoDeCasillas.add( casilla ) )
+			return;
+		
+		caminoDeCasillas.add( casilla );
+		
+		List<Casilla> casillasAlrededor = this.getCasillasAlrededor(casilla, casillasBlancosONumeros );
+				
+		for( Casilla casillaBlanco : casillasAlrededor ){			
+			this.obtenerTodasLasCasillasBlancosONumerosContiguas( casillaBlanco, casillasBlancosONumeros, caminoDeCasillas );
+		}
+		
+	}	
 }

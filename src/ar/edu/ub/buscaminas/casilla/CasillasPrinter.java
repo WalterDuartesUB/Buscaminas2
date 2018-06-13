@@ -1,7 +1,7 @@
 package ar.edu.ub.buscaminas.casilla;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface CasillasPrinter {
-	public void print(Collection<Collection<Casilla>> casillas);
+	public void print(List<List<Casilla>> casillas);
 }
