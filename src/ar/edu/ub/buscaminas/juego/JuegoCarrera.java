@@ -1,5 +1,7 @@
 package ar.edu.ub.buscaminas.juego;
 
+import java.util.Collection;
+
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
@@ -11,23 +13,20 @@ import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoCarrera extends Juego {
 
-	public JuegoCarrera(ITablero tablero, Jugador jugador, Jugador jugador2, Jugador jugador3, Jugador jugador4) {
+	public JuegoCarrera(ITablero tablero, Collection<Jugador> jugadores) {
 		super( tablero );
 		
-		this.getJugadores().add(jugador);
-		this.getJugadores().add(jugador2);
-		this.getJugadores().add(jugador3);
-		this.getJugadores().add(jugador4);
+		this.getJugadores().addAll( jugadores );
 		
 		//TODO el tablero deberia proveer un metodo para elegir "en la mitad" de cada borde basado en una lista de jugadores
 		try {
-			this.getTablero().elegirCasilla(jugador, new Coordenada(0,2));
+			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(0,2));
 			this.cambiarJugadorDeTurno();
-			this.getTablero().elegirCasilla(jugador2, new Coordenada(2,4));
+			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(2,4));
 			this.cambiarJugadorDeTurno();
-			this.getTablero().elegirCasilla(jugador3, new Coordenada(4,2));
+			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(4,2));
 			this.cambiarJugadorDeTurno();
-			this.getTablero().elegirCasilla(jugador4, new Coordenada(2,0));
+			this.getTablero().elegirCasilla(this.getJugadorDeTurno(), new Coordenada(2,0));
 			this.cambiarJugadorDeTurno();			
 		} catch (CoordenadaInvalidaException e) {
 		}
