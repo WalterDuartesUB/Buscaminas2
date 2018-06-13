@@ -69,6 +69,12 @@ public class JuegoCarrera extends Juego {
 		//Si es de otro jugador, pongo boca abajo todas sus casillas elegidas
 		if( !this.getJugadorDeTurno().equals( casilla.getJugador() ) && casilla.getJugador() != null )			
 			this.getTablero().voltearTodasLasCasillasDelJugador( casilla.getJugador(), casilla );
+		
+		//Fuerzo el jugador a la casilla para evaluar si gane
+		casilla.setJugador( this.getJugadorDeTurno() );
+		
+		if( this.terminoJuego() )
+			this.mostrarGanador( this.getJugadorDeTurno() );
 	}
 
 	@Override

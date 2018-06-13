@@ -16,11 +16,15 @@ import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.juego.Juego;
+import ar.edu.ub.buscaminas.juego.JuegoCarrera;
+import ar.edu.ub.buscaminas.juego.JuegoConquista;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
+import ar.edu.ub.buscaminas.tablero.ITablero;
 import ar.edu.ub.buscaminas.tablero.Tablero;
+import ar.edu.ub.buscaminas.tablero.TableroCarrera;
 
 public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, CasillasPrinter {
 	private static final int PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER = 20;
@@ -50,24 +54,67 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	public void mostrar() {
-		this.getConsola().limpiarPantalla();		
-		this.obtenerJugadores();
-		String pathMapa = this.getPathMapa();
-		int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+		this.getConsola().limpiarPantalla();
+		String modoJuego = this.getModoJuego();
 		
-		Tablero tablero = new Tablero();		
-		setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));
-		
-		try {
-			tablero.loadFromFile( pathMapa, porcentajeBombas);
-		} catch (TableroException e) {
-			e.printStackTrace();
+		//Modo supervivencia
+		if( modoJuego.equals("S") )
+		{
+			this.obtenerJugadores();
+			String pathMapa = this.getPathMapa();
+			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+			
+			Tablero tablero = new Tablero();		
+			this.setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));
+			
+			try {
+				tablero.loadFromFile( pathMapa, porcentajeBombas);
+			} catch (TableroException e) {
+				e.printStackTrace();
+			}
+		}
+		//Modo Conquista
+		else if( modoJuego.equals("C") )
+		{
+			this.obtenerJugadores();
+			String pathMapa = this.getPathMapa();
+			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+			
+			Tablero tablero = new Tablero();		
+			this.setJuego(new JuegoConquista( tablero, this.getJugadores() ));
+			
+			try {
+				tablero.loadFromFile( pathMapa, porcentajeBombas);
+			} catch (TableroException e) {
+				e.printStackTrace();
+			}			
+		}
+		//Modo Carrera
+		else if( modoJuego.equals("R") )
+		{
+			this.obtenerAliasJugadores(4);		
+			ITablero tablero = 	TableroCarrera.crearTableroPartidaCorta();	
+			this.setJuego(new JuegoCarrera( tablero, this.getJugadores() ));			
 		}
 		
+		//Cableo las interfaces		
 		this.getJuego().setListener( this );
 		this.getJuego().setJugadoresPrinter( this);
 		this.getJuego().setCasillaPrinter( this );
 		
+		this.jugarJuego();			
+		
+	}
+
+	private String getModoJuego() {
+		this.getConsola().println("Elegi el modo de Juego");		
+		this.getConsola().println("S - Supervivencia");		
+		this.getConsola().println("C - Conquista");		
+		this.getConsola().println("R - Carrera");		
+		return this.getConsola().nextLine().toUpperCase();
+	}
+
+	private void jugarJuego() {
 		while( !this.getJuego().terminoJuego() )
 		{			
 			this.getJuego().imprimirEstadoJuego();
@@ -78,8 +125,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 				this.getConsola().print( BColor.RED, FColor.WHITE, e.getMessage());
 				this.getConsola().nextLine();
 			}
-		}			
-		
+		}
 	}
 
 	private Coordenada pedirCoordenada() {
@@ -96,13 +142,17 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		this.getConsola().println("Ingresa la cantidad de jugadores que van a jugar: ");
 		int cantidadJugadores = this.getConsola().nextInt();
 		
+		this.obtenerAliasJugadores(cantidadJugadores);
+				
+	}
+
+	private void obtenerAliasJugadores(int cantidadJugadores) {
 		for( int posicion = 0; posicion < cantidadJugadores; posicion++) {
 			this.getConsola().println("Ingresa el alias para el Jugador " + ( posicion + 1 ) + ": " );
 			Jugador jugador = new Jugador( this.getConsola().nextLine() );
 			this.getJugadoresColores().put( jugador , this.getColores().get( posicion ) );
 			this.getJugadores().add( jugador );
 		}
-				
 	}
 
 	private Consola getConsola() {

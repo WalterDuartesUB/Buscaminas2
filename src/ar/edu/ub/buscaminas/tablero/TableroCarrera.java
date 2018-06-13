@@ -2,7 +2,7 @@ package ar.edu.ub.buscaminas.tablero;
 
 public class TableroCarrera{
 	public static ITablero crearTableroPartidaCorta() {
-		return crearTablero(15,15, 20);
+		return crearTablero(15,15, 10);
 	}
 	
 	public static ITablero crearTableroPartidaLarga() {
