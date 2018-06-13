@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaComparadorHorizontal;
 import ar.edu.ub.buscaminas.casilla.CasillaComparadorVertical;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 
 public class TableroCarrera{
 	public static ITablero crearTableroPartidaCorta() {
@@ -38,7 +39,11 @@ public class TableroCarrera{
 		
 		TreeSet<Casilla> casillasContiguas = new TreeSet<Casilla>(new CasillaComparadorVertical());
 		
-		TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas(tablero, tablero.getCasilla( filaInicial, 0), casillasContiguas);
+		try {
+			TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas(tablero, tablero.getCasilla( filaInicial, 0), casillasContiguas);
+		} catch (CoordenadaInvalidaException e) {
+			e.printStackTrace();
+		}
 		
 		if( casillasContiguas.last() == null )
 			return false;
@@ -49,7 +54,11 @@ public class TableroCarrera{
 	private static boolean encontrarCaminoVertical(Tablero tablero, int columnaInicial, int cantidadFilas) {
 		TreeSet<Casilla> casillasContiguas = new TreeSet<Casilla>(new CasillaComparadorHorizontal());
 		
-		TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas(tablero, tablero.getCasilla( 0, columnaInicial), casillasContiguas);
+		try {
+			TableroCarrera.obtenerTodasLasCasillasBlancasONumerosContiguas(tablero, tablero.getCasilla( 0, columnaInicial), casillasContiguas);
+		} catch (CoordenadaInvalidaException e) {
+			e.printStackTrace();
+		}
 		
 		if( casillasContiguas.last() == null )
 			return false;

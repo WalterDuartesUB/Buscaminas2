@@ -6,6 +6,7 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 
@@ -16,8 +17,8 @@ public interface ITablero {
 	public int getCantidadBombasBocaAbajo();
 	public int getCantidadBlancosYNumerosBocaAbajo();
 		
-	public void elegirCasilla( Jugador jugador, Coordenada coordenada );	
-	public void ocultarCasilla(Casilla casilla);
+	public void elegirCasilla( Jugador jugador, Coordenada coordenada ) throws CoordenadaInvalidaException;	
+	public void ocultarCasilla(Casilla casilla) throws CoordenadaInvalidaException;
 	
 	public void mostrarBlancosAlrededor( CasillaBlanco casilla);
 	public void voltearTodasLasCasillasDelJugador(Jugador jugador, Casilla casilla);

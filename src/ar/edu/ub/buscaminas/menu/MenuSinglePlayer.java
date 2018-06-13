@@ -49,7 +49,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			try {
 				juego.elegirCasilla( this.pedirCoordenada() );
 			} catch (CoordenadaInvalidaException e) {
-				this.getConsola().print( BColor.RED, FColor.WHITE, e.getMessage());
+				this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
 				this.getConsola().nextLine();
 			}
 		}		

@@ -29,6 +29,7 @@ import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBloqueadas;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBomba;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaBombasBocaAbajo;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaNumero;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
@@ -92,7 +93,7 @@ public class Tablero implements ITablero {
 	}
 
 	@Override
-	public void elegirCasilla(Jugador jugador, Coordenada coordenada) {
+	public void elegirCasilla(Jugador jugador, Coordenada coordenada) throws CoordenadaInvalidaException {
 		Casilla casilla = this.getCasilla( coordenada );
 		
 		casilla.voltearBocaArriba();
@@ -102,7 +103,10 @@ public class Tablero implements ITablero {
 		casilla.setJugador( jugador );
 	}
 
-	private Casilla getCasilla(Coordenada coordenada) {
+	private Casilla getCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
+		if( this.getCasillas().get(coordenada) == null )
+			throw new CoordenadaInvalidaException("La coordenada " + coordenada + " no existe en el tablero. ");
+		
 		return this.getCasillas().get(coordenada);
 	}
 
@@ -273,10 +277,12 @@ public class Tablero implements ITablero {
 		List<Casilla> casillas = new LinkedList<Casilla>();
 		
 		for( int fila = -1; fila < 2; fila ++)
-			for( int columna = -1; columna < 2; columna++)
-				if( this.getCasillas().get( new Coordenada(casillaCentral.getCoordenada()).sumar(fila, columna) ) != null )
-					casillas.add(  this.getCasillas().get( new Coordenada(casillaCentral.getCoordenada()).sumar(fila, columna) ) ); 
-		
+			for( int columna = -1; columna < 2; columna++) {
+				try {
+					casillas.add(  this.getCasilla( new Coordenada( casillaCentral.getCoordenada() ).sumar(fila, columna) ) );
+				} catch (CoordenadaInvalidaException e) {
+				} 
+			}
 		casillas.remove( casillaCentral );
 		
 		return casillas;
@@ -286,12 +292,12 @@ public class Tablero implements ITablero {
 		this.addCasilla(casilla);		
 	}
 
-	protected Casilla getCasilla(int fila, int columna) {
+	protected Casilla getCasilla(int fila, int columna) throws CoordenadaInvalidaException {
 		return this.getCasilla( new Coordenada( fila, columna ));
 	}
 
 	@Override
-	public void ocultarCasilla(Casilla casilla) {
+	public void ocultarCasilla(Casilla casilla) throws CoordenadaInvalidaException {
 		this.getCasilla( casilla.getCoordenada() ).voltearBocaAbajo();		
 	}
 

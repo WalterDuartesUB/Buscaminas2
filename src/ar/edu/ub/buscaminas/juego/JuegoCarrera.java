@@ -20,20 +20,27 @@ public class JuegoCarrera extends Juego {
 		this.getJugadores().add(jugador4);
 		
 		//TODO el tablero deberia proveer un metodo para elegir "en la mitad" de cada borde basado en una lista de jugadores
-		this.getTablero().elegirCasilla(jugador, new Coordenada(0,2));
-		this.cambiarJugadorDeTurno();
-		this.getTablero().elegirCasilla(jugador2, new Coordenada(2,4));
-		this.cambiarJugadorDeTurno();
-		this.getTablero().elegirCasilla(jugador3, new Coordenada(4,2));
-		this.cambiarJugadorDeTurno();
-		this.getTablero().elegirCasilla(jugador4, new Coordenada(2,0));
-		this.cambiarJugadorDeTurno();
+		try {
+			this.getTablero().elegirCasilla(jugador, new Coordenada(0,2));
+			this.cambiarJugadorDeTurno();
+			this.getTablero().elegirCasilla(jugador2, new Coordenada(2,4));
+			this.cambiarJugadorDeTurno();
+			this.getTablero().elegirCasilla(jugador3, new Coordenada(4,2));
+			this.cambiarJugadorDeTurno();
+			this.getTablero().elegirCasilla(jugador4, new Coordenada(2,0));
+			this.cambiarJugadorDeTurno();			
+		} catch (CoordenadaInvalidaException e) {
+		}
 	}
 
 	@Override
 	public void elegiCasilla(CasillaBomba casilla) {
 		//Pido un enter para cambiar de turno y ocultar la bomba?
-		this.getTablero().ocultarCasilla( casilla );
+		try {
+			this.getTablero().ocultarCasilla( casilla );
+		} catch (CoordenadaInvalidaException e) {
+			e.printStackTrace();
+		}
 		
 		this.cambiarJugadorDeTurno();
 	}
