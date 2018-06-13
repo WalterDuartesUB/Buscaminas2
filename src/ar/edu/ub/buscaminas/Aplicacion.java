@@ -1,5 +1,7 @@
 package ar.edu.ub.buscaminas;
 
+import ar.edu.ub.buscaminas.menu.MenuPrincipal;
+
 public class Aplicacion {
 	
 	public static void main(String[] args) {

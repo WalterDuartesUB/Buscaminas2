@@ -1,4 +1,6 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.menu;
+
+import ar.edu.ub.buscaminas.Consola;
 
 public class MenuPrincipal {
 	private Consola consola;

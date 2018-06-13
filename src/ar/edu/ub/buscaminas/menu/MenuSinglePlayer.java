@@ -1,10 +1,11 @@
-package ar.edu.ub.buscaminas;
+package ar.edu.ub.buscaminas.menu;
 
 import java.util.Collection;
 
 import com.diogonunes.jcdp.color.api.Ansi.BColor;
 import com.diogonunes.jcdp.color.api.Ansi.FColor;
 
+import ar.edu.ub.buscaminas.Consola;
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
