@@ -65,34 +65,20 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 			//Modo supervivencia
 			if( modoJuego.equals("S") )
 			{
-				this.obtenerJugadores( JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores(), JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
-				String pathMapa = this.obtenerPathMapaUsuario( );
-				int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+				this.obtenerJugadores( JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores(), JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );				
+				Tablero tablero = new Tablero();
+				tablero.loadFromFile( this.obtenerPathMapaUsuario( ), PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER);
 				
-				Tablero tablero = new Tablero();		
-				this.setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));
-				
-				try {
-					tablero.loadFromFile( pathMapa, porcentajeBombas);
-				} catch (TableroException e) {
-					e.printStackTrace();
-				}
+				this.setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));				
 			}
 			//Modo Conquista
 			else if( modoJuego.equals("C") )
 			{
 				this.obtenerJugadores( JuegoConquista.cantidadMinimaJugadores(), JuegoConquista.cantidadMaximaJugadores() );
-				String pathMapa = this.obtenerPathMapaUsuario( );
-				int porcentajeBombas = PORCENTAJE_BOMBAS_CONQUISTA_MULTIPLAYER;
+				Tablero tablero = new Tablero();
+				tablero.loadFromFile( this.obtenerPathMapaUsuario( ), PORCENTAJE_BOMBAS_CONQUISTA_MULTIPLAYER);
 				
-				Tablero tablero = new Tablero();		
 				this.setJuego(new JuegoConquista( tablero, this.getJugadores() ));
-				
-				try {
-					tablero.loadFromFile( pathMapa, porcentajeBombas);
-				} catch (TableroException e) {
-					e.printStackTrace();
-				}			
 			}
 			//Modo Carrera
 			else if( modoJuego.equals("R") )
@@ -109,7 +95,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 			
 			this.jugarJuego();			
 			
-		}catch (SeleccionDeTableroException e) {
+		}catch (SeleccionDeTableroException | TableroException e) {
 			this.getConsola().println( e.getMessage() );
 			this.getConsola().println( "Enter para volver al menu principal" );
 			this.getConsola().nextLine();
