@@ -40,7 +40,8 @@ public class RecordJuegoRepository {
 	
 	public void print( Consola consola ) {
 		//TODO cambiar para que imprima cada registro alineado
-		consola.println( this.getRecords() );
+		for( String tipoRecord : this.getRecords().keySet() )			
+			consola.println( this.getRecords().get(tipoRecord) );
 	}
 	
 	public void add( RecordJuegoConquista record ) throws RecordJuegoException {

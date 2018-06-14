@@ -16,6 +16,9 @@ public class MenuPrincipal {
 
 		boolean deboContinuar = true;
 		
+		//Hago la carga de los records
+		this.getRecordJuegoRepository().load();
+		
 		while( deboContinuar )
 		{
 			String opcionUsuario = this.pedirOpcionUsuario();			
@@ -25,10 +28,11 @@ public class MenuPrincipal {
 			else if( opcionUsuario.equals( "M" ) )			
 				new MenuMultiPlayer( this.getConsola(), this.getPathMapas() ).mostrar();		
 			else if( opcionUsuario.equals( "R" ) )
-			{
-				
-				//TODO mover a una clase propia
-				this.getRecordJuegoRepository().load();				
+			{				
+				//TODO mover a una clase propia	
+				this.getConsola().limpiarPantalla();
+				this.getConsola().println("Records");
+				this.getConsola().println("-------");
 				this.getRecordJuegoRepository().print( this.getConsola() );
 				this.getConsola().println("Enter para volver al menu principal");
 				this.getConsola().nextLine();
