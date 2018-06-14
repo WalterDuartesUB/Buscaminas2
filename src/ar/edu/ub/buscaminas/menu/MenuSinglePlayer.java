@@ -143,4 +143,11 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		this.pathMapas = pathMapas;
 	}
 
+	public static int cantidadMinimaJugadores() {
+		return 1;
+	}
+
+	public static int cantidadMaximaJugadores() {
+		return 1;
+	}		
 }

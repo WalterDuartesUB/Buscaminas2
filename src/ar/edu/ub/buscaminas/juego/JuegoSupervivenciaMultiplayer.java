@@ -46,4 +46,12 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 		return ( this.getJugadores().size() == 1 ) || ( this.getTablero().getCantidadBombasBocaAbajo() == 0 );
 	}
 
+
+	public static int cantidadMinimaJugadores() {
+		return 2;
+	}
+
+	public static int cantidadMaximaJugadores() {
+		return 8;
+	}		
 }

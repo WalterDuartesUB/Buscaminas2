@@ -99,4 +99,12 @@ public class JuegoCarrera extends Juego {
 	private void setCoordenadaInicialJugadores(Map<Jugador, Coordenada> coordenadaInicialJugadores) {
 		this.coordenadaInicialJugadores = coordenadaInicialJugadores;
 	}
+	
+	public static int cantidadMinimaJugadores() {
+		return 4;
+	}
+
+	public static int cantidadMaximaJugadores() {
+		return 4;
+	}
 }

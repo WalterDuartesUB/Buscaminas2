@@ -64,4 +64,11 @@ public class JuegoConquista extends Juego {
 		this.contadorBombas = contadorBombas;
 	}
 
+	public static int cantidadMinimaJugadores() {
+		return 2;
+	}
+
+	public static int cantidadMaximaJugadores() {
+		return 4;
+	}	
 }
