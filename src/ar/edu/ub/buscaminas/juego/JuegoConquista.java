@@ -38,7 +38,6 @@ public class JuegoConquista extends Juego {
 		int cantidadBombas = this.obtenerCantidadMaximaBombasDeJugadores();
 		List<Jugador> jugadoresQueNoAlcanzanAlMaximo = new LinkedList<Jugador>();
 		
-		System.out.println(this.getContadorBombas());
 		//Quito todos los jugadores que no tengan oportunidad de ganar el partido
 		for( Jugador jugador : this.getJugadores() )
 			if( this.getContadorBombas().get(jugador) + this.getTablero().getCantidadBombasBocaAbajo() < cantidadBombas ) {

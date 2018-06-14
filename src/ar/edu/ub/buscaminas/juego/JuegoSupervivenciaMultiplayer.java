@@ -28,6 +28,10 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 	@Override
 	public void elegiCasilla(CasillaBlanco casilla) {
 		this.getTablero().mostrarBlancosAlrededor( casilla );
+		this.evaluarEstadoJuego();
+	}
+
+	private void evaluarEstadoJuego() {
 		this.cambiarJugadorDeTurno();
 		
 		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
@@ -36,10 +40,7 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 
 	@Override
 	public void elegiCasilla(CasillaNumero casilla) {
-		this.cambiarJugadorDeTurno();
-		
-		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
-			this.mostrarEmpate( this.getJugadores() );		
+		this.evaluarEstadoJuego();		
 	}
 
 	@Override
