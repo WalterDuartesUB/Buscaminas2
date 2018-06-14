@@ -1,7 +1,9 @@
 package ar.edu.ub.buscaminas.menu;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.diogonunes.jcdp.color.api.Ansi.BColor;
 import com.diogonunes.jcdp.color.api.Ansi.FColor;
@@ -21,6 +23,33 @@ import ar.edu.ub.buscaminas.listener.JuegoListener;
 import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, JugadoresPrinter {
+	
+	enum DificultadesSinglePlayer{
+		FACIL {
+			@Override
+			public int getPorcentajeBombas() {		
+				return 10;
+			}
+		},
+		MEDIO {
+			@Override
+			public int getPorcentajeBombas() {
+				return 20;
+			}
+		},
+		DIFICIL {
+			@Override
+			public int getPorcentajeBombas() {
+				return 25;
+			}
+		};
+		
+		public abstract int getPorcentajeBombas();
+	};
+	
+	///////////////////////////////////////////////////////////////////////////
+	//
+	
 	private Consola consola;
 	private String pathMapas;
 	private Juego juego;
@@ -80,8 +109,27 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	private int obtenerPorcentajeBombas() {
-		this.getConsola().println("Elegi la dificultad en la que queres jugar: ");
-		return this.getConsola().nextInt();
+		DificultadesSinglePlayer dificultad = null;
+		Map<String, DificultadesSinglePlayer>  opcionesDificultad = new HashMap<String,DificultadesSinglePlayer>();
+		
+		//Armo un mapa con las dificultades
+		for( DificultadesSinglePlayer dificultad1 : DificultadesSinglePlayer.values() )						
+			opcionesDificultad.put( String.format("%d", opcionesDificultad.size() + 1), dificultad1 );		
+		
+		while( dificultad == null ){		
+			this.getConsola().limpiarPantalla();
+			this.getConsola().println("Elegi la dificultad en la que queres jugar: ");
+			this.getConsola().println("--------------------------------------------");
+			
+			//Imprimo el menu
+			for( String opcion : opcionesDificultad.keySet() )
+				this.getConsola().println( opcion + " - " + opcionesDificultad.get( opcion ) );			
+							
+			//Me quedo con la dificultad
+			dificultad = opcionesDificultad.get( this.getConsola().nextLine().toUpperCase() );
+		}
+		
+		return dificultad.getPorcentajeBombas();
 	}
 
 	private String obtenerPathMapaUsuario() throws SeleccionDeTableroException {		
