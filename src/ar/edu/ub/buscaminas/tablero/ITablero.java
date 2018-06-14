@@ -2,7 +2,6 @@ package ar.edu.ub.buscaminas.tablero;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Queue;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;

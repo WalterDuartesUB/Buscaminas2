@@ -14,7 +14,6 @@ import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
-import ar.edu.ub.buscaminas.listener.TableroListener;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoCarrera extends Juego {

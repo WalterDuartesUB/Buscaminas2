@@ -1,6 +1,5 @@
 package ar.edu.ub.buscaminas.casilla;
 
-import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public enum FabricaCasilla {
 	CASILLA_BLOQUEADA {
