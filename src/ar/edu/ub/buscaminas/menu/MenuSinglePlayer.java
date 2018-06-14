@@ -66,32 +66,28 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			String pathMapa = this.obtenerPathMapaUsuario( );
 			int porcentajeBombas = this.obtenerPorcentajeBombas();
 			
-			Tablero tablero = new Tablero();		
-			setJuego(new JuegoSupervivenciaSingleplayer( tablero, jugador ));
+			Tablero tablero = new Tablero();
+			tablero.loadFromFile( pathMapa, porcentajeBombas);
 			
-			try {
-				tablero.loadFromFile( pathMapa, porcentajeBombas);
-			} catch (TableroException e) {
-				e.printStackTrace();
-			}
+			this.setJuego(new JuegoSupervivenciaSingleplayer( tablero, jugador ));
+						
+			this.getJuego().setListener( this );
+			this.getJuego().setJugadoresPrinter( this);
+			this.getJuego().setCasillaPrinter( this );
 			
-			getJuego().setListener( this );
-			getJuego().setJugadoresPrinter( this);
-			getJuego().setCasillaPrinter( this );
-			
-			while( !getJuego().terminoJuego() )
+			while( !this.getJuego().terminoJuego() )
 			{			
-				getJuego().imprimirEstadoJuego();
+				this.getJuego().imprimirEstadoJuego();
 				
 				try {
-					getJuego().elegirCasilla( this.pedirCoordenada() );
+					this.getJuego().elegirCasilla( this.pedirCoordenada() );
 				} catch (CoordenadaInvalidaException e) {
 					this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
 					this.getConsola().nextLine();
 				}
 			}
 			
-		}catch (SeleccionDeTableroException e) {
+		}catch (SeleccionDeTableroException | TableroException e) {
 			this.getConsola().println( e.getMessage() );
 			this.getConsola().println( "Enter para volver al menu principal" );
 			this.getConsola().nextLine();
