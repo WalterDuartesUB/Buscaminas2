@@ -77,6 +77,7 @@ public class JuegoConquista extends Juego {
 
 	@Override
 	public void elegiCasilla(CasillaBlanco casilla) {
+		casilla.setJugador(this.getJugadorDeTurno());
 		this.getTablero().mostrarBlancosAlrededor( casilla );
 		this.cambiarJugadorDeTurno();
 	}
