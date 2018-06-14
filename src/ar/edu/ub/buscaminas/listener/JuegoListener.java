@@ -8,4 +8,5 @@ public interface JuegoListener {
 	public void mostrarGanador( Jugador jugador );
 	public void mostrarPerdedor( );
 	public void mostrarEmpate( Collection<Jugador> jugadores );
+	public void pedirCambioDeTurno();
 }

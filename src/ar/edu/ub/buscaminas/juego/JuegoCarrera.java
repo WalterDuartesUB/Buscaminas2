@@ -2,16 +2,19 @@ package ar.edu.ub.buscaminas.juego;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
+import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.listener.TableroListener;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoCarrera extends Juego {
@@ -23,15 +26,37 @@ public class JuegoCarrera extends Juego {
 		
 		this.setCoordenadaInicialJugadores( new HashMap<Jugador,Coordenada>());
 		
+		this.getTablero().setPrinter(new CasillasPrinter() {
+			
+			@Override
+			public void print(List<List<Casilla>> casillas) {
+				
+				System.out.println( casillas );
+				for( Collection<Casilla> filas : casillas ) {
+					
+					for( Casilla casilla : filas ) {
+						System.out.print( "|" );			
+						System.out.print( casilla.getDibujo() );
+						
+					}
+					
+					System.out.println();						
+				}					
+				
+			}
+		});
+		this.getTablero().imprimir();
+		
+		
 		//TODO el tablero deberia proveer un metodo para elegir "en la mitad" de cada borde basado en una lista de jugadores
 		try {
-			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(0,7) );					
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), this.getTablero().getCoordenadaMedioSuperior() );					
 			this.cambiarJugadorDeTurno();
-			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(7,14) );					
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), this.getTablero().getCoordenadaMedioDerecha() );					
 			this.cambiarJugadorDeTurno();
-			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(14,7) );					
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), this.getTablero().getCoordenadaMedioInferior());					
 			this.cambiarJugadorDeTurno();
-			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), new Coordenada(7,0) );					
+			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), this.getTablero().getCoordenadaMedioIzquierda() );					
 			this.cambiarJugadorDeTurno();
 
 			for( Jugador jugador : this.getCoordenadaInicialJugadores().keySet() )
@@ -42,7 +67,9 @@ public class JuegoCarrera extends Juego {
 	}
 
 	@Override
-	public void elegiCasilla(CasillaBomba casilla) {
+	public void elegiCasilla(CasillaBomba casilla) {		
+		this.mostrarPedirCambioDeTurno();
+		
 		//Pido un enter para cambiar de turno y ocultar la bomba?
 		try {
 			this.getTablero().ocultarCasilla( casilla );

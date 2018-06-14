@@ -70,7 +70,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	private Coordenada pedirCoordenada() {
 		this.getConsola().println("Ingresa el par de coordenadas para descubrir una casilla: ");
-		return new Coordenada( this.getConsola().nextInt() - 1, this.getConsola().nextInt() - 1);
+		return new Coordenada( this.getConsola().nextInt(), this.getConsola().nextInt());
 	}
 
 	private Jugador obtenerJugador() {
@@ -101,30 +101,42 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	@Override
 	public void print(List<List<Casilla>> casillas) {
 		this.getConsola().limpiarPantalla();
+		int nroFila = 0;
+		int posicion = 0;
 		
+		//Imprimo el encabezado de las columnas
+		this.getConsola().print("    |");
+		for( posicion = 0; posicion < casillas.get(0).size(); posicion++ )
+			this.getConsola().print( String.format("%3d|", posicion) );		
+		this.getConsola().println();
+		
+		//Imprimo un separador
+		for( posicion = 0; posicion < casillas.get(0).size()*4+5; posicion++ )
+			this.getConsola().print( "-" );
+		this.getConsola().println();
+		
+		//Imprimo las casillas
 		for( Collection<Casilla> filas : casillas ) {
-				
+			this.getConsola().print( String.format("%3d", nroFila) );	
 			for( Casilla casilla : filas ) {
-				this.getConsola().print( "|" );
-				
+				this.getConsola().print( " | " );				
 				if( casilla.getJugador() != null )
 					this.getConsola().print( BColor.BLUE, FColor.WHITE, casilla.getDibujoCasilla() );
 				else
-					this.getConsola().print( casilla.getDibujoCasilla() );
-				
+					this.getConsola().print( casilla.getDibujoCasilla() );			
 			}
 			
-			this.getConsola().print( "|" );
+			this.getConsola().print( " |" );
 			
-			//Quiebre de columna para el tablero
+			//Imprimo un separador
 			this.getConsola().println();
 			
-			for( int posicion = 0; posicion < filas.size()*2+1; posicion++ )
+			for( posicion = 0; posicion < filas.size()*4+5; posicion++ )
 				this.getConsola().print( "-" );
 			this.getConsola().println();			
 			
-		}
-		
+			nroFila++;
+		}		
 	}
 
 	@Override
@@ -157,5 +169,11 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	public static int cantidadMaximaJugadores() {
 		return 1;
+	}
+
+	@Override
+	public void pedirCambioDeTurno() {
+
+		
 	}		
 }

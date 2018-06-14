@@ -131,4 +131,8 @@ public abstract class Juego implements TableroListener, IJuego {
 		
 		this.jugadores.add(jugador);
 	}
+
+	public void mostrarPedirCambioDeTurno() {
+		this.getListener().pedirCambioDeTurno();		
+	}
 }
