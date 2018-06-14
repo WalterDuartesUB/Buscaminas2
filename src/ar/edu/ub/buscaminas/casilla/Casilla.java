@@ -1,6 +1,7 @@
 package ar.edu.ub.buscaminas.casilla;
 
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaType;
+import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaIsNullException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.listener.TableroListener;
@@ -43,7 +44,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 		this.coordenada = coordenada;
 	}
 
-	public abstract void elegiCasilla(TableroListener listener);
+	public abstract void elegiCasilla(TableroListener listener) throws CoordenadaInvalidaException;
 
 	public String getDibujo() {
 		return dibujo;
@@ -65,7 +66,10 @@ public abstract class Casilla implements Comparable<Casilla> {
 		this.estado = estado;
 	}
 
-	public void voltearBocaArriba() {
+	public void voltearBocaArriba() throws CoordenadaInvalidaException {
+		if( this.estaBocaArriba() )
+			throw new CoordenadaInvalidaException("No se puede voltear una casilla que ya esta boca arriba");
+		
 		this.setEstado( EstadoCasilla.BOCA_ARRIBA );		
 	}
 	
@@ -103,7 +107,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 		return this.getEstado() == EstadoCasilla.BOCA_ARRIBA;
 	}
 
-	public void voltearBocaArriba(Jugador jugador) {
+	public void voltearBocaArriba(Jugador jugador) throws CoordenadaInvalidaException {
 		this.voltearBocaArriba();
 		this.setJugador(jugador);		
 	}

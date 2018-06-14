@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.List; 
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -78,7 +78,10 @@ public class Tablero implements ITablero {
 		if( !casillasProbadas.add( casilla ) )
 			return;
 		
-		casilla.voltearBocaArriba(jugador);
+		try {
+			casilla.voltearBocaArriba(jugador);
+		} catch (CoordenadaInvalidaException e) {
+		}
 		
 		if( this.getNumeros().contains( casilla ) )		
 			return;	
@@ -197,6 +200,9 @@ public class Tablero implements ITablero {
 	public void loadFromFile(String pathMapa, int porcentajeBombas ) throws TableroException {
 		this.clean();
 		
+		if( porcentajeBombas < 0  || porcentajeBombas >= 100 )
+			throw new TableroException( "El porcentaje de bombas para crear el tablero debe ser mayor que 0 y menor que 100");		
+		
 		try {
 			List<String> lineas = Files.readAllLines( Paths.get( pathMapa ) );
 			Map<String, FabricaCasilla> handlers = new HashMap<String, FabricaCasilla>();
@@ -211,7 +217,7 @@ public class Tablero implements ITablero {
 					if( handlers.get(String.format("%c", linea.charAt(columna) ) ) == null )
 						throw new TableroException("El caracter " + linea.charAt(columna) + "no es valido para cargar un mapa.");
 					
-					this.addCasilla( handlers.get(String.format("%c", linea.charAt(columna) ) ).createInstance( fila,columna ) );
+					this.addCasilla( handlers.get(String.format("%c", linea.charAt(columna) ) ).createInstance( fila, columna ) );
 				}
 			}
 			
@@ -263,13 +269,13 @@ public class Tablero implements ITablero {
 		if( cantidadColumnas < 0 )
 			throw new TableroException( "La cantidad de columnas para crear el tablero debe ser mayor que 0");
 		
-		if( porcentajeBombas < 0  || porcentajeBombas > 100 )
+		if( porcentajeBombas < 0  || porcentajeBombas >= 100 )
 			throw new TableroException( "El porcentaje de bombas para crear el tablero debe ser mayor que 0 y menor que 100");		
 		
 		//Agrego blancos en una matriz cuadrada
 		for( int fila = 0; fila < cantidadFilas; fila++)
 			for( int columna = 0; columna < cantidadColumnas; columna++)
-				this.addCasilla( FabricaCasilla.CASILLA_BLANCA.createInstance( fila, columna) );
+				this.addCasilla( FabricaCasilla.CASILLA_BLANCA.createInstance( fila, columna ) );
 				
 		this.validarTablero();
 		
@@ -412,21 +418,19 @@ public class Tablero implements ITablero {
 	}
 
 	private boolean existeCaminoVerticalDescendente() {		
-		return this.existeCaminoDesde(new Coordenada( 0, this.getCasillasAsList().get(0).size() / 2), new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+		return this.existeCaminoDesde(this.getCoordenadaMedioSuperior(), new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
 	}
 
-	private boolean existeCaminoVerticalAscendente() {		
-		List<List<Casilla>> casillas = this.getCasillasAsList();
-		return this.existeCaminoDesde(new Coordenada( casillas.size() - 1, casillas.get(0).size() / 2), new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
+	private boolean existeCaminoVerticalAscendente() {
+		return this.existeCaminoDesde(this.getCoordenadaMedioInferior(), new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
 	}
 	
 	private boolean existeCaminoHorizontalDescendente() {		
-		return this.existeCaminoDesde(new Coordenada( this.getCasillasAsList().size() / 2, 0), new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+		return this.existeCaminoDesde(this.getCoordenadaMedioIzquierda(), new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
 	}
 	
 	private boolean existeCaminoHorizontalAscendente() {		
-		List<List<Casilla>> casillas = this.getCasillasAsList();
-		return this.existeCaminoDesde(new Coordenada( casillas.size() / 2, casillas.get(0).size() - 1), new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
+		return this.existeCaminoDesde( this.getCoordenadaMedioDerecha(), new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
 	}
 	
 	private boolean existeCaminoDesde( Coordenada coordenada, Comparator<Casilla> comparadorDeCasillas, Comparator<Casilla> comparadorCasillaLLegada ) {
@@ -486,16 +490,16 @@ public class Tablero implements ITablero {
 		//Pido la casilla de la coordenada		
 		try {
 			Casilla casilla = this.getCasilla(coordenada);
-				
+			
 			//Pido todas las casillas del jugador de esa coordenada
 			Map<Coordenada, Casilla> casillasJugador = this.getCasillasDelJugador( casilla.getJugador() );
 					
-			//Segun la orientacion de la coordenada, salgo a buscar el camino		
-			if( coordenada.getFila() == 0 )
+			//Segun la orientacion de la coordenada, salgo a buscar el camino
+			if( this.getCoordenadaMedioSuperior().equals( coordenada ) )
 				return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_DESC_COL_DESC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
-			else if( coordenada.getColumna() == 0 )
+			if( this.getCoordenadaMedioIzquierda().equals( coordenada ) )
 				return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_DESC_FILA_DESC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );
-			else if( coordenada.getColumna() < coordenada.getFila() )
+			if( this.getCoordenadaMedioInferior().equals( coordenada ) )
 				return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.FILA_ASC_COL_ASC ),  new CasillaComparador( CriterioOrdenamiento.FILA_ASC ) );
 			
 			return this.existeCaminoDesde(coordenada, casillasJugador, new CasillaComparador( CriterioOrdenamiento.COL_ASC_FILA_ASC ),  new CasillaComparador( CriterioOrdenamiento.COL_ASC ) );		
@@ -503,5 +507,27 @@ public class Tablero implements ITablero {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public Coordenada getCoordenadaMedioSuperior() {
+		return new Coordenada( 0, this.getCasillasAsList().get(0).size() / 2);
+	}
+
+	@Override
+	public Coordenada getCoordenadaMedioDerecha() {
+		List<List<Casilla>> casillas = this.getCasillasAsList();
+		return new Coordenada( casillas.size() / 2, casillas.get(0).size() - 1 );
+	}
+
+	@Override
+	public Coordenada getCoordenadaMedioInferior() {
+		List<List<Casilla>> casillas = this.getCasillasAsList();
+		return new Coordenada( casillas.size() - 1, casillas.get(0).size() / 2);
+	}
+
+	@Override
+	public Coordenada getCoordenadaMedioIzquierda() {
+		return new Coordenada( this.getCasillasAsList().size() / 2, 0);
 	}	
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
@@ -91,8 +92,8 @@ public abstract class Juego implements TableroListener, IJuego {
 		this.getJugadoresPrinter().mostrarJugadores(this.getJugadorDeTurno(), this.getJugadores() );
 	}
 
-	protected void mostrarPerdedor() {
-		this.getListener().mostrarPerdedor();		
+	protected void mostrarPerdedor( ) {
+		this.getListener().mostrarPerdedor( this.getJugadorDeTurno() );		
 	}
 
 	protected Jugador getJugadorDeTurno() {
@@ -130,5 +131,13 @@ public abstract class Juego implements TableroListener, IJuego {
 			throw new JuegoException("No se puede crear un Juego con un jugador null");
 		
 		this.jugadores.add(jugador);
+	}
+
+	public void mostrarPedirCambioDeTurno() {
+		this.getListener().pedirCambioDeTurno();		
+	}
+	
+	public void elegiCasilla(CasillaBloqueada casillaBloqueada) throws CoordenadaInvalidaException	{
+		throw new CoordenadaInvalidaException("No se puede elegir una casilla bloqueada");
 	}
 }

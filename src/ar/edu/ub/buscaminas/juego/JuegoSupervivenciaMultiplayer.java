@@ -17,6 +17,8 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 
 	@Override
 	public void elegiCasilla(CasillaBomba casilla) {		
+		super.mostrarPerdedor();
+		
 		this.matarJugadorDeTurno();
 		
 		if( this.getJugadores().size() == 1 )
@@ -28,7 +30,7 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 		this.getTablero().mostrarBlancosAlrededor( casilla );
 		this.cambiarJugadorDeTurno();
 		
-		if( this.getTablero().getCantidadBombasBocaAbajo() == 0 )
+		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
 			this.mostrarEmpate( this.getJugadores() );
 	}
 
@@ -36,7 +38,7 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 	public void elegiCasilla(CasillaNumero casilla) {
 		this.cambiarJugadorDeTurno();
 		
-		if( this.getTablero().getCantidadBombasBocaAbajo() == 0 )
+		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
 			this.mostrarEmpate( this.getJugadores() );		
 	}
 
@@ -55,7 +57,7 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 
 	@Override
 	protected void validarJuego() {
-		if( this.getJugadores().size() < JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() )
+		if( this.getJugadores().size() > JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo supervivencia multiplayer con " + this.getJugadores().size() + ". El minimo es " + JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() + " y el maximo es " + JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
 		
 	}		

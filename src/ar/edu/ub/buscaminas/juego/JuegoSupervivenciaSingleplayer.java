@@ -35,7 +35,7 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 
 	@Override
 	public boolean terminoJuego() {
-		return ( this.getJugadores().size() == 0 ) || ( this.getTablero().getCantidadBombasBocaAbajo() == 0 );
+		return ( this.getJugadores().size() == 0 ) || ( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 );
 	}
 
 	public static int cantidadMinimaJugadores() {
@@ -48,7 +48,7 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 	
 	@Override
 	protected void validarJuego() {
-		if( this.getJugadores().size() < JuegoSupervivenciaSingleplayer.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoSupervivenciaSingleplayer.cantidadMinimaJugadores() )
+		if( this.getJugadores().size() > JuegoSupervivenciaSingleplayer.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoSupervivenciaSingleplayer.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo supervivencia singleplayer con " + this.getJugadores().size() + ". El minimo es " + JuegoSupervivenciaSingleplayer.cantidadMinimaJugadores() + " y el maximo es " + JuegoSupervivenciaSingleplayer.cantidadMaximaJugadores() );
 		
 	}

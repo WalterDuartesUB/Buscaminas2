@@ -23,6 +23,7 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, JugadoresPrinter {
 	private Consola consola;
 	private String pathMapas;
+	private Juego juego;
 	
 	public MenuSinglePlayer(Consola consola, String pathMapas) {
 		this.setPathMapas(pathMapas);
@@ -37,7 +38,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			int porcentajeBombas = this.obtenerPorcentajeBombas();
 			
 			Tablero tablero = new Tablero();		
-			Juego juego = new JuegoSupervivenciaSingleplayer( tablero, jugador );
+			setJuego(new JuegoSupervivenciaSingleplayer( tablero, jugador ));
 			
 			try {
 				tablero.loadFromFile( pathMapa, porcentajeBombas);
@@ -45,16 +46,16 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 				e.printStackTrace();
 			}
 			
-			juego.setListener( this );
-			juego.setJugadoresPrinter( this);
-			juego.setCasillaPrinter( this );
+			getJuego().setListener( this );
+			getJuego().setJugadoresPrinter( this);
+			getJuego().setCasillaPrinter( this );
 			
-			while( !juego.terminoJuego() )
+			while( !getJuego().terminoJuego() )
 			{			
-				juego.imprimirEstadoJuego();
+				getJuego().imprimirEstadoJuego();
 				
 				try {
-					juego.elegirCasilla( this.pedirCoordenada() );
+					getJuego().elegirCasilla( this.pedirCoordenada() );
 				} catch (CoordenadaInvalidaException e) {
 					this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
 					this.getConsola().nextLine();
@@ -70,11 +71,12 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	private Coordenada pedirCoordenada() {
 		this.getConsola().println("Ingresa el par de coordenadas para descubrir una casilla: ");
-		return new Coordenada( this.getConsola().nextInt() - 1, this.getConsola().nextInt() - 1);
+		return new Coordenada( this.getConsola().nextInt(), this.getConsola().nextInt());
 	}
 
 	private Jugador obtenerJugador() {
-		return new Jugador( "Player 1" );
+		this.getConsola().println("Ingresa tu alias: ");
+		return new Jugador( this.getConsola().nextLine() );
 	}
 
 	private int obtenerPorcentajeBombas() {
@@ -101,30 +103,42 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	@Override
 	public void print(List<List<Casilla>> casillas) {
 		this.getConsola().limpiarPantalla();
+		int nroFila = 0;
+		int posicion = 0;
 		
+		//Imprimo el encabezado de las columnas
+		this.getConsola().print("    |");
+		for( posicion = 0; posicion < casillas.get(0).size(); posicion++ )
+			this.getConsola().print( String.format("%3d|", posicion) );		
+		this.getConsola().println();
+		
+		//Imprimo un separador
+		for( posicion = 0; posicion < casillas.get(0).size()*4+5; posicion++ )
+			this.getConsola().print( "-" );
+		this.getConsola().println();
+		
+		//Imprimo las casillas
 		for( Collection<Casilla> filas : casillas ) {
-				
+			this.getConsola().print( String.format("%3d", nroFila) );	
 			for( Casilla casilla : filas ) {
-				this.getConsola().print( "|" );
-				
+				this.getConsola().print( " | " );				
 				if( casilla.getJugador() != null )
-					this.getConsola().print( BColor.BLUE, FColor.WHITE, casilla.getDibujoCasilla() );
+					this.getConsola().print( casilla.getDibujoCasilla().equals("X") ? BColor.RED : BColor.BLUE, FColor.WHITE, casilla.getDibujoCasilla() );
 				else
 					this.getConsola().print( casilla.getDibujoCasilla() );
-				
 			}
 			
-			this.getConsola().print( "|" );
+			this.getConsola().print( " |" );
 			
-			//Quiebre de columna para el tablero
+			//Imprimo un separador
 			this.getConsola().println();
 			
-			for( int posicion = 0; posicion < filas.size()*2+1; posicion++ )
+			for( posicion = 0; posicion < filas.size()*4+5; posicion++ )
 				this.getConsola().print( "-" );
 			this.getConsola().println();			
 			
-		}
-		
+			nroFila++;
+		}		
 	}
 
 	@Override
@@ -134,7 +148,8 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	@Override
-	public void mostrarPerdedor() {
+	public void mostrarPerdedor(Jugador jugador) {
+		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println( "Perdiste" );
 		this.getConsola().nextLine();
 	}
@@ -157,5 +172,19 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	public static int cantidadMaximaJugadores() {
 		return 1;
+	}
+
+	@Override
+	public void pedirCambioDeTurno() {
+
+		
+	}
+
+	public Juego getJuego() {
+		return juego;
+	}
+
+	public void setJuego(Juego juego) {
+		this.juego = juego;
 	}		
 }

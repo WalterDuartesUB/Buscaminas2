@@ -24,4 +24,8 @@ public interface ITablero {
 	public void voltearTodasLasCasillasDelJugador(Jugador jugador, Casilla casilla);
 	public Collection<Coordenada> obtenerCoordenadasDeCasillasContiguasDelJugador(Jugador jugador);
 	public boolean existeCaminoParaElJugador(Coordenada coordenada);
+	public Coordenada getCoordenadaMedioSuperior();
+	public Coordenada getCoordenadaMedioDerecha();	
+	public Coordenada getCoordenadaMedioInferior();
+	public Coordenada getCoordenadaMedioIzquierda();
 }

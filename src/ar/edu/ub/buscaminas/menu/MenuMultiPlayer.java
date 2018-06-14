@@ -97,7 +97,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 			//Modo Carrera
 			else if( modoJuego.equals("R") )
 			{
-				this.obtenerJugadores( JuegoCarrera.cantidadMinimaJugadores(), JuegoCarrera.cantidadMaximaJugadores() );		
+				this.obtenerAliasJugadores( JuegoCarrera.cantidadMaximaJugadores() );		
 				ITablero tablero = 	TableroCarrera.crearTableroPartidaCorta();	
 				this.setJuego(new JuegoCarrera( tablero, this.getJugadores() ));			
 			}
@@ -140,7 +140,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 
 	private Coordenada pedirCoordenada() {
 		this.getConsola().println("Ingresa el par de coordenadas para descubrir una casilla: ");
-		return new Coordenada( this.getConsola().nextInt() - 1, this.getConsola().nextInt() - 1);
+		return new Coordenada( this.getConsola().nextInt(), this.getConsola().nextInt());
 	}
 
 	private String obtenerPathMapaUsuario() throws SeleccionDeTableroException {
@@ -175,28 +175,45 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	@Override
 	public void print(List<List<Casilla>> casillas) {
 		this.getConsola().limpiarPantalla();
+		int nroFila = 0;
+		int posicion = 0;
 		
+		//Imprimo el encabezado de las columnas
+		this.getConsola().print("    |");
+		for( posicion = 0; posicion < casillas.get(0).size(); posicion++ )
+			this.getConsola().print( String.format("%3d|", posicion) );		
+		this.getConsola().println();
+		
+		//Imprimo un separador
+		for( posicion = 0; posicion < casillas.get(0).size()*4+5; posicion++ )
+			this.getConsola().print( "-" );
+		this.getConsola().println();
+		
+		//Imprimo las casillas
 		for( Collection<Casilla> filas : casillas ) {
-				
+			this.getConsola().print( String.format("%3d", nroFila) );	
 			for( Casilla casilla : filas ) {
-				this.getConsola().print( "|" );
+				this.getConsola().print( " | " );
 				
-				if( this.getJugadoresColores().get( casilla.getJugador() ) != null )
+				if( casilla.getDibujoCasilla().equals("X") )
+					this.getConsola().print( BColor.RED, FColor.BLACK, casilla.getDibujoCasilla() );
+				else if( this.getJugadoresColores().get( casilla.getJugador() ) != null )
 					this.getConsola().print( this.getJugadoresColores().get( casilla.getJugador() ), FColor.WHITE, casilla.getDibujoCasilla() );
 				else
 					this.getConsola().print( casilla.getDibujoCasilla() );
 				
 			}
 			
-			this.getConsola().print( "|" );
+			this.getConsola().print( " |" );
 			
-			//Quiebre de columna
+			//Imprimo un separador
 			this.getConsola().println();
 			
-			for( int posicion = 0; posicion < filas.size()*2+1; posicion++ )
+			for( posicion = 0; posicion < filas.size()*4+5; posicion++ )
 				this.getConsola().print( "-" );
 			this.getConsola().println();			
 			
+			nroFila++;
 		}
 	}
 
@@ -209,11 +226,16 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	public void mostrarGanador(Jugador jugador) {
 		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println("Gano:" + jugador.getAlias() );
+		this.getConsola().println("Enter para volver al menu principal");
 		this.getConsola().nextLine();
 	}
 
 	@Override
-	public void mostrarPerdedor() {		
+	public void mostrarPerdedor( Jugador jugador ) {
+		this.getJuego().imprimirEstadoJuego();
+		this.getConsola().println("Murio el jugador:" + jugador.getAlias() );
+		this.getConsola().println("Enter pasar al proximo turno");
+		this.getConsola().nextLine();
 	}
 
 	@Override
@@ -222,6 +244,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		this.getConsola().println("Empataron los siguientes jugadores: ");
 		for( Jugador jugador : jugadores )
 			this.getConsola().println( jugador );
+		this.getConsola().println("Enter para volver al menu principal");
 		this.getConsola().nextLine();
 	}
 
@@ -263,6 +286,13 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 
 	private void setPathMapas(String pathMapas) {
 		this.pathMapas = pathMapas;
+	}
+
+	@Override
+	public void pedirCambioDeTurno() {
+		this.getJuego().imprimirEstadoJuego();
+		this.getConsola().println("Enter para pasar al proximo turno");
+		this.getConsola().nextLine();
 	}
 
 }
