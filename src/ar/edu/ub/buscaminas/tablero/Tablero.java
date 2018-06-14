@@ -234,7 +234,7 @@ public class Tablero implements ITablero {
 		
 	}
 	
-	private void validarTablero()  throws TableroException {
+	private void validarTablero()  throws TableroException {		
 		List<List<Casilla>> casillas = this.getCasillasAsList();
 		
 		int cantidadColumnas = 0;		
@@ -253,7 +253,7 @@ public class Tablero implements ITablero {
 			throw new TableroException("La cantidad de filas no puede superar el 100% de la cantidad de columnas");
 		
 		if( cantidadCasillas < CANTIDAD_MINIMA_CASILLAS)
-			throw new TableroException("La cantidad de casillas no puede ser menor que " + CANTIDAD_MINIMA_CASILLAS );
+			throw new TableroException("La cantidad de casillas no puede ser menor que " + CANTIDAD_MINIMA_CASILLAS );	
 	}
 
 	private void clean() {
@@ -529,5 +529,15 @@ public class Tablero implements ITablero {
 	@Override
 	public Coordenada getCoordenadaMedioIzquierda() {
 		return new Coordenada( this.getCasillasAsList().size() / 2, 0);
+	}
+
+	@Override
+	public Map<Jugador, Integer> obtenerCantidadCasillasDescubiertasPorJugador(Collection<Jugador> jugadores) {
+		Map<Jugador, Integer> casillasDescubiertas = new HashMap<Jugador,Integer>();
+		
+		for( Jugador jugador : jugadores )
+			casillasDescubiertas.put(jugador, this.getCasillasDelJugador(jugador).size() );
+		
+		return casillasDescubiertas;
 	}	
 }
