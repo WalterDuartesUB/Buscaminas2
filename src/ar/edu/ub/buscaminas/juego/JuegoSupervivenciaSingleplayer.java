@@ -6,7 +6,6 @@ import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
-import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class JuegoSupervivenciaSingleplayer extends Juego {
 	public JuegoSupervivenciaSingleplayer(ITablero tablero, Jugador jugador) {

@@ -1,7 +1,5 @@
 package ar.edu.ub.buscaminas;
 
-import java.awt.Color;
-
 public interface IConsola {
 	public void print();
 	public void print(String s);

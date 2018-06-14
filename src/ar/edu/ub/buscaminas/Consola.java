@@ -1,6 +1,5 @@
 package ar.edu.ub.buscaminas;
 
-import java.awt.Color;
 import java.util.Scanner;
 
 import com.diogonunes.jcdp.color.ColoredPrinter;
