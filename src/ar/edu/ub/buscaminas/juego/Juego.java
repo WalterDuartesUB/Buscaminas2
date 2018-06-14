@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
@@ -134,5 +135,9 @@ public abstract class Juego implements TableroListener, IJuego {
 
 	public void mostrarPedirCambioDeTurno() {
 		this.getListener().pedirCambioDeTurno();		
+	}
+	
+	public void elegiCasilla(CasillaBloqueada casillaBloqueada) throws CoordenadaInvalidaException	{
+		throw new CoordenadaInvalidaException("No se puede elegir una casilla bloqueada");
 	}
 }

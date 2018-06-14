@@ -195,7 +195,9 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 			for( Casilla casilla : filas ) {
 				this.getConsola().print( " | " );
 				
-				if( this.getJugadoresColores().get( casilla.getJugador() ) != null )
+				if( casilla.getDibujoCasilla().equals("X") )
+					this.getConsola().print( BColor.RED, FColor.BLACK, casilla.getDibujoCasilla() );
+				else if( this.getJugadoresColores().get( casilla.getJugador() ) != null )
 					this.getConsola().print( this.getJugadoresColores().get( casilla.getJugador() ), FColor.WHITE, casilla.getDibujoCasilla() );
 				else
 					this.getConsola().print( casilla.getDibujoCasilla() );

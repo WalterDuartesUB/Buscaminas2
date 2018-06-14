@@ -23,6 +23,7 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, JugadoresPrinter {
 	private Consola consola;
 	private String pathMapas;
+	private Juego juego;
 	
 	public MenuSinglePlayer(Consola consola, String pathMapas) {
 		this.setPathMapas(pathMapas);
@@ -37,7 +38,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			int porcentajeBombas = this.obtenerPorcentajeBombas();
 			
 			Tablero tablero = new Tablero();		
-			Juego juego = new JuegoSupervivenciaSingleplayer( tablero, jugador );
+			setJuego(new JuegoSupervivenciaSingleplayer( tablero, jugador ));
 			
 			try {
 				tablero.loadFromFile( pathMapa, porcentajeBombas);
@@ -45,16 +46,16 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 				e.printStackTrace();
 			}
 			
-			juego.setListener( this );
-			juego.setJugadoresPrinter( this);
-			juego.setCasillaPrinter( this );
+			getJuego().setListener( this );
+			getJuego().setJugadoresPrinter( this);
+			getJuego().setCasillaPrinter( this );
 			
-			while( !juego.terminoJuego() )
+			while( !getJuego().terminoJuego() )
 			{			
-				juego.imprimirEstadoJuego();
+				getJuego().imprimirEstadoJuego();
 				
 				try {
-					juego.elegirCasilla( this.pedirCoordenada() );
+					getJuego().elegirCasilla( this.pedirCoordenada() );
 				} catch (CoordenadaInvalidaException e) {
 					this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
 					this.getConsola().nextLine();
@@ -74,7 +75,8 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	private Jugador obtenerJugador() {
-		return new Jugador( "Player 1" );
+		this.getConsola().println("Ingresa tu alias: ");
+		return new Jugador( this.getConsola().nextLine() );
 	}
 
 	private int obtenerPorcentajeBombas() {
@@ -121,9 +123,9 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			for( Casilla casilla : filas ) {
 				this.getConsola().print( " | " );				
 				if( casilla.getJugador() != null )
-					this.getConsola().print( BColor.BLUE, FColor.WHITE, casilla.getDibujoCasilla() );
+					this.getConsola().print( casilla.getDibujoCasilla().equals("X") ? BColor.RED : BColor.BLUE, FColor.WHITE, casilla.getDibujoCasilla() );
 				else
-					this.getConsola().print( casilla.getDibujoCasilla() );			
+					this.getConsola().print( casilla.getDibujoCasilla() );
 			}
 			
 			this.getConsola().print( " |" );
@@ -147,6 +149,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	@Override
 	public void mostrarPerdedor() {
+		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println( "Perdiste" );
 		this.getConsola().nextLine();
 	}
@@ -175,5 +178,13 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	public void pedirCambioDeTurno() {
 
 		
+	}
+
+	public Juego getJuego() {
+		return juego;
+	}
+
+	public void setJuego(Juego juego) {
+		this.juego = juego;
 	}		
 }

@@ -78,7 +78,10 @@ public class Tablero implements ITablero {
 		if( !casillasProbadas.add( casilla ) )
 			return;
 		
-		casilla.voltearBocaArriba(jugador);
+		try {
+			casilla.voltearBocaArriba(jugador);
+		} catch (CoordenadaInvalidaException e) {
+		}
 		
 		if( this.getNumeros().contains( casilla ) )		
 			return;	
