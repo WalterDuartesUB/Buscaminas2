@@ -226,11 +226,16 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	public void mostrarGanador(Jugador jugador) {
 		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println("Gano:" + jugador.getAlias() );
+		this.getConsola().println("Enter para volver al menu principal");
 		this.getConsola().nextLine();
 	}
 
 	@Override
-	public void mostrarPerdedor() {		
+	public void mostrarPerdedor( Jugador jugador ) {
+		this.getJuego().imprimirEstadoJuego();
+		this.getConsola().println("Murio el jugador:" + jugador.getAlias() );
+		this.getConsola().println("Enter pasar al proximo turno");
+		this.getConsola().nextLine();
 	}
 
 	@Override
@@ -239,6 +244,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		this.getConsola().println("Empataron los siguientes jugadores: ");
 		for( Jugador jugador : jugadores )
 			this.getConsola().println( jugador );
+		this.getConsola().println("Enter para volver al menu principal");
 		this.getConsola().nextLine();
 	}
 

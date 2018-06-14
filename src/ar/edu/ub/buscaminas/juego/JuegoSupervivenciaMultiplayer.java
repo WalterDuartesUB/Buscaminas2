@@ -17,6 +17,8 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 
 	@Override
 	public void elegiCasilla(CasillaBomba casilla) {		
+		super.mostrarPerdedor();
+		
 		this.matarJugadorDeTurno();
 		
 		if( this.getJugadores().size() == 1 )
@@ -28,7 +30,7 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 		this.getTablero().mostrarBlancosAlrededor( casilla );
 		this.cambiarJugadorDeTurno();
 		
-		if( this.getTablero().getCantidadBombasBocaAbajo() == 0 )
+		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
 			this.mostrarEmpate( this.getJugadores() );
 	}
 
@@ -36,7 +38,7 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 	public void elegiCasilla(CasillaNumero casilla) {
 		this.cambiarJugadorDeTurno();
 		
-		if( this.getTablero().getCantidadBombasBocaAbajo() == 0 )
+		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
 			this.mostrarEmpate( this.getJugadores() );		
 	}
 

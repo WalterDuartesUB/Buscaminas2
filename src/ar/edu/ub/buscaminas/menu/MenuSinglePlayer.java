@@ -148,7 +148,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	@Override
-	public void mostrarPerdedor() {
+	public void mostrarPerdedor(Jugador jugador) {
 		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println( "Perdiste" );
 		this.getConsola().nextLine();

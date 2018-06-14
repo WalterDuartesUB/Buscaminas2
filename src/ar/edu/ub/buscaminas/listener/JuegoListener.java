@@ -6,7 +6,7 @@ import ar.edu.ub.buscaminas.jugador.Jugador;
 
 public interface JuegoListener {
 	public void mostrarGanador( Jugador jugador );
-	public void mostrarPerdedor( );
+	public void mostrarPerdedor(Jugador jugador);
 	public void mostrarEmpate( Collection<Jugador> jugadores );
 	public void pedirCambioDeTurno();
 }

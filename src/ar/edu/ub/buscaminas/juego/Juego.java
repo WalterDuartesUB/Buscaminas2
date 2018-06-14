@@ -92,8 +92,8 @@ public abstract class Juego implements TableroListener, IJuego {
 		this.getJugadoresPrinter().mostrarJugadores(this.getJugadorDeTurno(), this.getJugadores() );
 	}
 
-	protected void mostrarPerdedor() {
-		this.getListener().mostrarPerdedor();		
+	protected void mostrarPerdedor( ) {
+		this.getListener().mostrarPerdedor( this.getJugadorDeTurno() );		
 	}
 
 	protected Jugador getJugadorDeTurno() {
