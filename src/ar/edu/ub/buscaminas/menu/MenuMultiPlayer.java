@@ -33,7 +33,9 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	private Map<Jugador, BColor> jugadoresColores;
 	private List<BColor> colores;
 	private Juego juego;
-	public MenuMultiPlayer(Consola consola) {
+	private String pathMapas;
+	public MenuMultiPlayer(Consola consola, String pathMapas) {
+		this.setPathMapas(pathMapas);
 		this.setConsola(consola);
 		this.setJugadores( new LinkedList<Jugador>());
 		this.setJugadoresColores( new HashMap<Jugador, BColor>() );		
@@ -246,6 +248,14 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 
 	private void setJuego(Juego juego) {
 		this.juego = juego;
+	}
+
+	private String getPathMapas() {
+		return pathMapas;
+	}
+
+	private void setPathMapas(String pathMapas) {
+		this.pathMapas = pathMapas;
 	}
 
 }

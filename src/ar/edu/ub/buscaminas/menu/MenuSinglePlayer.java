@@ -21,7 +21,10 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, JugadoresPrinter {
 	private Consola consola;
-	public MenuSinglePlayer(Consola consola) {
+	private String pathMapas;
+	
+	public MenuSinglePlayer(Consola consola, String pathMapas) {
+		this.setPathMapas(pathMapas);
 		this.setConsola(consola);
 	}
 
@@ -130,6 +133,14 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	@Override
 	public void mostrarEmpate(Collection<Jugador> jugadores) {		
+	}
+
+	private String getPathMapas() {
+		return pathMapas;
+	}
+
+	private void setPathMapas(String pathMapas) {
+		this.pathMapas = pathMapas;
 	}
 
 }

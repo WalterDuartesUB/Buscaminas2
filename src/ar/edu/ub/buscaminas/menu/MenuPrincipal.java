@@ -4,8 +4,10 @@ import ar.edu.ub.buscaminas.Consola;
 
 public class MenuPrincipal {
 	private Consola consola;
-	public MenuPrincipal(Consola consola) {
+	private String pathMapas;
+	public MenuPrincipal(Consola consola, String pathMapas) {
 		this.setConsola(consola);
+		this.setPathMapas(pathMapas);
 	}
 
 	public void mostrar() {
@@ -17,9 +19,9 @@ public class MenuPrincipal {
 			String opcionUsuario = this.pedirOpcionUsuario();			
 			
 			if( opcionUsuario.equals( "S" ) )			
-				new MenuSinglePlayer( this.getConsola() ).mostrar();			
+				new MenuSinglePlayer( this.getConsola(), this.getPathMapas() ).mostrar();			
 			else if( opcionUsuario.equals( "M" ) )			
-				new MenuMultiPlayer( this.getConsola() ).mostrar();		
+				new MenuMultiPlayer( this.getConsola(), this.getPathMapas() ).mostrar();		
 			else if( opcionUsuario.equals( "R" ) )
 			{
 				//TODO implementar el menu de records				
@@ -58,6 +60,14 @@ public class MenuPrincipal {
 
 	private void setConsola(Consola consola) {
 		this.consola = consola;
+	}
+
+	private String getPathMapas() {
+		return pathMapas;
+	}
+
+	private void setPathMapas(String pathMapas) {
+		this.pathMapas = pathMapas;
 	}
 
 }
