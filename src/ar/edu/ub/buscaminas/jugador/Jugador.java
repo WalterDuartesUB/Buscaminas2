@@ -7,6 +7,10 @@ public class Jugador {
 		this.setAlias(alias);
 	}
 
+	public Jugador(Jugador jugador) {
+		this( jugador.getAlias() );
+	}
+
 	public String getAlias() {
 		return alias;
 	}

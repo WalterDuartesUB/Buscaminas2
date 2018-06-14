@@ -1,6 +1,7 @@
 package ar.edu.ub.buscaminas.juego;
 
 import java.util.List;
+import java.util.Map;
 
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
@@ -16,8 +17,8 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 	}
 
 	@Override
-	public void elegiCasilla(CasillaBomba casilla) {		
-		super.mostrarPerdedor();
+	public void elegiCasilla( CasillaBomba casilla) {		
+		this.mostrarPerdedor();
 		
 		this.matarJugadorDeTurno();
 		
@@ -27,25 +28,50 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 
 	@Override
 	public void elegiCasilla(CasillaBlanco casilla) {
+		casilla.setJugador(this.getJugadorDeTurno());
 		this.getTablero().mostrarBlancosAlrededor( casilla );
-		this.evaluarEstadoJuego();
+		this.cambiarJugadorDeTurno();
 	}
 
-	private void evaluarEstadoJuego() {
-		this.cambiarJugadorDeTurno();
+	private boolean evaluarEstadoJuego() {				
+		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )		
+		{			
+			Map<Jugador, Integer> casillasDescubiertasPorJugador = this.getTablero().obtenerCantidadCasillasDescubiertasPorJugador( this.getJugadores() );			
+			int cantidadMaximaCasillas = this.obtenerCantidadMaximoCasillasDescubiertas( casillasDescubiertasPorJugador );
+			
+			//Quito todos los jugadores que no sean el que tiene el maximo
+			for( Jugador jugador : casillasDescubiertasPorJugador.keySet() )
+				if( casillasDescubiertasPorJugador.get(jugador) < cantidadMaximaCasillas )
+					this.getJugadores().remove( jugador );
+			
+			//Si queda un solo jugador, es el que gano
+			if( this.getJugadores().size() == 1 )
+				this.mostrarGanador( this.getJugadorDeTurno() );
+			else
+				this.mostrarEmpate( this.getJugadores() );
+			
+			return true;
+		}
 		
-		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
-			this.mostrarEmpate( this.getJugadores() );
+		return false;
+	}
+
+	private int obtenerCantidadMaximoCasillasDescubiertas(Map<Jugador, Integer> casillasDescubiertasPorJugador) {
+
+		int cantidadCasillas = 0;
+		for( Jugador jugador : casillasDescubiertasPorJugador.keySet() )
+			cantidadCasillas = Math.max( cantidadCasillas, casillasDescubiertasPorJugador.get(jugador) );
+		return cantidadCasillas;
 	}
 
 	@Override
 	public void elegiCasilla(CasillaNumero casilla) {
-		this.evaluarEstadoJuego();		
+		this.cambiarJugadorDeTurno();
 	}
 
 	@Override
 	public boolean terminoJuego() {
-		return ( this.getJugadores().size() == 1 ) || ( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 );
+		return ( this.getJugadores().size() == 1 ) || ( this.evaluarEstadoJuego() );
 	}
 	
 	public static int cantidadMinimaJugadores() {

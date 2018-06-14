@@ -1,6 +1,8 @@
 package ar.edu.ub.buscaminas.tablero;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.Queue;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
@@ -28,4 +30,5 @@ public interface ITablero {
 	public Coordenada getCoordenadaMedioDerecha();	
 	public Coordenada getCoordenadaMedioInferior();
 	public Coordenada getCoordenadaMedioIzquierda();
+	public Map<Jugador, Integer> obtenerCantidadCasillasDescubiertasPorJugador(Collection<Jugador> jugadores);
 }
