@@ -30,7 +30,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 
 	public void mostrar() {
 		Jugador jugador = this.obtenerJugador();
-		String pathMapa = this.getPathMapa();
+		String pathMapa = this.obtenerPathMapaUsuario( );
 		int porcentajeBombas = this.obtenerPorcentajeBombas();
 		
 		Tablero tablero = new Tablero();		
@@ -73,9 +73,8 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		return this.getConsola().nextInt();
 	}
 
-	private String getPathMapa() {
-		this.getConsola().println("Elegi el mapa en el que queres jugar: ");
-		return this.getConsola().nextLine();
+	private String obtenerPathMapaUsuario() {		
+		return MenuMapas.obtenerPathMapa(this.getConsola(), this.getPathMapas() );
 	}
 
 	private Consola getConsola() {

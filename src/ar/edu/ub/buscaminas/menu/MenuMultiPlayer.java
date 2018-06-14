@@ -28,6 +28,7 @@ import ar.edu.ub.buscaminas.tablero.TableroCarrera;
 
 public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, CasillasPrinter {
 	private static final int PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER = 20;
+	private static final int PORCENTAJE_BOMBAS_CONQUISTA_MULTIPLAYER = 20;
 	private Consola consola;
 	private List<Jugador> jugadores;
 	private Map<Jugador, BColor> jugadoresColores;
@@ -63,7 +64,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		if( modoJuego.equals("S") )
 		{
 			this.obtenerJugadores( JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores(), JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
-			String pathMapa = this.getPathMapa();
+			String pathMapa = this.obtenerPathMapaUsuario( );
 			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
 			
 			Tablero tablero = new Tablero();		
@@ -79,8 +80,8 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		else if( modoJuego.equals("C") )
 		{
 			this.obtenerJugadores( JuegoConquista.cantidadMinimaJugadores(), JuegoConquista.cantidadMaximaJugadores() );
-			String pathMapa = this.getPathMapa();
-			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+			String pathMapa = this.obtenerPathMapaUsuario( );
+			int porcentajeBombas = PORCENTAJE_BOMBAS_CONQUISTA_MULTIPLAYER;
 			
 			Tablero tablero = new Tablero();		
 			this.setJuego(new JuegoConquista( tablero, this.getJugadores() ));
@@ -135,9 +136,8 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		return new Coordenada( this.getConsola().nextInt() - 1, this.getConsola().nextInt() - 1);
 	}
 
-	private String getPathMapa() {
-		this.getConsola().println("Elegi el mapa en el que quieren jugar: ");
-		return this.getConsola().nextLine();
+	private String obtenerPathMapaUsuario() {
+		return MenuMapas.obtenerPathMapa( this.getConsola(), this.getPathMapas());
 	}
 
 	private void obtenerJugadores( int cantidadMinimaJugadores, int cantidadMaximaJugadores ) {
