@@ -74,7 +74,7 @@ public class JuegoConquista extends Juego {
 
 	@Override
 	protected void validarJuego() {
-		if( this.getJugadores().size() < JuegoConquista.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoConquista.cantidadMinimaJugadores() )
+		if( this.getJugadores().size() > JuegoConquista.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoConquista.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo conquista con " + this.getJugadores().size() + ". El minimo es " + JuegoConquista.cantidadMinimaJugadores() + " y el maximo es " + JuegoConquista.cantidadMaximaJugadores() );
 		
 	}	

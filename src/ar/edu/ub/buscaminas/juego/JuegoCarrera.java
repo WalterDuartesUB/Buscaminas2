@@ -136,7 +136,7 @@ public class JuegoCarrera extends Juego {
 
 	@Override
 	protected void validarJuego() {
-		if( this.getJugadores().size() < JuegoCarrera.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoCarrera.cantidadMinimaJugadores() )
+		if( this.getJugadores().size() > JuegoCarrera.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoCarrera.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo carrera con " + this.getJugadores().size() + ". El minimo es " + JuegoCarrera.cantidadMinimaJugadores() + " y el maximo es " + JuegoCarrera.cantidadMaximaJugadores() );
 		
 	}
