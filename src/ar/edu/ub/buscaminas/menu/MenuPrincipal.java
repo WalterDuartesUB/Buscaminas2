@@ -24,9 +24,9 @@ public class MenuPrincipal {
 			String opcionUsuario = this.pedirOpcionUsuario();			
 			
 			if( opcionUsuario.equals( "S" ) )			
-				new MenuSinglePlayer( this.getConsola(), this.getPathMapas() ).mostrar();			
+				new MenuSinglePlayer( this.getConsola(), this.getPathMapas(), this.getRecordJuegoRepository() ).mostrar();			
 			else if( opcionUsuario.equals( "M" ) )			
-				new MenuMultiPlayer( this.getConsola(), this.getPathMapas() ).mostrar();		
+				new MenuMultiPlayer( this.getConsola(), this.getPathMapas(), this.getRecordJuegoRepository() ).mostrar();		
 			else if( opcionUsuario.equals( "R" ) )
 			{				
 				//TODO mover a una clase propia	
@@ -81,11 +81,11 @@ public class MenuPrincipal {
 		this.pathMapas = pathMapas;
 	}
 
-	public RecordJuegoRepository getRecordJuegoRepository() {
+	private RecordJuegoRepository getRecordJuegoRepository() {
 		return recordJuegoRepository;
 	}
 
-	public void setRecordJuegoRepository(RecordJuegoRepository recordJuegoRepository) {
+	private void setRecordJuegoRepository(RecordJuegoRepository recordJuegoRepository) {
 		this.recordJuegoRepository = recordJuegoRepository;
 	}
 

@@ -2,14 +2,12 @@ package ar.edu.ub.buscaminas.juego;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
-import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
@@ -25,29 +23,6 @@ public class JuegoCarrera extends Juego {
 		
 		this.setCoordenadaInicialJugadores( new HashMap<Jugador,Coordenada>());
 		
-		this.getTablero().setPrinter(new CasillasPrinter() {
-			
-			@Override
-			public void print(List<List<Casilla>> casillas) {
-				
-				System.out.println( casillas );
-				for( Collection<Casilla> filas : casillas ) {
-					
-					for( Casilla casilla : filas ) {
-						System.out.print( "|" );			
-						System.out.print( casilla.getDibujo() );
-						
-					}
-					
-					System.out.println();						
-				}					
-				
-			}
-		});
-		this.getTablero().imprimir();
-		
-		
-		//TODO el tablero deberia proveer un metodo para elegir "en la mitad" de cada borde basado en una lista de jugadores
 		try {
 			this.getCoordenadaInicialJugadores().put(this.getJugadorDeTurno(), this.getTablero().getCoordenadaMedioSuperior() );					
 			this.cambiarJugadorDeTurno();

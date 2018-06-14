@@ -23,6 +23,7 @@ import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
+import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 import ar.edu.ub.buscaminas.tablero.Tablero;
 import ar.edu.ub.buscaminas.tablero.TableroCarrera;
@@ -36,12 +37,15 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	private List<BColor> colores;
 	private Juego juego;
 	private String pathMapas;
-	public MenuMultiPlayer(Consola consola, String pathMapas) {
+	private RecordJuegoRepository recordJuegoRepository;
+	
+	public MenuMultiPlayer(Consola consola, String pathMapas, RecordJuegoRepository recordJuegoRepository) {
 		this.setPathMapas(pathMapas);
 		this.setConsola(consola);
 		this.setJugadores( new LinkedList<Jugador>());
 		this.setJugadoresColores( new HashMap<Jugador, BColor>() );		
-		this.agregarColores();		
+		this.agregarColores();
+		this.setRecordJuegoRepository(recordJuegoRepository);
 	}
 
 	private void agregarColores() {
@@ -300,6 +304,14 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println("Enter para pasar al proximo turno");
 		this.getConsola().nextLine();
+	}
+
+	public RecordJuegoRepository getRecordJuegoRepository() {
+		return recordJuegoRepository;
+	}
+
+	public void setRecordJuegoRepository(RecordJuegoRepository recordJuegoRepository) {
+		this.recordJuegoRepository = recordJuegoRepository;
 	}
 
 }

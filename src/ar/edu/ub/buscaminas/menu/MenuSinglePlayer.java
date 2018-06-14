@@ -20,6 +20,7 @@ import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
+import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, JugadoresPrinter {
@@ -53,10 +54,12 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	private Consola consola;
 	private String pathMapas;
 	private Juego juego;
+	private RecordJuegoRepository recordJuegoRepository;
 	
-	public MenuSinglePlayer(Consola consola, String pathMapas) {
+	public MenuSinglePlayer(Consola consola, String pathMapas, RecordJuegoRepository recordJuegoRepository) {
 		this.setPathMapas(pathMapas);
 		this.setConsola(consola);
+		this.setRecordJuegoRepository(recordJuegoRepository);
 	}
 
 	public void mostrar() {
@@ -224,11 +227,19 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		
 	}
 
-	public Juego getJuego() {
+	private Juego getJuego() {
 		return juego;
 	}
 
-	public void setJuego(Juego juego) {
+	private void setJuego(Juego juego) {
 		this.juego = juego;
+	}
+
+	private RecordJuegoRepository getRecordJuegoRepository() {
+		return recordJuegoRepository;
+	}
+
+	private void setRecordJuegoRepository(RecordJuegoRepository recordJuegoRepository) {
+		this.recordJuegoRepository = recordJuegoRepository;
 	}		
 }
