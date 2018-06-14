@@ -13,8 +13,7 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 public class JuegoSupervivenciaMultiplayer extends Juego{
 
 	public JuegoSupervivenciaMultiplayer(ITablero tablero, List<Jugador> jugadores) {
-		super( tablero );
-		this.getJugadores().addAll( jugadores );
+		super( tablero, jugadores );
 	}
 
 	@Override

@@ -4,16 +4,15 @@ import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import ar.edu.ub.buscaminas.Aplicacion;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
+import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
 import ar.edu.ub.buscaminas.listener.TableroListener;
 import ar.edu.ub.buscaminas.tablero.ITablero;
-import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public abstract class Juego implements TableroListener, IJuego {
 
@@ -22,14 +21,20 @@ public abstract class Juego implements TableroListener, IJuego {
 	private JugadoresPrinter	jugadoresPrinter;
 	private Queue<Jugador> jugadores;
 	
-	public Juego(ITablero tablero) {
+	protected Juego(ITablero tablero) {
 		this.setTablero(tablero);
 		this.setJugadores( new ConcurrentLinkedQueue<Jugador>());
 		this.getTablero().setListener( this );		
 	}
 	
-	public Juego(Tablero tablero, Collection<Jugador> jugadores ) {				
-		this.getJugadores().addAll(jugadores);	
+	public Juego(ITablero tablero, Jugador jugador ) {
+		this( tablero );
+		this.agregarJugador( jugador );
+	}
+
+	public Juego(ITablero tablero, Collection<Jugador> jugadores) {
+		this( tablero );
+		this.agregarJugadores(jugadores);
 	}
 
 	public ITablero getTablero() {
@@ -111,4 +116,17 @@ public abstract class Juego implements TableroListener, IJuego {
 	}
 	
 	protected abstract void validarJuego();
+	
+	protected void agregarJugadores( Collection<Jugador> jugadores) {
+		if( jugadores == null || jugadores.size() == 0)
+			throw new JuegoException("No se puede crear un Juego sin jugadores");
+		
+		for( Jugador jugador : jugadores )
+			this.agregarJugador( jugador );
+	}
+	
+	private void agregarJugador(Jugador jugador) {
+		if( jugadores == null )
+			throw new JuegoException("No se puede crear un Juego con un jugador null");		
+	}
 }

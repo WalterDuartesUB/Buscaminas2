@@ -19,9 +19,7 @@ public class JuegoCarrera extends Juego {
 	private Map<Jugador, Coordenada> coordenadaInicialJugadores;
 
 	public JuegoCarrera(ITablero tablero, Collection<Jugador> jugadores) {
-		super( tablero );
-		
-		this.getJugadores().addAll( jugadores );
+		super( tablero, jugadores );
 		
 		this.setCoordenadaInicialJugadores( new HashMap<Jugador,Coordenada>());
 		

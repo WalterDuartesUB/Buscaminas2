@@ -10,8 +10,7 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class JuegoSupervivenciaSingleplayer extends Juego {
 	public JuegoSupervivenciaSingleplayer(ITablero tablero, Jugador jugador) {
-		super( tablero );
-		this.getJugadores().add(jugador);
+		super( tablero, jugador );
 	}
 
 	@Override

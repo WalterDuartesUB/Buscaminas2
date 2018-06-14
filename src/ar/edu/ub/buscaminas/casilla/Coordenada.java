@@ -3,8 +3,8 @@ package ar.edu.ub.buscaminas.casilla;
 public class Coordenada implements Comparable<Coordenada>{
 	private int fila;
 	public Coordenada(int fila, int columna) {
-		this.fila = fila;
-		this.columna = columna;
+		this.setFila(fila);
+		this.setColumna(columna);
 	}
 	public Coordenada(Coordenada coordenada) {
 		this( coordenada.getFila(), coordenada.getColumna() );

@@ -17,9 +17,8 @@ public class JuegoConquista extends Juego {
 	private Map<Jugador, Integer> contadorBombas;
 	
 	public JuegoConquista(ITablero tablero, Collection<Jugador> jugadores) {
-		super(tablero);
+		super( tablero, jugadores );
 		this.setContadorBombas(new HashMap<Jugador,Integer>());
-		this.getJugadores().addAll( jugadores );
 		
 		for( Jugador j : this.getJugadores() )
 			this.getContadorBombas().put( j, new Integer(0) );
