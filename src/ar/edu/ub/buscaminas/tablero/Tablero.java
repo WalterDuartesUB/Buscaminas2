@@ -119,14 +119,14 @@ public class Tablero implements ITablero {
 		this.getCasillas().put( casilla.getCoordenada(), casilla);		
 	}
 	
-	public void add( CasillaBomba casilla ) {
+	protected void add( CasillaBomba casilla ) {
 		this.addCasilla(casilla);
 	}
 
-	public void add( CasillaBlanco casilla ) {
+	protected void add( CasillaBlanco casilla ) {
 		this.addCasilla(casilla);
 	}
-	public void add( CasillaNumero casilla ) {
+	protected void add( CasillaNumero casilla ) {
 		this.addCasilla(casilla);
 	}	
 	

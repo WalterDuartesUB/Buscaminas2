@@ -236,15 +236,15 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		return colores;
 	}
 
-	public void setColores(List<BColor> colores) {
+	private void setColores(List<BColor> colores) {
 		this.colores = colores;
 	}
 
-	public Juego getJuego() {
+	private Juego getJuego() {
 		return juego;
 	}
 
-	public void setJuego(Juego juego) {
+	private void setJuego(Juego juego) {
 		this.juego = juego;
 	}
 
