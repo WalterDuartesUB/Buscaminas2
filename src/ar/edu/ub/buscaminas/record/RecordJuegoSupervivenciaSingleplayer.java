@@ -1,9 +1,11 @@
 package ar.edu.ub.buscaminas.record;
 
+import java.io.Serializable;
+
 import ar.edu.ub.buscaminas.excepciones.RecordJuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 
-public class RecordJuegoSupervivenciaSinglePlayer extends RecordJuego {
+public class RecordJuegoSupervivenciaSingleplayer extends RecordJuego implements Serializable, Comparable<RecordJuegoSupervivenciaSingleplayer> {
 
 	/**
 	 * 
@@ -12,7 +14,7 @@ public class RecordJuegoSupervivenciaSinglePlayer extends RecordJuego {
 	private int tiempoPartida;
 	private String dificultad;
 	
-	public RecordJuegoSupervivenciaSinglePlayer(String nombreMapa, String dificultad, Jugador jugador,  int tiempoPartida ) {
+	public RecordJuegoSupervivenciaSingleplayer(String nombreMapa, String dificultad, Jugador jugador,  int tiempoPartida ) {
 		super("Supervivencia - SinglePlayer",  nombreMapa, jugador);
 		this.setDificultad(dificultad);
 		this.setTiempoPartida(tiempoPartida);
@@ -47,6 +49,11 @@ public class RecordJuegoSupervivenciaSinglePlayer extends RecordJuego {
 
 	@Override
 	public String toString() {		
-		return this.getIdRecordJuego() + " - " + this.getTiempoPartida() + " segundos";
+		return this.getIdRecordJuego() + " - " + this.getJugador().getAlias() + " - " +  this.getTiempoPartida() + " segundos";
 	}
+	
+	@Override
+	public int compareTo(RecordJuegoSupervivenciaSingleplayer o) {
+		return this.getTiempoPartida() - o.getTiempoPartida();
+	}	
 }

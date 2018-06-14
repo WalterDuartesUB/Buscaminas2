@@ -43,14 +43,40 @@ public class RecordJuegoRepository {
 		consola.println( this.getRecords() );
 	}
 	
-	public void add( RecordJuego record ) throws RecordJuegoException {
+	public void add( RecordJuegoConquista record ) throws RecordJuegoException {
 		if( record == null )
 			throw new RecordJuegoException("No se puede agregar un RecordJuego que sea null");
-		//TODO solo debe grabar si hay cambios
+		
+		this.agregar( record );
+	}
+	
+	public void add( RecordJuegoSupervivenciaMultiplayer record ) throws RecordJuegoException {
+		if( record == null )
+			throw new RecordJuegoException("No se puede agregar un RecordJuego que sea null");
+				
+		this.agregar( record );
+	}
+		
+	public void add( RecordJuegoSupervivenciaSingleplayer record ) throws RecordJuegoException {
+		if( record == null )
+			throw new RecordJuegoException("No se puede agregar un RecordJuego que sea null");
+		
+		this.agregar( record );
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T extends RecordJuego > void agregar( T record){
+		Comparable<T> recordAnterior = (Comparable<T>)this.getRecords().get( record.getIdRecordJuego() );
+		
+		if( recordAnterior == null || recordAnterior.compareTo( record ) > 0)			
+			this.agregarYGuardar(record);
+	}
+
+	private void agregarYGuardar(RecordJuego record) {
 		this.getRecords().put( record.getIdRecordJuego(), record );
 		this.save();
 	}
-
+	
 	private Map<String,RecordJuego> getRecords() {
 		return records;
 	}

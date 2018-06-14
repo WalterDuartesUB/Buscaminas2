@@ -1,13 +1,15 @@
 package ar.edu.ub.buscaminas.menu;
-
 import ar.edu.ub.buscaminas.Consola;
+import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 
 public class MenuPrincipal {
 	private Consola consola;
 	private String pathMapas;
-	public MenuPrincipal(Consola consola, String pathMapas) {
+	private RecordJuegoRepository recordJuegoRepository;
+	public MenuPrincipal(Consola consola, String pathMapas, RecordJuegoRepository recordJuegoRepository) {
 		this.setConsola(consola);
 		this.setPathMapas(pathMapas);
+		this.setRecordJuegoRepository(recordJuegoRepository);
 	}
 
 	public void mostrar() {
@@ -24,7 +26,12 @@ public class MenuPrincipal {
 				new MenuMultiPlayer( this.getConsola(), this.getPathMapas() ).mostrar();		
 			else if( opcionUsuario.equals( "R" ) )
 			{
-				//TODO implementar el menu de records				
+				
+				//TODO mover a una clase propia
+				this.getRecordJuegoRepository().load();				
+				this.getRecordJuegoRepository().print( this.getConsola() );
+				this.getConsola().println("Enter para volver al menu principal");
+				this.getConsola().nextLine();
 			}
 			else
 				deboContinuar = false;
@@ -68,6 +75,14 @@ public class MenuPrincipal {
 
 	private void setPathMapas(String pathMapas) {
 		this.pathMapas = pathMapas;
+	}
+
+	public RecordJuegoRepository getRecordJuegoRepository() {
+		return recordJuegoRepository;
+	}
+
+	public void setRecordJuegoRepository(RecordJuegoRepository recordJuegoRepository) {
+		this.recordJuegoRepository = recordJuegoRepository;
 	}
 
 }

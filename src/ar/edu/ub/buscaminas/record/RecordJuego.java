@@ -5,7 +5,7 @@ import java.io.Serializable;
 import ar.edu.ub.buscaminas.excepciones.RecordJuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 
-public abstract class RecordJuego implements Comparable<RecordJuego>, Serializable{
+public abstract class RecordJuego implements Serializable{
 	/**
 	 * 
 	 */
@@ -50,11 +50,6 @@ public abstract class RecordJuego implements Comparable<RecordJuego>, Serializab
 		if( nombreMapa == null || nombreMapa.isEmpty())
 			throw new RecordJuegoException("No se puede crear un RecordJuego con un nombreMapa null o vacio");		
 		this.nombreMapa = nombreMapa;
-	}
-
-	@Override
-	public int compareTo(RecordJuego otroRecord) {
-		return this.getIdRecordJuego().compareTo( otroRecord.getIdRecordJuego() );
 	}
 
 	public String getIdRecordJuego() {

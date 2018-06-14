@@ -5,7 +5,7 @@ import java.io.Serializable;
 import ar.edu.ub.buscaminas.excepciones.RecordJuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 
-public class RecordJuegoConquista extends RecordJuego implements Serializable {
+public class RecordJuegoConquista extends RecordJuego implements Serializable, Comparable<RecordJuegoConquista> {
 
 	/**
 	 * 
@@ -27,6 +27,11 @@ public class RecordJuegoConquista extends RecordJuego implements Serializable {
 	}
 	@Override
 	public String toString() {		
-		return this.getIdRecordJuego() + " - " + this.getCantidadBombas() + " bombas";
+		return this.getIdRecordJuego() + " - " + this.getJugador().getAlias() + " - " + this.getCantidadBombas() + " bombas";
+	}
+	
+	@Override
+	public int compareTo(RecordJuegoConquista otroRecord) {
+		return otroRecord.getCantidadBombas() - this.getCantidadBombas();
 	}
 }
