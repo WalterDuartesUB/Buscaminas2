@@ -20,19 +20,19 @@ public class CheckCasillaBomba implements CheckCasilla, CheckCasillaType  {
 
 	@Override
 	public boolean testCasillaType(CasillaNumero casilla) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
 	public boolean testCasillaType(CasillaBloqueada casilla) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
 	public boolean testCasillaType(CasillaBlanco casilla) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

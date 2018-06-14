@@ -15,13 +15,13 @@ public class CheckCasillaBloqueadas implements CheckCasilla, CheckCasillaType  {
 
 	@Override
 	public boolean testCasillaType(CasillaBomba casilla) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
 	public boolean testCasillaType(CasillaNumero casilla) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -32,7 +32,7 @@ public class CheckCasillaBloqueadas implements CheckCasilla, CheckCasillaType  {
 
 	@Override
 	public boolean testCasillaType(CasillaBlanco casilla) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

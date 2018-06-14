@@ -79,7 +79,7 @@ public class JuegoCarrera extends Juego {
 
 	@Override
 	public boolean terminoJuego() {
-		// TODO Auto-generated method stub
+		
 		return this.getTablero().existeCaminoParaElJugador( this.getCoordenadaInicialJugadores().get( this.getJugadorDeTurno() ) );
 	}
 
