@@ -1,6 +1,13 @@
 package ar.edu.ub.buscaminas.jugador;
 
-public class Jugador {
+import java.io.Serializable;
+
+public class Jugador implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3618930793479323961L;
 	private String alias;
 
 	public Jugador(String alias) {		

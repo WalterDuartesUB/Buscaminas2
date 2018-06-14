@@ -5,7 +5,10 @@ import java.util.List;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
+import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.menu.MenuPrincipal;
+import ar.edu.ub.buscaminas.record.RecordJuegoConquista;
+import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 
 public class Aplicacion implements CasillasPrinter {
 	
@@ -13,7 +16,13 @@ public class Aplicacion implements CasillasPrinter {
 		Consola consola = new Consola();
 		
 		new MenuPrincipal( consola, "./mapas/" ).mostrar();
+/*		
+		RecordJuegoRepository rjr = new RecordJuegoRepository("C:/records.record");
 		
+		rjr.add( new RecordJuegoConquista("cs_aasalt.mapa", new Jugador("Walter"), 4));
+		
+		rjr.print(consola);
+*/		
 		consola.close();
 		
 		

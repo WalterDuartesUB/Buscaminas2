@@ -1,9 +1,11 @@
 package ar.edu.ub.buscaminas.record;
 
+import java.io.Serializable;
+
 import ar.edu.ub.buscaminas.excepciones.RecordJuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 
-public class RecordJuegoConquista extends RecordJuego {
+public class RecordJuegoConquista extends RecordJuego implements Serializable {
 
 	/**
 	 * 
