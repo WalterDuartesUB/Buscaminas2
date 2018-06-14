@@ -35,7 +35,7 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 
 	@Override
 	public boolean terminoJuego() {
-		return ( this.getJugadores().size() == 0 ) || ( this.getTablero().getCantidadBombasBocaAbajo() == 0 );
+		return ( this.getJugadores().size() == 0 ) || ( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 );
 	}
 
 	public static int cantidadMinimaJugadores() {

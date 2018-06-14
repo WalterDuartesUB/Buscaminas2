@@ -200,6 +200,9 @@ public class Tablero implements ITablero {
 	public void loadFromFile(String pathMapa, int porcentajeBombas ) throws TableroException {
 		this.clean();
 		
+		if( porcentajeBombas < 0  || porcentajeBombas >= 100 )
+			throw new TableroException( "El porcentaje de bombas para crear el tablero debe ser mayor que 0 y menor que 100");		
+		
 		try {
 			List<String> lineas = Files.readAllLines( Paths.get( pathMapa ) );
 			Map<String, FabricaCasilla> handlers = new HashMap<String, FabricaCasilla>();
@@ -266,7 +269,7 @@ public class Tablero implements ITablero {
 		if( cantidadColumnas < 0 )
 			throw new TableroException( "La cantidad de columnas para crear el tablero debe ser mayor que 0");
 		
-		if( porcentajeBombas < 0  || porcentajeBombas > 100 )
+		if( porcentajeBombas < 0  || porcentajeBombas >= 100 )
 			throw new TableroException( "El porcentaje de bombas para crear el tablero debe ser mayor que 0 y menor que 100");		
 		
 		//Agrego blancos en una matriz cuadrada
