@@ -151,8 +151,12 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	private void obtenerJugadores( int cantidadMinimaJugadores, int cantidadMaximaJugadores ) {
-		this.getConsola().println("Ingresa la cantidad de jugadores que van a jugar(min:" + cantidadMinimaJugadores + ",max: " + cantidadMaximaJugadores+ "): ");
-		int cantidadJugadores = this.getConsola().nextInt();
+		int cantidadJugadores = 0;
+		
+		while( cantidadJugadores < cantidadMinimaJugadores || cantidadJugadores > cantidadMaximaJugadores ){
+			this.getConsola().println("Ingresa la cantidad de jugadores que van a jugar(min:" + cantidadMinimaJugadores + ",max: " + cantidadMaximaJugadores+ "): ");
+			cantidadJugadores = this.getConsola().nextInt();
+		}
 		
 		this.obtenerAliasJugadores(cantidadJugadores);
 				
