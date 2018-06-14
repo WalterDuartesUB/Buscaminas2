@@ -96,6 +96,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 			this.getJuego().setListener( this );
 			this.getJuego().setJugadoresPrinter( this);
 			this.getJuego().setCasillaPrinter( this );
+			this.getJuego().setRecordJuegoRepository( this.getRecordJuegoRepository() );
 			
 			this.jugarJuego();			
 			

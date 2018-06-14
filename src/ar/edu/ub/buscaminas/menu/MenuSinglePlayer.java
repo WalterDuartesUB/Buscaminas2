@@ -73,7 +73,8 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			tablero.loadFromFile( pathMapa, porcentajeBombas);
 			
 			this.setJuego(new JuegoSupervivenciaSingleplayer( tablero, jugador ));
-						
+			
+			this.getJuego().setRecordJuegoRepository( this.getRecordJuegoRepository() );
 			this.getJuego().setListener( this );
 			this.getJuego().setJugadoresPrinter( this);
 			this.getJuego().setCasillaPrinter( this );

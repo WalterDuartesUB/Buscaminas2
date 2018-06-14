@@ -13,6 +13,7 @@ import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
 import ar.edu.ub.buscaminas.listener.TableroListener;
+import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public abstract class Juego implements TableroListener, IJuego {
@@ -21,6 +22,7 @@ public abstract class Juego implements TableroListener, IJuego {
 	private JuegoListener listener;
 	private JugadoresPrinter	jugadoresPrinter;
 	private Queue<Jugador> jugadores;
+	private RecordJuegoRepository recordJuegoRepository;
 	
 	protected Juego(ITablero tablero) {
 		this.setTablero(tablero);
@@ -139,5 +141,15 @@ public abstract class Juego implements TableroListener, IJuego {
 	
 	public void elegiCasilla(CasillaBloqueada casillaBloqueada) throws CoordenadaInvalidaException	{
 		throw new CoordenadaInvalidaException("No se puede elegir una casilla bloqueada");
+	}
+
+	public void setRecordJuegoRepository(RecordJuegoRepository recordJuegoRepository) {
+		if( recordJuegoRepository == null )
+			throw new JuegoException("No se puede asignar un RecordJuegoRepository null");
+		
+		this.recordJuegoRepository = recordJuegoRepository;		
+	}
+	protected RecordJuegoRepository getRecordJuegoRepository() {
+		return this.recordJuegoRepository;
 	}
 }
