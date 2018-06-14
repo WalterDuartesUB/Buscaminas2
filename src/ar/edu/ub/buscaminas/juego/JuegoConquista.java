@@ -2,6 +2,8 @@ package ar.edu.ub.buscaminas.juego;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
@@ -28,12 +30,46 @@ public class JuegoConquista extends Juego {
 	@Override
 	public void elegiCasilla(CasillaBomba casilla) {
 		this.contarBomba( this.getJugadorDeTurno() );
+				
+		this.evaluarEstadoJuego();
+	}
+
+	private boolean evaluarEstadoJuego() {
+		int cantidadBombas = this.obtenerCantidadMaximaBombasDeJugadores();
+		List<Jugador> jugadoresQueNoAlcanzanAlMaximo = new LinkedList<Jugador>();
 		
-		System.out.println("Bombas Restantes: " + this.getTablero().getCantidadBombasBocaAbajo());
+		System.out.println(this.getContadorBombas());
+		//Quito todos los jugadores que no tengan oportunidad de ganar el partido
+		for( Jugador jugador : this.getJugadores() )
+			if( this.getContadorBombas().get(jugador) + this.getTablero().getCantidadBombasBocaAbajo() < cantidadBombas ) {
+				jugadoresQueNoAlcanzanAlMaximo.add( jugador );
+				this.getContadorBombas().remove( jugador );
+			}
 		
-		
-		if( this.getTablero().getCantidadBombasBocaAbajo() == 0 )
+		//Los "mato" de la partida
+		this.getJugadores().removeAll( jugadoresQueNoAlcanzanAlMaximo );
+				
+		//Si queda un solo jugador, gano ese jugador
+		if( this.getJugadores().size() == 1 )
+		{
 			this.mostrarGanador( this.getJugadorDeTurno() );
+			return true;
+		}
+		//Si no hay mas bombas, es un empate entre los que quedaron
+		else if( this.getTablero().getCantidadBombasBocaAbajo() == 0 ) 
+		{
+			this.mostrarEmpate( this.getJugadores() );
+			return true;
+		}
+		
+		return false;
+	}
+
+	private int obtenerCantidadMaximaBombasDeJugadores() {
+		int cantidadBombas = 0;		
+		for( Jugador jugador : this.getJugadores() )
+			cantidadBombas = Math.max( cantidadBombas, this.getContadorBombas().get(jugador));		
+		return cantidadBombas;
 	}
 
 	private void contarBomba(Jugador jugador) {
@@ -53,14 +89,14 @@ public class JuegoConquista extends Juego {
 
 	@Override
 	public boolean terminoJuego() {
-		return ( this.getTablero().getCantidadBombasBocaAbajo() == 0 );
+		return this.evaluarEstadoJuego();
 	}
 
-	public Map<Jugador, Integer> getContadorBombas() {
+	private Map<Jugador, Integer> getContadorBombas() {
 		return contadorBombas;
 	}
 
-	public void setContadorBombas(Map<Jugador, Integer> contadorBombas) {
+	private void setContadorBombas(Map<Jugador, Integer> contadorBombas) {
 		this.contadorBombas = contadorBombas;
 	}
 

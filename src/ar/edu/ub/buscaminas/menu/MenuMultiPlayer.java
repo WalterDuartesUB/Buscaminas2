@@ -243,7 +243,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		this.getJuego().imprimirEstadoJuego();
 		this.getConsola().println("Empataron los siguientes jugadores: ");
 		for( Jugador jugador : jugadores )
-			this.getConsola().println( jugador );
+			this.getConsola().println( jugador.getAlias() );
 		this.getConsola().println("Enter para volver al menu principal");
 		this.getConsola().nextLine();
 	}
