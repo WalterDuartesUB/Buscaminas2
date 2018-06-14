@@ -62,7 +62,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		//Modo supervivencia
 		if( modoJuego.equals("S") )
 		{
-			this.obtenerJugadores();
+			this.obtenerJugadores( JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores(), JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
 			String pathMapa = this.getPathMapa();
 			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
 			
@@ -78,7 +78,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		//Modo Conquista
 		else if( modoJuego.equals("C") )
 		{
-			this.obtenerJugadores();
+			this.obtenerJugadores( JuegoConquista.cantidadMinimaJugadores(), JuegoConquista.cantidadMaximaJugadores() );
 			String pathMapa = this.getPathMapa();
 			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
 			
@@ -94,7 +94,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		//Modo Carrera
 		else if( modoJuego.equals("R") )
 		{
-			this.obtenerAliasJugadores(4);		
+			this.obtenerJugadores( JuegoCarrera.cantidadMinimaJugadores(), JuegoCarrera.cantidadMaximaJugadores() );		
 			ITablero tablero = 	TableroCarrera.crearTableroPartidaCorta();	
 			this.setJuego(new JuegoCarrera( tablero, this.getJugadores() ));			
 		}
@@ -140,8 +140,8 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		return this.getConsola().nextLine();
 	}
 
-	private void obtenerJugadores() {
-		this.getConsola().println("Ingresa la cantidad de jugadores que van a jugar: ");
+	private void obtenerJugadores( int cantidadMinimaJugadores, int cantidadMaximaJugadores ) {
+		this.getConsola().println("Ingresa la cantidad de jugadores que van a jugar(min:" + cantidadMinimaJugadores + ",max: " + cantidadMaximaJugadores+ "): ");
 		int cantidadJugadores = this.getConsola().nextInt();
 		
 		this.obtenerAliasJugadores(cantidadJugadores);

@@ -109,4 +109,6 @@ public abstract class Juego implements TableroListener, IJuego {
 	public void setJugadoresPrinter(JugadoresPrinter jugadoresPrinter) {
 		this.jugadoresPrinter = jugadoresPrinter;
 	}
+	
+	protected abstract void validarJuego();
 }

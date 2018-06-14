@@ -10,6 +10,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
+import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -106,5 +107,12 @@ public class JuegoCarrera extends Juego {
 
 	public static int cantidadMaximaJugadores() {
 		return 4;
+	}
+
+	@Override
+	protected void validarJuego() {
+		if( this.getJugadores().size() < JuegoCarrera.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoCarrera.cantidadMinimaJugadores() )
+			throw new JuegoException("No se puede iniciar un juego en modo carrera con " + this.getJugadores().size() + ". El minimo es " + JuegoCarrera.cantidadMinimaJugadores() + " y el maximo es " + JuegoCarrera.cantidadMaximaJugadores() );
+		
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
+import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 import ar.edu.ub.buscaminas.tablero.Tablero;
@@ -23,6 +24,7 @@ public class JuegoConquista extends Juego {
 		for( Jugador j : this.getJugadores() )
 			this.getContadorBombas().put( j, new Integer(0) );
 		
+		this.validarJuego();
 	}
 
 	@Override
@@ -70,5 +72,12 @@ public class JuegoConquista extends Juego {
 
 	public static int cantidadMaximaJugadores() {
 		return 4;
+	}
+
+	@Override
+	protected void validarJuego() {
+		if( this.getJugadores().size() < JuegoConquista.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoConquista.cantidadMinimaJugadores() )
+			throw new JuegoException("No se puede iniciar un juego en modo conquista con " + this.getJugadores().size() + ". El minimo es " + JuegoConquista.cantidadMinimaJugadores() + " y el maximo es " + JuegoConquista.cantidadMaximaJugadores() );
+		
 	}	
 }

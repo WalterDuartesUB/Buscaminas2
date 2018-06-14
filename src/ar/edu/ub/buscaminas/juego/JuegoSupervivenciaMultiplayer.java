@@ -5,6 +5,7 @@ import java.util.List;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
+import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 import ar.edu.ub.buscaminas.tablero.Tablero;
@@ -45,13 +46,19 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 	public boolean terminoJuego() {
 		return ( this.getJugadores().size() == 1 ) || ( this.getTablero().getCantidadBombasBocaAbajo() == 0 );
 	}
-
-
+	
 	public static int cantidadMinimaJugadores() {
 		return 2;
 	}
 
 	public static int cantidadMaximaJugadores() {
 		return 8;
+	}
+
+	@Override
+	protected void validarJuego() {
+		if( this.getJugadores().size() < JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() || this.getJugadores().size() > JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() )
+			throw new JuegoException("No se puede iniciar un juego en modo supervivencia multiplayer con " + this.getJugadores().size() + ". El minimo es " + JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() + " y el maximo es " + JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
+		
 	}		
 }
