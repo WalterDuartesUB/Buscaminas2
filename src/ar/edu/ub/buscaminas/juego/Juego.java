@@ -127,6 +127,8 @@ public abstract class Juego implements TableroListener, IJuego {
 	
 	private void agregarJugador(Jugador jugador) {
 		if( jugadores == null )
-			throw new JuegoException("No se puede crear un Juego con un jugador null");		
+			throw new JuegoException("No se puede crear un Juego con un jugador null");
+		
+		this.jugadores.add(jugador);
 	}
 }
