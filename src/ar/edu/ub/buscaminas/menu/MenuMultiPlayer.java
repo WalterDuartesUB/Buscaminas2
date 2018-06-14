@@ -14,6 +14,7 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
+import ar.edu.ub.buscaminas.excepciones.SeleccionDeTableroException;
 import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.juego.Juego;
 import ar.edu.ub.buscaminas.juego.JuegoCarrera;
@@ -57,56 +58,62 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	public void mostrar() {
-		this.getConsola().limpiarPantalla();
-		String modoJuego = this.getModoJuego();
-		
-		//Modo supervivencia
-		if( modoJuego.equals("S") )
-		{
-			this.obtenerJugadores( JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores(), JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
-			String pathMapa = this.obtenerPathMapaUsuario( );
-			int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+		try {
+			this.getConsola().limpiarPantalla();
+			String modoJuego = this.getModoJuego();
 			
-			Tablero tablero = new Tablero();		
-			this.setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));
-			
-			try {
-				tablero.loadFromFile( pathMapa, porcentajeBombas);
-			} catch (TableroException e) {
-				e.printStackTrace();
+			//Modo supervivencia
+			if( modoJuego.equals("S") )
+			{
+				this.obtenerJugadores( JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores(), JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
+				String pathMapa = this.obtenerPathMapaUsuario( );
+				int porcentajeBombas = PORCENTAJE_BOMBAS_SUPERVIVENCIA_MULTIPLAYER;
+				
+				Tablero tablero = new Tablero();		
+				this.setJuego(new JuegoSupervivenciaMultiplayer( tablero, this.getJugadores() ));
+				
+				try {
+					tablero.loadFromFile( pathMapa, porcentajeBombas);
+				} catch (TableroException e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		//Modo Conquista
-		else if( modoJuego.equals("C") )
-		{
-			this.obtenerJugadores( JuegoConquista.cantidadMinimaJugadores(), JuegoConquista.cantidadMaximaJugadores() );
-			String pathMapa = this.obtenerPathMapaUsuario( );
-			int porcentajeBombas = PORCENTAJE_BOMBAS_CONQUISTA_MULTIPLAYER;
+			//Modo Conquista
+			else if( modoJuego.equals("C") )
+			{
+				this.obtenerJugadores( JuegoConquista.cantidadMinimaJugadores(), JuegoConquista.cantidadMaximaJugadores() );
+				String pathMapa = this.obtenerPathMapaUsuario( );
+				int porcentajeBombas = PORCENTAJE_BOMBAS_CONQUISTA_MULTIPLAYER;
+				
+				Tablero tablero = new Tablero();		
+				this.setJuego(new JuegoConquista( tablero, this.getJugadores() ));
+				
+				try {
+					tablero.loadFromFile( pathMapa, porcentajeBombas);
+				} catch (TableroException e) {
+					e.printStackTrace();
+				}			
+			}
+			//Modo Carrera
+			else if( modoJuego.equals("R") )
+			{
+				this.obtenerJugadores( JuegoCarrera.cantidadMinimaJugadores(), JuegoCarrera.cantidadMaximaJugadores() );		
+				ITablero tablero = 	TableroCarrera.crearTableroPartidaCorta();	
+				this.setJuego(new JuegoCarrera( tablero, this.getJugadores() ));			
+			}
 			
-			Tablero tablero = new Tablero();		
-			this.setJuego(new JuegoConquista( tablero, this.getJugadores() ));
+			//Cableo las interfaces		
+			this.getJuego().setListener( this );
+			this.getJuego().setJugadoresPrinter( this);
+			this.getJuego().setCasillaPrinter( this );
 			
-			try {
-				tablero.loadFromFile( pathMapa, porcentajeBombas);
-			} catch (TableroException e) {
-				e.printStackTrace();
-			}			
-		}
-		//Modo Carrera
-		else if( modoJuego.equals("R") )
-		{
-			this.obtenerJugadores( JuegoCarrera.cantidadMinimaJugadores(), JuegoCarrera.cantidadMaximaJugadores() );		
-			ITablero tablero = 	TableroCarrera.crearTableroPartidaCorta();	
-			this.setJuego(new JuegoCarrera( tablero, this.getJugadores() ));			
-		}
-		
-		//Cableo las interfaces		
-		this.getJuego().setListener( this );
-		this.getJuego().setJugadoresPrinter( this);
-		this.getJuego().setCasillaPrinter( this );
-		
-		this.jugarJuego();			
-		
+			this.jugarJuego();			
+			
+		}catch (SeleccionDeTableroException e) {
+			this.getConsola().println( e.getMessage() );
+			this.getConsola().println( "Enter para volver al menu principal" );
+			this.getConsola().nextLine();
+		}		
 	}
 
 	private String getModoJuego() {
@@ -136,7 +143,7 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		return new Coordenada( this.getConsola().nextInt() - 1, this.getConsola().nextInt() - 1);
 	}
 
-	private String obtenerPathMapaUsuario() {
+	private String obtenerPathMapaUsuario() throws SeleccionDeTableroException {
 		return MenuMapas.obtenerPathMapa( this.getConsola(), this.getPathMapas());
 	}
 

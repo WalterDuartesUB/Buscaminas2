@@ -12,7 +12,7 @@ public class Aplicacion implements CasillasPrinter {
 	public static void main(String[] args) {
 		Consola consola = new Consola();
 		
-		new MenuPrincipal( consola, "./mapas/" ).mostrar();
+		new MenuPrincipal( consola, "c:/" ).mostrar();
 		
 		consola.close();
 		

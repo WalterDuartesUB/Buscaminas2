@@ -11,6 +11,7 @@ import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
+import ar.edu.ub.buscaminas.excepciones.SeleccionDeTableroException;
 import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.juego.Juego;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
@@ -29,34 +30,42 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	public void mostrar() {
-		Jugador jugador = this.obtenerJugador();
-		String pathMapa = this.obtenerPathMapaUsuario( );
-		int porcentajeBombas = this.obtenerPorcentajeBombas();
-		
-		Tablero tablero = new Tablero();		
-		Juego juego = new JuegoSupervivenciaSingleplayer( tablero, jugador );
 		
 		try {
-			tablero.loadFromFile( pathMapa, porcentajeBombas);
-		} catch (TableroException e) {
-			e.printStackTrace();
-		}
-		
-		juego.setListener( this );
-		juego.setJugadoresPrinter( this);
-		juego.setCasillaPrinter( this );
-		
-		while( !juego.terminoJuego() )
-		{			
-			juego.imprimirEstadoJuego();
+			Jugador jugador = this.obtenerJugador();
+			String pathMapa = this.obtenerPathMapaUsuario( );
+			int porcentajeBombas = this.obtenerPorcentajeBombas();
+			
+			Tablero tablero = new Tablero();		
+			Juego juego = new JuegoSupervivenciaSingleplayer( tablero, jugador );
 			
 			try {
-				juego.elegirCasilla( this.pedirCoordenada() );
-			} catch (CoordenadaInvalidaException e) {
-				this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
-				this.getConsola().nextLine();
+				tablero.loadFromFile( pathMapa, porcentajeBombas);
+			} catch (TableroException e) {
+				e.printStackTrace();
 			}
-		}		
+			
+			juego.setListener( this );
+			juego.setJugadoresPrinter( this);
+			juego.setCasillaPrinter( this );
+			
+			while( !juego.terminoJuego() )
+			{			
+				juego.imprimirEstadoJuego();
+				
+				try {
+					juego.elegirCasilla( this.pedirCoordenada() );
+				} catch (CoordenadaInvalidaException e) {
+					this.getConsola().println( BColor.RED, FColor.WHITE, e.getMessage());
+					this.getConsola().nextLine();
+				}
+			}
+			
+		}catch (SeleccionDeTableroException e) {
+			this.getConsola().println( e.getMessage() );
+			this.getConsola().println( "Enter para volver al menu principal" );
+			this.getConsola().nextLine();
+		}	
 	}
 
 	private Coordenada pedirCoordenada() {
@@ -73,7 +82,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		return this.getConsola().nextInt();
 	}
 
-	private String obtenerPathMapaUsuario() {		
+	private String obtenerPathMapaUsuario() throws SeleccionDeTableroException {		
 		return MenuMapas.obtenerPathMapa(this.getConsola(), this.getPathMapas() );
 	}
 
