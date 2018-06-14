@@ -1,8 +1,11 @@
+
+
+
 package ar.edu.ub.buscaminas.casilla.testcase;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
-import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
+import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaType;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
@@ -64,22 +67,21 @@ public class TestCasillaBomba extends TestCase {
 		
 	}
 	
-	public void testCrearCasillaBombaDondeHayUnaCasillaBloqueada() {
-		/*
+	public void testEqualsMismaCasillaBomba () {
 		Coordenada coordenada = new Coordenada(1,1);
-		boolean pudoCrearCasilla = false;
 		
-		CasillaBloqueada casillaBloqueada = new CasillaBloqueada(coordenada);
+		CasillaBomba casillaBomba1 = new CasillaBomba(coordenada);
+		CasillaBomba casillaBomba2 = new CasillaBomba(coordenada);
 		
-		try {
-			Casilla casilla = casillaBloqueada;
-			casilla = new CasillaBomba(coordenada);
-			pudoCrearCasilla= true;
-		}catch(Exception e ) {
-			pudoCrearCasilla = false;
-		}
-		assertFalse(pudoCrearCasilla);
+		assertTrue(casillaBomba1.equals(casillaBomba2));
+	}
+	
+	public void testEquals2CasillasDistintas() {
+		Coordenada coordenada = new Coordenada(1,1);
+		Coordenada coordenada2 = new Coordenada (2,2);
+		CasillaBomba casillaBomba = new CasillaBomba(coordenada);
+		CasillaNumero casillaNumero = new CasillaNumero(coordenada2, 2);
 		
-		*/
+		assertFalse(casillaBomba.equals(casillaNumero));
 	}
 }

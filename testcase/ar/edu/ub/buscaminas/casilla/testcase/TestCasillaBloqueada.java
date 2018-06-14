@@ -36,4 +36,23 @@ public class TestCasillaBloqueada extends TestCase {
 		
 		assertFalse(pudoCrearCasilla);
 	}
+	
+	public void testEqualsMismaCasillaBloqueada(){
+		Coordenada coordenada = new Coordenada (1,1);
+		CasillaBloqueada casillabloqueada = new CasillaBloqueada(coordenada);
+		CasillaBloqueada casillabloqueada2 = new CasillaBloqueada(coordenada);
+		
+		assertTrue(casillabloqueada.equals(casillabloqueada2));
+	}
+	
+	public void testEqualsDistintaCasillaBloqueada(){
+		Coordenada coordenada = new Coordenada(1,1);
+		Coordenada coordenada2 = new Coordenada(2,2);
+		
+		CasillaBloqueada casillabloqueada = new CasillaBloqueada(coordenada);
+		CasillaBloqueada casillabloqueada2 = new CasillaBloqueada(coordenada);
+		
+		assertFalse(casillabloqueada.equals(casillabloqueada2));
+		
+	}
 }

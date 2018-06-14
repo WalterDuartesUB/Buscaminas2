@@ -34,5 +34,26 @@ public class TestCasillaBlanco extends TestCase {
 		
 		assertFalse(pudoCrearCasilla);
 	}
+	
+	public void testEqualsCasillaBlancoMismaCasilla(){
+		Coordenada coordenada = new Coordenada(1, 1);
+		
+		CasillaBlanco casilla1 = new CasillaBlanco(coordenada);
+		CasillaBlanco casilla2 = new CasillaBlanco(coordenada);
+		
+		assertTrue(casilla1.equals(casilla2));
+	}
+	
+	public void testEqualsCasillaBlancoDistintaCasilla(){
+		Coordenada coordenada = new Coordenada(1,1);
+		Coordenada coordenada2 = new Coordenada(2,2);
+		
+		CasillaBlanco casilla1 = new CasillaBlanco(coordenada);
+		CasillaBlanco casilla2 = new CasillaBlanco(coordenada2);
+		
+		assertFalse(casilla1.equals(casilla2));
+		
+	}
+	
 
 }
