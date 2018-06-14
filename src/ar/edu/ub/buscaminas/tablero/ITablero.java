@@ -30,4 +30,5 @@ public interface ITablero {
 	public Coordenada getCoordenadaMedioInferior();
 	public Coordenada getCoordenadaMedioIzquierda();
 	public Map<Jugador, Integer> obtenerCantidadCasillasDescubiertasPorJugador(Collection<Jugador> jugadores);
+	public String getNombreMapa();
 }

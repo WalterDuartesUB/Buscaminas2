@@ -5,6 +5,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoSupervivenciaSingleplayer extends Juego {
@@ -22,9 +23,16 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 	public void elegiCasilla(CasillaBlanco casilla) {
 		this.getTablero().mostrarBlancosAlrededor( casilla );
 				
-		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 )
+		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 ) {
 			this.mostrarGanador(this.getJugadorDeTurno());			
+			this.getRecordJuegoRepository().add( new RecordJuegoSupervivenciaSingleplayer(this.getTablero().getNombreMapa(), this.getDificultad(), this.getJugadorDeTurno(), super.getSegundosDuracionPartida() ));
+		}
 
+	}
+
+	private String getDificultad() {
+		//TODO pendiente recibir de afuera el nombre de la dificultad
+		return "ALGUNA DIFICULTAD";
 	}
 
 	@Override

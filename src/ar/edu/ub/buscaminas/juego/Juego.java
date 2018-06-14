@@ -152,4 +152,9 @@ public abstract class Juego implements TableroListener, IJuego {
 	protected RecordJuegoRepository getRecordJuegoRepository() {
 		return this.recordJuegoRepository;
 	}
+
+	public int getSegundosDuracionPartida() {
+		//TODO tiempo en segundos de la partida
+		return 0;
+	}
 }

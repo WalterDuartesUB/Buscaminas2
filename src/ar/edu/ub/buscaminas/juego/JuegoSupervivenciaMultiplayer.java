@@ -8,6 +8,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoSupervivenciaMultiplayer extends Juego{
@@ -22,8 +23,10 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 		
 		this.matarJugadorDeTurno();
 		
-		if( this.getJugadores().size() == 1 )
+		if( this.getJugadores().size() == 1 ) {
 			this.mostrarGanador( this.getJugadorDeTurno() );
+			this.getRecordJuegoRepository().add( new RecordJuegoSupervivenciaMultiplayer(this.getTablero().getNombreMapa(), this.getJugadorDeTurno(), super.getSegundosDuracionPartida() ));
+		}
 	}
 
 	@Override
@@ -45,8 +48,10 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 					this.getJugadores().remove( jugador );
 			
 			//Si queda un solo jugador, es el que gano
-			if( this.getJugadores().size() == 1 )
+			if( this.getJugadores().size() == 1 ) {
 				this.mostrarGanador( this.getJugadorDeTurno() );
+				this.getRecordJuegoRepository().add( new RecordJuegoSupervivenciaMultiplayer(this.getTablero().getNombreMapa(), this.getJugadorDeTurno(), super.getSegundosDuracionPartida() ));				
+			}
 			else
 				this.mostrarEmpate( this.getJugadores() );
 			

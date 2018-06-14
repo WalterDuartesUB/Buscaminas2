@@ -11,6 +11,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuegoConquista;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoConquista extends Juego {
@@ -50,6 +51,7 @@ public class JuegoConquista extends Juego {
 		//Si queda un solo jugador, gano ese jugador
 		if( this.getJugadores().size() == 1 )
 		{
+			this.getRecordJuegoRepository().add( new RecordJuegoConquista( this.getTablero().getNombreMapa(), this.getJugadorDeTurno(), this.getContadorBombas().get(this.getJugadorDeTurno())));
 			this.mostrarGanador( this.getJugadorDeTurno() );
 			return true;
 		}

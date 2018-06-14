@@ -539,5 +539,11 @@ public class Tablero implements ITablero {
 			casillasDescubiertas.put(jugador, this.getCasillasDelJugador(jugador).size() );
 		
 		return casillasDescubiertas;
+	}
+
+	@Override
+	public String getNombreMapa() {
+		//TODO pendiente cargar el nombre del mapa cuando se levanta de file / crea hardcodeado
+		return "mapa sin nombre";
 	}	
 }
