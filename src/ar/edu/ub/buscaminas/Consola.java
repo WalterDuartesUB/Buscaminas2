@@ -45,10 +45,10 @@ public class Consola implements IConsola {
 	public int nextInt() {
 		return Integer.parseInt(this.nextLine());
 	}
-	public Scanner getIn() {
+	private Scanner getIn() {
 		return in;
 	}
-	public void setIn(Scanner in) {
+	private void setIn(Scanner in) {
 		this.in = in;
 	}
 	@Override
@@ -60,10 +60,10 @@ public class Consola implements IConsola {
 		for( int i = 0; i < 30; i ++)
 			System.out.println();
 	}
-	public ColoredPrinter getCp() {
+	private ColoredPrinter getCp() {
 		return cp;
 	}
-	public void setCp(ColoredPrinter cp) {
+	private void setCp(ColoredPrinter cp) {
 		this.cp = cp;
 	}
 	@Override
