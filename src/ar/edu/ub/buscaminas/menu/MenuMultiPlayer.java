@@ -103,11 +103,28 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	private String getModoJuego() {
-		this.getConsola().println("Elegi el modo de Juego");		
-		this.getConsola().println("S - Supervivencia");		
-		this.getConsola().println("C - Conquista");		
-		this.getConsola().println("R - Carrera");		
-		return this.getConsola().nextLine().toUpperCase();
+		Map<String, String> opcionesMenu = new HashMap<String,String>();
+		boolean deboContinuar = true;
+		String opcionElegida = "";
+		
+		//Agrego las opciones del menu
+		opcionesMenu.put("S", "Supervivencia");
+		opcionesMenu.put("C", "Conquista");
+		opcionesMenu.put("R", "Carrera");
+		
+		while( deboContinuar ) {
+			this.getConsola().limpiarPantalla();
+			this.getConsola().println("Elegi el modo de Juego");
+			this.getConsola().println("----------------------");
+			
+			for( String opcion : opcionesMenu.keySet() )
+				this.getConsola().println( opcion + " - " + opcionesMenu.get(opcion));
+	
+			opcionElegida = this.getConsola().nextLine().toUpperCase();
+			deboContinuar = !opcionesMenu.containsKey( opcionElegida );
+		}
+		
+		return opcionElegida;
 	}
 
 	private void jugarJuego() {
