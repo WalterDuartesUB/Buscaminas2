@@ -79,9 +79,9 @@ public class TestCoordenada extends TestCase {
 	
 	public void testEqualsCoordenadaDistintaCasilla(){
 		Coordenada coordenada = new Coordenada(1,1);
-		Coordenada coordenada2 = new Coordenada(1,1);
+		Coordenada coordenada2 = new Coordenada(2,4);
 		
-		assertTrue(coordenada.equals(coordenada2));
+		assertFalse(coordenada.equals(coordenada2));
 		
 	}
 
