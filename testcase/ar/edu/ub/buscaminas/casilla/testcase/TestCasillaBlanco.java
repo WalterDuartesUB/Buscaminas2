@@ -1,9 +1,7 @@
 package ar.edu.ub.buscaminas.casilla.testcase;
 
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
-import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
-import ar.edu.ub.buscaminas.casilla.EstadoCasilla;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaIsNullException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
@@ -98,6 +96,8 @@ public class TestCasillaBlanco extends TestCase {
 		
 		CasillaBlanco casilla1 = new CasillaBlanco(coordenada);
 		CasillaBlanco casilla2 = new CasillaBlanco(coordenada2);
+		
+		assertEquals(1, casilla1.compareTo(casilla2));
 
 	
 		
@@ -222,16 +222,6 @@ public class TestCasillaBlanco extends TestCase {
 	}
 	
 	
-	public void testTestCasillaTypeCasillaBlanca() {
-		Coordenada coordenada = new Coordenada(1, 1);
-		
-		CasillaBlanco casilla1 = new CasillaBlanco(coordenada);
-
-		
-		/*
-		 * ??
-		 */
-	}
 	
 	public void testToStringCasillaBlanca() {
 		Coordenada coordenada = new Coordenada(1, 1);
