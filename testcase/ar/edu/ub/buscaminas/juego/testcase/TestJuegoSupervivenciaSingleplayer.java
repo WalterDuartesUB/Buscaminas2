@@ -1,13 +1,8 @@
 package ar.edu.ub.buscaminas.juego.testcase;
 
 import ar.edu.ub.buscaminas.jugador.Jugador;
-import ar.edu.ub.buscaminas.listener.JuegoListener;
-import ar.edu.ub.buscaminas.menu.MenuSinglePlayer;
 import ar.edu.ub.buscaminas.menu.MenuSinglePlayer.DificultadesSinglePlayer;
-
-import java.util.Collection;
-
-import ar.edu.ub.buscaminas.casilla.CasillaBomba;
+import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
@@ -16,80 +11,12 @@ import ar.edu.ub.buscaminas.juego.Juego;
 import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.tablero.Tablero;
 import ar.edu.ub.buscaminas.tablero.TableroPrueba;
+import ar.edu.ub.buscaminas.testing.listenerprueba.JuegoListenerPrueba;
 import junit.framework.TestCase;
 
 public class TestJuegoSupervivenciaSingleplayer extends TestCase {
-	
-	//TODO mover a un paquete de testing
-	class JuegoListenerPrueba implements JuegoListener{
-		private boolean hayGanador;
-		private boolean hayPerdedor;
-		private boolean hayEmpate;
-		private boolean hayCambioTurno;
-		
-		public JuegoListenerPrueba() {
-			this.setHayGanador(false);
-			this.setHayPerdedor(false);
-			this.setHayEmpate(false);
-			this.setHayCambioTurno(false);
-		}
 
-		@Override
-		public void mostrarGanador(Jugador jugador) {
-			this.setHayGanador(true);			
-		}
-
-		@Override
-		public void mostrarPerdedor(Jugador jugador) {
-			this.setHayPerdedor(true);			
-		}
-
-		@Override
-		public void mostrarEmpate(Collection<Jugador> jugadores) {
-			this.setHayEmpate( true );
-			
-		}
-
-		@Override
-		public void pedirCambioDeTurno() {
-			this.setHayCambioTurno(true);			
-		}
-
-		public boolean isHayEmpate() {
-			return hayEmpate;
-		}
-
-		private void setHayEmpate(boolean hayEmpate) {
-			this.hayEmpate = hayEmpate;
-		}
-
-		public boolean isHayPerdedor() {
-			return hayPerdedor;
-		}
-
-		private void setHayPerdedor(boolean hayPerdedor) {
-			this.hayPerdedor = hayPerdedor;
-		}
-
-		public boolean isHayGanador() {
-			return hayGanador;
-		}
-
-		private void setHayGanador(boolean hayGanador) {
-			this.hayGanador = hayGanador;
-		}
-
-		public boolean isHayCambioTurno() {
-			return hayCambioTurno;
-		}
-
-		public void setHayCambioTurno(boolean hayCambioTurno) {
-			this.hayCambioTurno = hayCambioTurno;
-		}
-		
-	}
-
-	public void testPerderPartida() {
+	public void testPerderJuego (){
 		Tablero tablero = new TableroPrueba();
 		Juego juego = new JuegoSupervivenciaSingleplayer(tablero, "FACIL", new Jugador("Walter") );
 		JuegoListenerPrueba listener = new JuegoListenerPrueba();
@@ -101,12 +28,31 @@ public class TestJuegoSupervivenciaSingleplayer extends TestCase {
 			juego.elegirCasilla( new Coordenada(0,0) );
 		} catch (CoordenadaInvalidaException e) {
 		}
+
 		
 		assertTrue( listener.isHayPerdedor() );
 		assertFalse(listener.isHayGanador() );
 		assertFalse( listener.isHayEmpate() );
 	
 	}
+	/*
+	public void testElijoCasilleroSinBomba() {
+		Tablero tablero = new TableroPrueba();
+		Juego juego = new JuegoSupervivenciaSingleplayer(tablero, "FACIL", new Jugador("asd") );
+		JuegoListenerPrueba listener = new JuegoListenerPrueba();
+		
+		juego.setListener(listener);
+		System.out.println(listener.isHayPerdedor());
+		
+		//Elijo la bomba fijada en 0,0 en el tablero de prueba
+		try {
+			juego.elegirCasilla( new Coordenada(1,1) );
+		} catch (CoordenadaInvalidaException e) {
+		}
+		
+		System.out.println(listener.isHayPerdedor());
+	}
+	*/
 	
 	public void testCrearJuegoSupervivenciaSingleplayer() {
 		
@@ -261,7 +207,7 @@ public class TestJuegoSupervivenciaSingleplayer extends TestCase {
 		}
 		
 		
-		JuegoSupervivenciaSingleplayer juego = 	new JuegoSupervivenciaSingleplayer(tablero,dificultad , jugador);
+		Juego juego = 	new JuegoSupervivenciaSingleplayer(tablero,dificultad , jugador);
 		
 		assertFalse(juego.terminoJuego());
 	}

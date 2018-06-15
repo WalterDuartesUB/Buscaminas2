@@ -1,8 +1,6 @@
 package ar.edu.ub.buscaminas.tablero.testcase;
 
-import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
-import ar.edu.ub.buscaminas.casilla.CasillaBomba;
-import ar.edu.ub.buscaminas.casilla.Coordenada;
+
 import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.menu.MenuSinglePlayer.DificultadesSinglePlayer;
 import ar.edu.ub.buscaminas.tablero.Tablero;

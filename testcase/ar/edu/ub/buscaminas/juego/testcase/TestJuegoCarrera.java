@@ -1,17 +1,12 @@
 package ar.edu.ub.buscaminas.juego.testcase;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
+import java.util.List;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
-import ar.edu.ub.buscaminas.excepciones.TableroException;
 import ar.edu.ub.buscaminas.juego.JuegoCarrera;
-import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
-import ar.edu.ub.buscaminas.menu.MenuSinglePlayer.DificultadesSinglePlayer;
 import ar.edu.ub.buscaminas.tablero.ITablero;
-import ar.edu.ub.buscaminas.tablero.Tablero;
 import ar.edu.ub.buscaminas.tablero.TableroCarrera;
 import junit.framework.TestCase;
 
