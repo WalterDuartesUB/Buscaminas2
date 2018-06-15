@@ -48,6 +48,7 @@ public class Tablero implements ITablero {
 	private Map<Coordenada,Casilla> casillas;
 	private TableroListener listener;
 	private CasillasPrinter printer;
+	private String nombreMapa;
 	
 	public Tablero() {
 		this.clean();
@@ -200,8 +201,14 @@ public class Tablero implements ITablero {
 	public void loadFromFile(String pathMapa, int porcentajeBombas ) throws TableroException {
 		this.clean();
 		
+		if( pathMapa == null || pathMapa.isEmpty() )
+			throw new TableroException( "El path del archivo de mapa no puede ser null o vacio");
+		
 		if( porcentajeBombas < 0  || porcentajeBombas >= 100 )
 			throw new TableroException( "El porcentaje de bombas para crear el tablero debe ser mayor que 0 y menor que 100");		
+		
+		//Me quedo con el nombre del archivo
+		this.setNombreMapa( pathMapa.substring( pathMapa.replace("\\","/").lastIndexOf("/") + 1 ) );
 		
 		try {
 			List<String> lineas = Files.readAllLines( Paths.get( pathMapa ) );
@@ -543,7 +550,10 @@ public class Tablero implements ITablero {
 
 	@Override
 	public String getNombreMapa() {
-		//TODO pendiente cargar el nombre del mapa cuando se levanta de file / crea hardcodeado
-		return "mapa sin nombre";
+		return this.nombreMapa;
+	}
+
+	protected void setNombreMapa(String nombreMapa) {
+		this.nombreMapa = nombreMapa;
 	}	
 }

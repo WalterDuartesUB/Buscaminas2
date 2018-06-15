@@ -19,6 +19,11 @@ public abstract class Casilla implements Comparable<Casilla> {
 		this.voltearBocaAbajo();
 	}
 
+	protected Casilla(Coordenada coordenada, String dibujo, EstadoCasilla estadoCasilla) {
+		this(coordenada, dibujo);
+		this.setEstado(estadoCasilla);
+	}
+
 	@Override
 	public int hashCode() {		
 		return this.getCoordenada().hashCode();
@@ -92,7 +97,6 @@ public abstract class Casilla implements Comparable<Casilla> {
 	}
 
 	public void voltearBocaAbajo() {
-		//TODO cada tipo de casilla deberia elegir como comportarse al voltearse boca abajo
 		this.setEstado( EstadoCasilla.BOCA_ABAJO );
 		this.setJugador( null );
 	}
