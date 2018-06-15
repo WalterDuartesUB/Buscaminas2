@@ -25,7 +25,7 @@ import ar.edu.ub.buscaminas.tablero.Tablero;
 
 public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, JugadoresPrinter {
 	
-	enum DificultadesSinglePlayer{
+	public enum DificultadesSinglePlayer{
 		FACIL {
 			@Override
 			public int getPorcentajeBombas() {		
