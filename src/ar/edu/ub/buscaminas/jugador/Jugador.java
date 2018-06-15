@@ -2,6 +2,8 @@ package ar.edu.ub.buscaminas.jugador;
 
 import java.io.Serializable;
 
+import ar.edu.ub.buscaminas.excepciones.JugadorException;
+
 public class Jugador implements Serializable{
 	
 	/**
@@ -23,6 +25,8 @@ public class Jugador implements Serializable{
 	}
 
 	private void setAlias(String alias) {
+		if( alias == null || alias.isEmpty() )
+			throw new JugadorException("El alias del Jugador no puede ser null o vacio");
 		this.alias = alias;
 	}
 
