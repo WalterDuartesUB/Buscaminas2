@@ -85,7 +85,7 @@ public class TestTablero extends TestCase {
 	
 	public void testCrearTableroMapaDatosInvalidos() {
 		
-		String pathMapa ="./mapas/test.mapa";
+		String pathMapa ="./mapastest/test.mapa";
 		boolean pudoCrear = false;
 		try {
 			Tablero tablero = new Tablero();
@@ -100,7 +100,7 @@ public class TestTablero extends TestCase {
 	
 	public void testCrearTableroMapaInexistente() {
 		
-		String pathMapa ="./mapas/tes2t.mapa";
+		String pathMapa ="./mapastest/tes2t.mapa";
 		boolean pudoCrear = false;
 		try {
 			Tablero tablero = new Tablero();
@@ -115,7 +115,7 @@ public class TestTablero extends TestCase {
 	
 	public void testCrearTableroMapaAnchoMayor100Alto() {
 		
-		String pathMapa ="./mapas/test2.mapa";
+		String pathMapa ="./mapastest/test2.mapa";
 		boolean pudoCrear = false;
 		try {
 			Tablero tablero = new Tablero();
@@ -129,7 +129,7 @@ public class TestTablero extends TestCase {
 	}
 	public void testCrearTableroMapaAltoMayor100Ancho() {
 		
-		String pathMapa ="./mapas/test3.mapa";
+		String pathMapa ="./mapastest/test3.mapa";
 		boolean pudoCrear = false;
 		try {
 			Tablero tablero = new Tablero();
@@ -143,7 +143,7 @@ public class TestTablero extends TestCase {
 	}
 	public void testCrearTableroMapaMenor64Casilla() {
 		
-		String pathMapa ="./mapas/test4.mapa";
+		String pathMapa ="./mapastest/test4.mapa";
 		boolean pudoCrear = false;
 		Tablero tablero = new Tablero();
 		try {
