@@ -41,7 +41,6 @@ public class RecordJuegoRepository {
 	}
 	
 	public void print( Consola consola ) {
-		//TODO cambiar para que imprima cada registro alineado
 		for( String tipoRecord : this.getRecords().keySet() )			
 			consola.println( this.getRecords().get(tipoRecord) );
 	}

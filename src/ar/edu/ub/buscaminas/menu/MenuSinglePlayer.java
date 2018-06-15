@@ -67,12 +67,12 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		try {
 			Jugador jugador = this.obtenerJugador();
 			String pathMapa = this.obtenerPathMapaUsuario( );
-			int porcentajeBombas = this.obtenerPorcentajeBombas();
+			DificultadesSinglePlayer dificultad = this.obtenerDificultad();
 			
 			Tablero tablero = new Tablero();
-			tablero.loadFromFile( pathMapa, porcentajeBombas);
+			tablero.loadFromFile( pathMapa, dificultad.getPorcentajeBombas());
 			
-			this.setJuego(new JuegoSupervivenciaSingleplayer( tablero, jugador ));
+			this.setJuego(new JuegoSupervivenciaSingleplayer( tablero, dificultad.name(), jugador ));
 			
 			this.getJuego().setRecordJuegoRepository( this.getRecordJuegoRepository() );
 			this.getJuego().setListener( this );
@@ -108,7 +108,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 		return new Jugador( this.getConsola().nextLine() );
 	}
 
-	private int obtenerPorcentajeBombas() {
+	private DificultadesSinglePlayer obtenerDificultad() {
 		DificultadesSinglePlayer dificultad = null;
 		Map<String, DificultadesSinglePlayer>  opcionesDificultad = new HashMap<String,DificultadesSinglePlayer>();
 		
@@ -129,7 +129,8 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 			dificultad = opcionesDificultad.get( this.getConsola().nextLine().toUpperCase() );
 		}
 		
-		return dificultad.getPorcentajeBombas();
+//		return dificultad.getPorcentajeBombas();
+		return dificultad;
 	}
 
 	private String obtenerPathMapaUsuario() throws SeleccionDeTableroException {		

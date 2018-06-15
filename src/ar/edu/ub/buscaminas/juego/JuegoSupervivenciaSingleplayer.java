@@ -9,8 +9,10 @@ import ar.edu.ub.buscaminas.record.RecordJuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoSupervivenciaSingleplayer extends Juego {
-	public JuegoSupervivenciaSingleplayer(ITablero tablero, Jugador jugador) {
+	private String nombreDificultad;
+	public JuegoSupervivenciaSingleplayer(ITablero tablero, String nombreDificultad, Jugador jugador) {
 		super( tablero, jugador );
+		this.setNombreDificultad(nombreDificultad);
 	}
 
 	@Override
@@ -25,14 +27,9 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 				
 		if( this.getTablero().getCantidadBlancosYNumerosBocaAbajo() == 0 ) {
 			this.mostrarGanador(this.getJugadorDeTurno());			
-			this.getRecordJuegoRepository().add( new RecordJuegoSupervivenciaSingleplayer(this.getTablero().getNombreMapa(), this.getDificultad(), this.getJugadorDeTurno(), super.getSegundosDuracionPartida() ));
+			this.getRecordJuegoRepository().add( new RecordJuegoSupervivenciaSingleplayer(this.getTablero().getNombreMapa(), this.getNombreDificultad(), this.getJugadorDeTurno(), super.getSegundosDuracionPartida() ));
 		}
 
-	}
-
-	private String getDificultad() {
-		//TODO pendiente recibir de afuera el nombre de la dificultad
-		return "ALGUNA DIFICULTAD";
 	}
 
 	@Override
@@ -59,5 +56,16 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 		if( this.getJugadores().size() > JuegoSupervivenciaSingleplayer.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoSupervivenciaSingleplayer.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo supervivencia singleplayer con " + this.getJugadores().size() + ". El minimo es " + JuegoSupervivenciaSingleplayer.cantidadMinimaJugadores() + " y el maximo es " + JuegoSupervivenciaSingleplayer.cantidadMaximaJugadores() );
 		
+	}
+
+	public String getNombreDificultad() {
+		return nombreDificultad;
+	}
+
+	private void setNombreDificultad(String nombreDificultad) {
+		if( nombreDificultad == null || nombreDificultad.isEmpty() )
+			throw new JuegoException("No se puede crear un JuegoSupervivenciaSingleplayer con nombreDificultad null o vacio");
+		
+		this.nombreDificultad = nombreDificultad;
 	}
 }

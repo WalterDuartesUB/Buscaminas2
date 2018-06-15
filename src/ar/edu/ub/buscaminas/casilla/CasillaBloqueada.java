@@ -7,13 +7,7 @@ import ar.edu.ub.buscaminas.listener.TableroListener;
 public class CasillaBloqueada extends Casilla {
 
 	public CasillaBloqueada(Coordenada coordenada) {
-		super(coordenada, "X");
-		
-		//TODO cambiar esto
-		try {
-			this.voltearBocaArriba();
-		} catch (CoordenadaInvalidaException e) {
-		}
+		super(coordenada, "X", EstadoCasilla.BOCA_ARRIBA);
 	}
 
 	@Override

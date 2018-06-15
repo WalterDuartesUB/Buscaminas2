@@ -30,7 +30,6 @@ public class JuegoConquista extends Juego {
 	@Override
 	public void elegiCasilla(CasillaBomba casilla) {
 		this.contarBomba( this.getJugadorDeTurno() );
-//		this.evaluarEstadoJuego();
 	}
 
 	private boolean evaluarEstadoJuego() {
