@@ -25,7 +25,7 @@ public class Jugador implements Serializable{
 	}
 
 	private void setAlias(String alias) {
-		if( alias == null || alias.isEmpty() )
+		if( alias == null || alias.isEmpty() || alias == " " )
 			throw new JugadorException("El alias del Jugador no puede ser null o vacio");
 		this.alias = alias;
 	}
