@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class TestRecordJuegoRepository extends TestCase {
 	
 	public void testCrearRecord() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 		
 		boolean pudoCrear = false;
 		
@@ -29,7 +29,7 @@ public class TestRecordJuegoRepository extends TestCase {
 	
 	
 	public void testCrearRecordNullConquista() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 		//RecordJuegoConquista record = new RecordJuegoConquista(nombreMapa,jugador,cantidadBomba);
 		RecordJuegoConquista record = null;
 		RecordJuegoRepository repo = new RecordJuegoRepository(path);
@@ -46,7 +46,7 @@ public class TestRecordJuegoRepository extends TestCase {
 	}
 	
 	public void testAgregarRecordConquista() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 		int cantidadBomba = 5;
 		Jugador jugador = new Jugador("asd");
 		String nombreMapa = "fdsa";
@@ -64,7 +64,7 @@ public class TestRecordJuegoRepository extends TestCase {
 		assertTrue(pudoAgregar);
 	}
 	public void testCrearRecordSingle() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 		Jugador jugador = new Jugador("asd");
 		String nombreMapa = "fdsa";
 		long tiempo = 44444;
@@ -85,7 +85,7 @@ public class TestRecordJuegoRepository extends TestCase {
 	}
 	
 	public void testAgregarRecordSingleNull() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 
 		RecordJuegoSupervivenciaSingleplayer record = null;
 		RecordJuegoRepository repo = new RecordJuegoRepository(path);
@@ -102,7 +102,7 @@ public class TestRecordJuegoRepository extends TestCase {
 	}
 	
 	public void testCrearRecordMulti() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 		Jugador jugador = new Jugador("asd");
 		String nombreMapa = "fdsa";
 		long tiempo = 44444;
@@ -122,7 +122,7 @@ public class TestRecordJuegoRepository extends TestCase {
 	}
 	
 	public void testAgregarRecordMultiNull() {
-		String path = "./record/records.rec";
+		String path = "./record/records2.rec";
 		
 		RecordJuegoSupervivenciaMultiplayer record = null;
 		RecordJuegoRepository repo = new RecordJuegoRepository(path);
