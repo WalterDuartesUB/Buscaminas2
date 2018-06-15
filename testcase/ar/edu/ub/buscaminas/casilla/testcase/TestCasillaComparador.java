@@ -1,13 +1,10 @@
 package ar.edu.ub.buscaminas.casilla.testcase;
 
-import ar.edu.ub.buscaminas.casilla.Casilla;
+
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaComparador;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.casilla.CasillaComparador.CriterioOrdenamiento;
-import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
-import ar.edu.ub.buscaminas.excepciones.CoordenadaIsNullException;
-import ar.edu.ub.buscaminas.jugador.Jugador;
 import junit.framework.TestCase;
 
 public class TestCasillaComparador extends TestCase {
