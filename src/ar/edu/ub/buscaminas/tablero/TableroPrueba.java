@@ -9,13 +9,12 @@ public class TableroPrueba extends Tablero {
 	public TableroPrueba() {
 		super();
 		
+		for( int fila = 0; fila < 8; fila ++ )
+			for( int columna = 0; columna < 8; columna++ )
+				this.add( new CasillaBlanco( new Coordenada( fila, columna)));
+				
+		//Pongo bombas donde me conviene
 		this.add( new CasillaBomba( new Coordenada(0,0)));
-		this.add( new CasillaBlanco( new Coordenada(0,1)));
-		this.add( new CasillaBlanco( new Coordenada(0,2)));
-		this.add( new CasillaBlanco( new Coordenada(0,3)));
-		this.add( new CasillaBlanco( new Coordenada(0,4)));
-		this.add( new CasillaBlanco( new Coordenada(0,5)));
-		this.add( new CasillaBlanco( new Coordenada(0,6)));
-		this.add( new CasillaNumero( new Coordenada(1,1), 2));
+		this.add( new CasillaBomba( new Coordenada(3,3)));
 	}
 }
