@@ -29,13 +29,7 @@ public class MenuPrincipal {
 				new MenuMultiPlayer( this.getConsola(), this.getPathMapas(), this.getRecordJuegoRepository() ).mostrar();		
 			else if( opcionUsuario.equals( "R" ) )
 			{				
-				//TODO mover a una clase propia	
-				this.getConsola().limpiarPantalla();
-				this.getConsola().println("Records");
-				this.getConsola().println("-------");
-				this.getRecordJuegoRepository().print( this.getConsola() );
-				this.getConsola().println("Enter para volver al menu principal");
-				this.getConsola().nextLine();
+				new MenuRegistros( this.getConsola(), this.getRecordJuegoRepository() ).mostrar();
 			}
 			else
 				deboContinuar = false;

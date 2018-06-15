@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ar.edu.ub.buscaminas.Consola;
 import ar.edu.ub.buscaminas.excepciones.RecordJuegoException;
@@ -41,7 +43,9 @@ public class RecordJuegoRepository {
 	}
 	
 	public void print( Consola consola ) {
-		for( String tipoRecord : this.getRecords().keySet() )			
+		Set<String> nombresModoJuego = new TreeSet<String>( this.getRecords().keySet() );
+		
+		for( String tipoRecord :  nombresModoJuego )			
 			consola.println( this.getRecords().get(tipoRecord) );
 	}
 	
