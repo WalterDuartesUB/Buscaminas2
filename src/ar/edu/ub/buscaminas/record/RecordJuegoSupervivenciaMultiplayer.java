@@ -11,18 +11,18 @@ public class RecordJuegoSupervivenciaMultiplayer extends RecordJuego implements 
 	 * 
 	 */
 	private static final long serialVersionUID = 6575198882362517009L;
-	private int tiempoPartida;
+	private long tiempoPartida;
 	
-	public RecordJuegoSupervivenciaMultiplayer(String nombreMapa, Jugador jugador,  int tiempoPartida ) {
+	public RecordJuegoSupervivenciaMultiplayer(String nombreMapa, Jugador jugador,  long tiempoPartida ) {
 		super("Supervivencia - Multiplayer",  nombreMapa, jugador);		
 		this.setTiempoPartida(tiempoPartida);
 	}
 	
-	public int getTiempoPartida() {
+	public long getTiempoPartida() {
 		return tiempoPartida;
 	}
 	
-	private void setTiempoPartida(int tiempoPartida) {
+	private void setTiempoPartida(long tiempoPartida) {
 		if( tiempoPartida < 0 )
 			throw new RecordJuegoException("No se puede crear un RecordJuegoSupervivenciaMultiplayer con un tiempoPartida menor a cero");
 		
@@ -35,6 +35,6 @@ public class RecordJuegoSupervivenciaMultiplayer extends RecordJuego implements 
 
 	@Override
 	public int compareTo(RecordJuegoSupervivenciaMultiplayer o) {
-		return this.getTiempoPartida() - o.getTiempoPartida();
+		return (int)(this.getTiempoPartida() - o.getTiempoPartida());
 	}
 }

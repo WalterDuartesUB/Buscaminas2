@@ -3,6 +3,7 @@ package ar.edu.ub.buscaminas.juego;
 import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
 import ar.edu.ub.buscaminas.casilla.CasillaBloqueada;
 import ar.edu.ub.buscaminas.casilla.CasillasPrinter;
@@ -23,11 +24,13 @@ public abstract class Juego implements TableroListener, IJuego {
 	private JugadoresPrinter	jugadoresPrinter;
 	private Queue<Jugador> jugadores;
 	private RecordJuegoRepository recordJuegoRepository;
+	private long tiempoInicioJuego;
 	
 	protected Juego(ITablero tablero) {
 		this.setTablero(tablero);
 		this.setJugadores( new ConcurrentLinkedQueue<Jugador>());
 		this.getTablero().setListener( this );		
+		this.setTiempoInicioJuego( System.nanoTime() );
 	}
 	
 	public Juego(ITablero tablero, Jugador jugador ) {
@@ -153,8 +156,15 @@ public abstract class Juego implements TableroListener, IJuego {
 		return this.recordJuegoRepository;
 	}
 
-	public int getSegundosDuracionPartida() {
-		//TODO tiempo en segundos de la partida
-		return 0;
+	public long getSegundosDuracionPartida() {
+		return TimeUnit.SECONDS.convert(System.nanoTime() - this.getTiempoInicioJuego(), TimeUnit.NANOSECONDS);
+	}
+
+	protected long getTiempoInicioJuego() {
+		return tiempoInicioJuego;
+	}
+
+	private void setTiempoInicioJuego(long tiempoInicioJuego) {
+		this.tiempoInicioJuego = tiempoInicioJuego;
 	}
 }

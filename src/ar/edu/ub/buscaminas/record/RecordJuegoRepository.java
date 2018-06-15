@@ -1,6 +1,8 @@
 package ar.edu.ub.buscaminas.record;
 
+import java.io.EOFException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -24,6 +26,7 @@ public class RecordJuegoRepository {
 	public void load() {
 		try( ObjectInputStream inputStream = new ObjectInputStream( new FileInputStream( this.getPathRecords() ) ) ){
 			this.setRecords( ( Map<String,RecordJuego> ) inputStream.readObject() );	
+		} catch( FileNotFoundException | EOFException e ) { 
 		} catch (IOException | ClassNotFoundException e) {			
 			throw new RecordJuegoException( e.getMessage() );
 		}

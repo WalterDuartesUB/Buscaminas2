@@ -11,20 +11,20 @@ public class RecordJuegoSupervivenciaSingleplayer extends RecordJuego implements
 	 * 
 	 */
 	private static final long serialVersionUID = -5995255441311982415L;
-	private int tiempoPartida;
+	private long tiempoPartida;
 	private String dificultad;
 	
-	public RecordJuegoSupervivenciaSingleplayer(String nombreMapa, String dificultad, Jugador jugador,  int tiempoPartida ) {
+	public RecordJuegoSupervivenciaSingleplayer(String nombreMapa, String dificultad, Jugador jugador,  long tiempoPartida ) {
 		super("Supervivencia - SinglePlayer",  nombreMapa, jugador);
 		this.setDificultad(dificultad);
 		this.setTiempoPartida(tiempoPartida);
 	}
 	
-	public int getTiempoPartida() {
+	public long getTiempoPartida() {
 		return tiempoPartida;
 	}
 	
-	private void setTiempoPartida(int tiempoPartida) {
+	private void setTiempoPartida(long tiempoPartida) {
 		if( tiempoPartida < 0 )
 			throw new RecordJuegoException("No se puede crear un RecordJuegoSupervivenciaSinglePlayer con un tiempoPartida menor a cero");
 		
@@ -54,6 +54,6 @@ public class RecordJuegoSupervivenciaSingleplayer extends RecordJuego implements
 	
 	@Override
 	public int compareTo(RecordJuegoSupervivenciaSingleplayer o) {
-		return this.getTiempoPartida() - o.getTiempoPartida();
+		return (int)(this.getTiempoPartida() - o.getTiempoPartida());
 	}	
 }

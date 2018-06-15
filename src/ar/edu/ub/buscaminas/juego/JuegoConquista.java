@@ -16,8 +16,7 @@ import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoConquista extends Juego {
 
-	private Map<Jugador, Integer> contadorBombas;
-	
+	private Map<Jugador, Integer> contadorBombas;	
 	public JuegoConquista(ITablero tablero, Collection<Jugador> jugadores) {
 		super( tablero, jugadores );
 		this.setContadorBombas(new HashMap<Jugador,Integer>());
