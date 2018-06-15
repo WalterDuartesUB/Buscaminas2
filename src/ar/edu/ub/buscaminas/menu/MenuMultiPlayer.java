@@ -147,8 +147,9 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	private Coordenada pedirCoordenada() {
-		this.getConsola().println("Ingresa el par de coordenadas para descubrir una casilla: ");
-		return new Coordenada( this.getConsola().nextInt(), this.getConsola().nextInt());
+		return this.getConsola().nextCoordenada( "Ingresa el par de coordenadas (fila columna) para descubrir una casilla: " );
+//		this.getConsola().println("Ingresa el par de coordenadas para descubrir una casilla: ");
+//		return new Coordenada( this.getConsola().nextInt(), this.getConsola().nextInt());
 	}
 
 	private String obtenerPathMapaUsuario() throws SeleccionDeTableroException {

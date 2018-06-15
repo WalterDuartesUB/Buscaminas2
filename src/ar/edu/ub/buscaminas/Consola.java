@@ -7,6 +7,8 @@ import com.diogonunes.jcdp.color.api.Ansi.Attribute;
 import com.diogonunes.jcdp.color.api.Ansi.BColor;
 import com.diogonunes.jcdp.color.api.Ansi.FColor;
 
+import ar.edu.ub.buscaminas.casilla.Coordenada;
+
 public class Consola implements IConsola {
 
 	private Scanner in;
@@ -82,4 +84,34 @@ public class Consola implements IConsola {
 		this.getCp().clear();
 	}
 
+	public Coordenada nextCoordenada( String message ) {
+		
+		boolean deboContinuar = true;
+		int fila = -1;
+		int columna = -1;
+		
+		while( deboContinuar ) {
+			try {
+				this.println(message);
+				String[] inputUsuario = this.quitarBlancos( this.nextLine() ).split(" ");
+				
+				fila = Integer.parseInt( inputUsuario[0] );
+				columna = Integer.parseInt( inputUsuario[1] );
+								
+				deboContinuar = false;				
+			} catch ( ArrayIndexOutOfBoundsException | NumberFormatException e) {
+				
+			} 
+			
+		}
+		
+		return new Coordenada( fila, columna );
+	}
+	
+	private String quitarBlancos(String inputUsuario) {
+		while( inputUsuario.indexOf("  ") > -1 )
+			inputUsuario = inputUsuario.replace("  ", " ");
+		
+		return inputUsuario.trim();
+	}
 }
