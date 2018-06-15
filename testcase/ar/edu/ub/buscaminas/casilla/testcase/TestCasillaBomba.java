@@ -3,16 +3,13 @@
 
 package ar.edu.ub.buscaminas.casilla.testcase;
 
-import ar.edu.ub.buscaminas.casilla.Casilla;
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
-import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.casilla.Coordenada;
-import ar.edu.ub.buscaminas.casilla.checkers.CheckCasillaType;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaIsNullException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
-import ar.edu.ub.buscaminas.listener.TableroListener;
+
 import junit.framework.TestCase;
 
 public class TestCasillaBomba extends TestCase {
