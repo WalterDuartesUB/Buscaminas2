@@ -102,10 +102,10 @@ public class Tablero implements ITablero {
 	}
 
 	@Override
-	public void elegirCasilla(Jugador jugador, Coordenada coordenada) throws CoordenadaInvalidaException {
+	public void elegirCasilla(Jugador jugador, Coordenada coordenada, boolean magico ) throws CoordenadaInvalidaException {
 		Casilla casilla = this.getCasilla( coordenada );
 		
-		casilla.voltearBocaArriba();
+		casilla.voltearBocaArriba( magico );
 		
 		casilla.elegiCasilla( this.getListener() );
 				

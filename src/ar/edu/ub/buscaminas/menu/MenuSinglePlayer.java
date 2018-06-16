@@ -20,6 +20,7 @@ import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 import ar.edu.ub.buscaminas.tablero.Tablero;
 
@@ -147,7 +148,7 @@ public class MenuSinglePlayer implements JuegoListener, CasillasPrinter, Jugador
 	}
 
 	@Override
-	public void mostrarJugadores(Jugador jugadorDeTurno, Collection<Jugador> otrosJugadores) {		
+	public void mostrarJugadores(Jugador jugadorDeTurno, Collection<Jugador> otrosJugadores, Collection<RecordJuego> records) {		
 	}
 
 	@Override

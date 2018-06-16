@@ -14,6 +14,7 @@ import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
 import ar.edu.ub.buscaminas.listener.TableroListener;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -66,13 +67,18 @@ public abstract class Juego implements TableroListener, IJuego {
 	private void setJugadores(Queue<Jugador> jugadores) {
 		this.jugadores = jugadores;
 	}
+	
+	protected void elegirCasilla(Coordenada coordenada, boolean magico) throws CoordenadaInvalidaException {
 
-	@Override
-	public void elegirCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
 		
 		this.validarCoordenadaCasilla( coordenada );
 		
-		this.getTablero().elegirCasilla( this.getJugadorDeTurno(), coordenada );
+		this.getTablero().elegirCasilla( this.getJugadorDeTurno(), coordenada, magico );
+	}
+
+	@Override
+	public void elegirCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
+		this.elegirCasilla(coordenada, false);
 	}
 
 	protected void validarCoordenadaCasilla(Coordenada coordenada) throws CoordenadaInvalidaException {
@@ -94,8 +100,10 @@ public abstract class Juego implements TableroListener, IJuego {
 
 	public void imprimirEstadoJuego() {
 		this.getTablero().imprimir();
-		this.getJugadoresPrinter().mostrarJugadores(this.getJugadorDeTurno(), this.getJugadores() );
+		this.getJugadoresPrinter().mostrarJugadores(this.getJugadorDeTurno(), this.getJugadores(), this.getRecords() );
 	}
+
+	protected abstract Collection<RecordJuego> getRecords();
 
 	protected void mostrarPerdedor( ) {
 		this.getListener().mostrarPerdedor( this.getJugadorDeTurno() );		

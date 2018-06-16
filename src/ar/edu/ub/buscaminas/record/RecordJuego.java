@@ -55,4 +55,6 @@ public abstract class RecordJuego implements Serializable{
 	public String getIdRecordJuego() {
 		return this.getModoDeJuego() + " - " + this.getNombreMapa();
 	}
+
+	public abstract String getRegistroAsString();
 }

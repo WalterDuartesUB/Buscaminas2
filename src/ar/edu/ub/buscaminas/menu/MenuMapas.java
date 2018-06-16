@@ -36,7 +36,7 @@ public class MenuMapas {
 			consola.println("Elegi el mapa en el que queres jugar: ");
 			
 			for( String opcion : nombresMapas.keySet() )
-				consola.println( opcion + " - " + nombresMapas.get(opcion));
+				consola.println( opcion + " - " + nombresMapas.get(opcion));		
 			
 			pathMapaUsuario = nombresMapas.get( consola.nextLine() );
 		}

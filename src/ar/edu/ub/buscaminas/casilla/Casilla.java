@@ -72,10 +72,7 @@ public abstract class Casilla implements Comparable<Casilla> {
 	}
 
 	public void voltearBocaArriba() throws CoordenadaInvalidaException {
-		if( this.estaBocaArriba() )
-			throw new CoordenadaInvalidaException("No se puede voltear una casilla que ya esta boca arriba");
-		
-		this.setEstado( EstadoCasilla.BOCA_ARRIBA );		
+		this.voltearBocaArriba(false);
 	}
 	
 	@Override
@@ -114,5 +111,13 @@ public abstract class Casilla implements Comparable<Casilla> {
 	public void voltearBocaArriba(Jugador jugador) throws CoordenadaInvalidaException {
 		this.voltearBocaArriba();
 		this.setJugador(jugador);		
+	}
+
+	public void voltearBocaArriba(boolean magico) throws CoordenadaInvalidaException{
+		if( this.estaBocaArriba() && magico )
+			throw new CoordenadaInvalidaException("No se puede voltear una casilla que ya esta boca arriba");
+		
+		this.setEstado( EstadoCasilla.BOCA_ARRIBA );	
+		
 	}
 }

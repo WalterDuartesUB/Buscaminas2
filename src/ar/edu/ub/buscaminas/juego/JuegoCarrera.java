@@ -2,6 +2,7 @@ package ar.edu.ub.buscaminas.juego;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import ar.edu.ub.buscaminas.casilla.Casilla;
@@ -12,6 +13,7 @@ import ar.edu.ub.buscaminas.casilla.Coordenada;
 import ar.edu.ub.buscaminas.excepciones.CoordenadaInvalidaException;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
 public class JuegoCarrera extends Juego {
@@ -34,7 +36,7 @@ public class JuegoCarrera extends Juego {
 			this.cambiarJugadorDeTurno();
 
 			for( Jugador jugador : this.getCoordenadaInicialJugadores().keySet() )
-				this.getTablero().elegirCasilla( jugador, this.getCoordenadaInicialJugadores().get(jugador) );
+				this.getTablero().elegirCasilla( jugador, this.getCoordenadaInicialJugadores().get(jugador),false );
 			
 		} catch (CoordenadaInvalidaException e) {
 		}
@@ -113,5 +115,10 @@ public class JuegoCarrera extends Juego {
 		if( this.getJugadores().size() > JuegoCarrera.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoCarrera.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo carrera con " + this.getJugadores().size() + ". El minimo es " + JuegoCarrera.cantidadMinimaJugadores() + " y el maximo es " + JuegoCarrera.cantidadMaximaJugadores() );
 		
+	}
+
+	@Override
+	protected Collection<RecordJuego> getRecords() {
+		return new LinkedList<RecordJuego>();
 	}
 }

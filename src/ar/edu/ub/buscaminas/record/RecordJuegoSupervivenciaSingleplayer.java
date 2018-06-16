@@ -55,5 +55,11 @@ public class RecordJuegoSupervivenciaSingleplayer extends RecordJuego implements
 	@Override
 	public int compareTo(RecordJuegoSupervivenciaSingleplayer o) {
 		return (int)(this.getTiempoPartida() - o.getTiempoPartida());
+	}
+
+	@Override
+	public String getRegistroAsString() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 }

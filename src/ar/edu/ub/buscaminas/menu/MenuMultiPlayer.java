@@ -23,6 +23,7 @@ import ar.edu.ub.buscaminas.juego.JuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.jugador.Jugador;
 import ar.edu.ub.buscaminas.jugador.JugadoresPrinter;
 import ar.edu.ub.buscaminas.listener.JuegoListener;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.record.RecordJuegoRepository;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 import ar.edu.ub.buscaminas.tablero.Tablero;
@@ -54,10 +55,10 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 		this.getColores().add( BColor.BLUE );
 		this.getColores().add( BColor.RED );
 		this.getColores().add( BColor.CYAN );
-		this.getColores().add( BColor.WHITE );
+		this.getColores().add( BColor.MAGENTA);
 		this.getColores().add( BColor.BLACK );
-		this.getColores().add( BColor.MAGENTA );
 		this.getColores().add( BColor.YELLOW );
+		this.getColores().add( BColor.WHITE );		
 		this.getColores().add( BColor.MAGENTA );
 	}
 
@@ -231,8 +232,17 @@ public class MenuMultiPlayer implements JuegoListener, JugadoresPrinter, Casilla
 	}
 
 	@Override
-	public void mostrarJugadores(Jugador jugadorDeTurno, Collection<Jugador> otrosJugadores) {
-		this.getConsola().println("Turno del jugador: " + jugadorDeTurno.getAlias() );
+	public void mostrarJugadores(Jugador jugadorDeTurno, Collection<Jugador> otrosJugadores, Collection<RecordJuego> records) {
+		this.getConsola().println( this.getJugadoresColores().get( jugadorDeTurno ), FColor.WHITE, "Turno del jugador: " + jugadorDeTurno.getAlias() );
+		
+		
+		if( records.size() > 0 ){
+			this.getConsola().println("Jugador:Puntaje");
+			this.getConsola().println("-----------------------");
+		}
+		
+		for( RecordJuego record : records )
+			this.getConsola().println( record.getRegistroAsString() );	
 	}
 
 	@Override

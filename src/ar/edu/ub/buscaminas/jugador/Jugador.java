@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import ar.edu.ub.buscaminas.excepciones.JugadorException;
 
-public class Jugador implements Serializable{
+public class Jugador implements Serializable, Comparable<Jugador>{
 	
 	/**
 	 * 
@@ -49,6 +49,11 @@ public class Jugador implements Serializable{
 		
 		Jugador other = (Jugador) obj;
 		return this.getAlias().equals( other.getAlias() );
+	}
+
+	@Override
+	public int compareTo(Jugador arg0) {
+		return this.getAlias().compareTo( arg0.getAlias() );
 	}
 	
 	

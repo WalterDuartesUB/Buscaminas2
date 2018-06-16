@@ -18,7 +18,7 @@ public interface ITablero {
 	public int getCantidadBombasBocaAbajo();
 	public int getCantidadBlancosYNumerosBocaAbajo();
 		
-	public void elegirCasilla( Jugador jugador, Coordenada coordenada ) throws CoordenadaInvalidaException;	
+	public void elegirCasilla( Jugador jugador, Coordenada coordenada, boolean magico ) throws CoordenadaInvalidaException;	
 	public void ocultarCasilla(Casilla casilla) throws CoordenadaInvalidaException;
 	
 	public void mostrarBlancosAlrededor( CasillaBlanco casilla);

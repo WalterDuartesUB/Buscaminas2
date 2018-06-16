@@ -1,10 +1,14 @@
 package ar.edu.ub.buscaminas.juego;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.record.RecordJuegoSupervivenciaSingleplayer;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -67,5 +71,10 @@ public class JuegoSupervivenciaSingleplayer extends Juego {
 			throw new JuegoException("No se puede crear un JuegoSupervivenciaSingleplayer con nombreDificultad null o vacio");
 		
 		this.nombreDificultad = nombreDificultad;
+	}
+
+	@Override
+	protected Collection<RecordJuego> getRecords() {
+		return new LinkedList<RecordJuego>();
 	}
 }

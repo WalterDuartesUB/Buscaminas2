@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import ar.edu.ub.buscaminas.casilla.CasillaBlanco;
 import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.record.RecordJuegoConquista;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -112,5 +114,15 @@ public class JuegoConquista extends Juego {
 		if( this.getJugadores().size() > JuegoConquista.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoConquista.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo conquista con " + this.getJugadores().size() + ". El minimo es " + JuegoConquista.cantidadMinimaJugadores() + " y el maximo es " + JuegoConquista.cantidadMaximaJugadores() );
 		
+	}
+
+	@Override
+	protected Collection<RecordJuego> getRecords() {
+		List<RecordJuego> recordsJugadores = new LinkedList<RecordJuego>();
+		
+		for( Jugador jugador : new TreeSet<Jugador>( this.getJugadores() ) )
+			recordsJugadores.add( new RecordJuegoConquista(this.getTablero().getNombreMapa(), jugador, this.getContadorBombas().get(jugador)));
+		
+		return recordsJugadores;
 	}	
 }

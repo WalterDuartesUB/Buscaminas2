@@ -34,4 +34,8 @@ public class RecordJuegoConquista extends RecordJuego implements Serializable, C
 	public int compareTo(RecordJuegoConquista otroRecord) {
 		return otroRecord.getCantidadBombas() - this.getCantidadBombas();
 	}
+	@Override
+	public String getRegistroAsString() {
+		return this.getJugador().getAlias() + ": " + this.getCantidadBombas();
+	}
 }

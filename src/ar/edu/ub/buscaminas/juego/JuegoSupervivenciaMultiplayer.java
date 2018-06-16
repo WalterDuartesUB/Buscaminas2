@@ -1,5 +1,7 @@
 package ar.edu.ub.buscaminas.juego;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import ar.edu.ub.buscaminas.casilla.CasillaBomba;
 import ar.edu.ub.buscaminas.casilla.CasillaNumero;
 import ar.edu.ub.buscaminas.excepciones.JuegoException;
 import ar.edu.ub.buscaminas.jugador.Jugador;
+import ar.edu.ub.buscaminas.record.RecordJuego;
 import ar.edu.ub.buscaminas.record.RecordJuegoSupervivenciaMultiplayer;
 import ar.edu.ub.buscaminas.tablero.ITablero;
 
@@ -92,5 +95,10 @@ public class JuegoSupervivenciaMultiplayer extends Juego{
 		if( this.getJugadores().size() > JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() || this.getJugadores().size() < JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() )
 			throw new JuegoException("No se puede iniciar un juego en modo supervivencia multiplayer con " + this.getJugadores().size() + ". El minimo es " + JuegoSupervivenciaMultiplayer.cantidadMinimaJugadores() + " y el maximo es " + JuegoSupervivenciaMultiplayer.cantidadMaximaJugadores() );
 		
+	}
+
+	@Override
+	protected Collection<RecordJuego> getRecords() {
+		return new LinkedList<RecordJuego>();
 	}		
 }

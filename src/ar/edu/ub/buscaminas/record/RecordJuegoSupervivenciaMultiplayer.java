@@ -37,4 +37,10 @@ public class RecordJuegoSupervivenciaMultiplayer extends RecordJuego implements 
 	public int compareTo(RecordJuegoSupervivenciaMultiplayer o) {
 		return (int)(this.getTiempoPartida() - o.getTiempoPartida());
 	}
+
+	@Override
+	public String getRegistroAsString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
